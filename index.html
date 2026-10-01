@@ -35,7 +35,6 @@
     --muted: #4b5563;
     --borde: #e5e7eb;
     --sombra-suave: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-    --sombra-media: 0 12px 30px -8px rgba(27, 67, 50, 0.15);
     --header-height: 84px;
   }
   * { box-sizing: border-box; }
@@ -56,14 +55,9 @@
     min-height: 100dvh;
   }
 
-  /* ============================================
-     HEADER STICKY (fijo al hacer scroll)
-     ============================================ */
   header {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     z-index: 100;
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
     color: #fff;
@@ -75,77 +69,49 @@
   header::after {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -20%;
-    width: 200px;
-    height: 200px;
+    top: -50%; right: -20%;
+    width: 200px; height: 200px;
     background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
   header .header-inner {
-    max-width: 960px;
-    width: 100%;
+    max-width: 960px; width: 100%;
     margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: flex; align-items: center; gap: 12px;
   }
   header .logo-caja {
     flex-shrink: 0;
     background: #fff;
     border-radius: 14px;
     padding: 6px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     box-shadow: 0 2px 12px rgba(0,0,0,.18);
-    min-width: 68px;
-    min-height: 68px;
+    min-width: 68px; min-height: 68px;
   }
   header .logo-caja img {
-    max-height: 64px;
-    max-width: 110px;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    display: block;
+    max-height: 64px; max-width: 110px;
+    width: auto; height: auto;
+    object-fit: contain; display: block;
   }
   header .titulos { flex: 1; min-width: 0; }
   header h1 {
-    font-size: 1.02rem;
-    margin: 0;
-    line-height: 1.15;
-    color: #ffffff;
-    font-weight: 700;
-    letter-spacing: -0.2px;
+    font-size: 1.02rem; margin: 0; line-height: 1.15;
+    color: #fff; font-weight: 700; letter-spacing: -0.2px;
   }
-  header h1 strong {
-    font-weight: 800;
-  }
+  header h1 strong { font-weight: 800; }
   header .sub {
-    font-size: 0.66rem;
-    color: #ffffff;
-    opacity: 0.85;
-    margin-top: 4px;
-    line-height: 1.3;
-    font-weight: 400;
+    font-size: 0.66rem; color: #fff; opacity: 0.85;
+    margin-top: 4px; line-height: 1.3; font-weight: 400;
   }
   header .btn-info {
     flex-shrink: 0;
     background: rgba(255,255,255,0.15);
     border: 1px solid rgba(255,255,255,0.35);
-    color: #fff;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    font-family: inherit;
-    font-size: 1.1rem;
-    font-weight: 700;
+    color: #fff; border-radius: 50%;
+    width: 38px; height: 38px; padding: 0;
+    font-family: inherit; font-size: 1.1rem; font-weight: 700;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     transition: background .18s, transform .12s;
     line-height: 1;
   }
@@ -163,616 +129,353 @@
     border: 1px solid var(--borde);
   }
 
-  /* ============================================
-     FILA DE CONTROLES: Selector + Pronóstico
-     ============================================ */
   .fila-controles {
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-    position: relative;
-    margin-bottom: 10px;
-    z-index: 10;
+    display: flex; gap: 8px; align-items: stretch;
+    position: relative; margin-bottom: 10px; z-index: 10;
   }
-
-  /* ============================================
-     SELECTOR DE SERIES (botón + panel)
-     ============================================ */
-  .selector-series-wrapper {
-    flex: 1;
-    min-width: 0;
-    position: relative;
-  }
-
+  .selector-series-wrapper { flex: 1; min-width: 0; position: relative; }
   .btn-selector {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 10px 14px;
-    background: #fff;
-    color: var(--verde-oscuro);
-    border: 1px solid var(--verde);
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 0.78rem;
-    font-weight: 700;
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; padding: 10px 14px;
+    background: #fff; color: var(--verde-oscuro);
+    border: 1px solid var(--verde); border-radius: 12px;
+    font-family: inherit; font-size: 0.78rem; font-weight: 700;
     cursor: pointer;
     transition: background .18s, border-color .18s, color .18s;
-    min-height: 44px;
-    text-align: left;
+    min-height: 44px; text-align: left;
   }
   .btn-selector:hover { background: var(--verde-claro); }
-  .btn-selector.abierto {
-    background: var(--verde);
-    color: #fff;
-    border-color: var(--verde);
-  }
+  .btn-selector.abierto { background: var(--verde); color: #fff; border-color: var(--verde); }
   .btn-selector .texto-btn {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .btn-selector .caret {
-    flex-shrink: 0;
-    font-size: 0.7rem;
-    opacity: 0.7;
+    flex-shrink: 0; font-size: 0.7rem; opacity: 0.7;
     transition: transform .2s;
   }
-  .btn-selector.abierto .caret {
-    transform: rotate(180deg);
-    opacity: 1;
-  }
+  .btn-selector.abierto .caret { transform: rotate(180deg); opacity: 1; }
 
-  /* Panel desplegable */
   .panel-selector {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 14px;
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+    background: #fff; border: 1px solid var(--borde); border-radius: 14px;
     box-shadow: 0 12px 32px rgba(0,0,0,0.15);
-    padding: 8px;
-    z-index: 50;
-    display: none;
-    max-height: 340px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
+    padding: 8px; z-index: 50; display: none;
+    max-height: 340px; overflow-y: auto;
+    -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
   }
   .panel-selector.abierto { display: block; }
 
   .grupo-titulo {
-    font-size: 0.6rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    padding: 8px 10px 4px;
-    opacity: 0.75;
+    font-size: 0.6rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--muted); padding: 8px 10px 4px; opacity: 0.75;
   }
   .grupo-titulo:first-child { padding-top: 4px; }
 
   .opcion {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    width: 100%;
-    text-align: left;
-    padding: 11px 12px;
-    background: transparent;
-    border: none;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--texto);
-    cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; width: 100%; text-align: left;
+    padding: 11px 12px; background: transparent; border: none;
+    border-radius: 10px; font-family: inherit; font-size: 0.82rem;
+    font-weight: 600; color: var(--texto); cursor: pointer;
     transition: background .15s;
   }
   .opcion:hover { background: var(--verde-claro); }
-  .opcion.activo {
-    background: var(--verde);
-    color: #fff;
-  }
-  .opcion.activo::after {
-    content: '✓';
-    font-weight: 800;
-    font-size: 0.9rem;
-  }
+  .opcion.activo { background: var(--verde); color: #fff; }
+  .opcion.activo::after { content: '✓'; font-weight: 800; font-size: 0.9rem; }
 
-  /* ============================================
-     BOTÓN PRONÓSTICO INA
-     ============================================ */
   .btn-prono {
     flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+    display: inline-flex; align-items: center; gap: 4px;
     padding: 10px 14px;
-    background: var(--verde-claro);
-    color: var(--verde-oscuro);
-    border: 1px solid var(--verde);
-    border-radius: 12px;
-    font-family: inherit;
-    font-size: 0.72rem;
-    font-weight: 700;
+    background: var(--verde-claro); color: var(--verde-oscuro);
+    border: 1px solid var(--verde); border-radius: 12px;
+    font-family: inherit; font-size: 0.72rem; font-weight: 700;
     cursor: pointer;
     transition: background .18s, color .18s, transform .1s, opacity .18s;
-    min-height: 44px;
-    white-space: nowrap;
+    min-height: 44px; white-space: nowrap;
   }
   .btn-prono:hover { background: #d7ebdd; }
   .btn-prono:active { transform: scale(0.97); }
-  .btn-prono.activo {
-    background: var(--verde);
-    color: #fff;
-    border-color: var(--verde);
-  }
+  .btn-prono.activo { background: var(--verde); color: #fff; border-color: var(--verde); }
   .btn-prono.deshabilitado {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-    background: #f3f4f6;
-    color: var(--muted);
-    border-color: var(--borde);
+    opacity: 0.4; cursor: not-allowed; pointer-events: none;
+    background: #f3f4f6; color: var(--muted); border-color: var(--borde);
   }
   .btn-prono .flechita {
-    font-size: 0.85rem;
-    line-height: 1;
-    opacity: 0.85;
+    font-size: 0.85rem; line-height: 1; opacity: 0.85;
     transform: translateY(1px);
   }
 
   .contexto {
-    text-align: center;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 0;
-    margin-bottom: 8px;
-    font-style: italic;
-    min-height: 0;
+    text-align: center; font-size: 0.72rem; color: var(--muted);
+    margin-top: 0; margin-bottom: 8px; font-style: italic; min-height: 0;
   }
   .contexto:empty { display: none; }
 
-  /* ============================================
-     TARJETA SUPERIOR
-     ============================================ */
   .ultimo {
-    display: grid;
-    grid-template-columns: 1fr 1.1fr;
-    gap: 12px;
-    padding: 16px;
-    background: #ffffff;
-    border: 1px solid var(--borde);
-    border-radius: 20px;
-    box-shadow: var(--sombra-suave);
+    display: grid; grid-template-columns: 1fr 1.1fr;
+    gap: 12px; padding: 16px;
+    background: #fff; border: 1px solid var(--borde);
+    border-radius: 20px; box-shadow: var(--sombra-suave);
   }
-
   .ultimo-izq {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 4px;
-    min-width: 0;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 4px; min-width: 0;
   }
-
   .ultimo-izq .titulo-bloque {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--muted);
-    margin-bottom: 6px;
+    font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); margin-bottom: 6px;
   }
-
+  .fila-icono-dia {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 6px; min-height: 26px;
+  }
   .icono-olas {
-    width: 28px;
-    height: 28px;
-    margin-bottom: 4px;
-    color: var(--verde);
+    width: 26px; height: 26px;
+    color: var(--verde); flex-shrink: 0;
   }
   .icono-olas svg { width: 100%; height: 100%; display: block; }
-
-  .ultimo-izq .valor {
-    font-size: 2.3rem;
-    font-weight: 800;
+  .etiqueta-dia {
+    font-size: 0.72rem; font-weight: 800;
     color: var(--verde-oscuro);
+    text-transform: uppercase; letter-spacing: 1.4px;
     line-height: 1;
+  }
+  .ultimo-izq .valor {
+    font-size: 2.3rem; font-weight: 800;
+    color: var(--verde-oscuro); line-height: 1;
     letter-spacing: -1.5px;
-    display: flex;
-    align-items: baseline;
-    gap: 2px;
+    display: flex; align-items: baseline; gap: 2px;
     font-variant-numeric: tabular-nums;
   }
   .ultimo-izq .valor .unidad {
-    font-size: 1.2rem;
-    color: var(--muted);
-    font-weight: 600;
+    font-size: 1.2rem; color: var(--muted); font-weight: 600;
   }
-
   .ultimo-izq .fecha {
-    color: var(--muted);
-    font-size: 0.72rem;
-    margin-top: 6px;
-    font-weight: 500;
+    color: var(--muted); font-size: 0.72rem;
+    margin-top: 6px; font-weight: 500;
   }
-
   .ultimo-izq .ign {
-    margin-top: 8px;
-    padding-top: 8px;
+    margin-top: 8px; padding-top: 8px;
     border-top: 1px dashed var(--borde);
-    color: var(--marron);
-    font-size: 0.75rem;
-    font-weight: 500;
+    color: var(--marron); font-size: 0.75rem; font-weight: 500;
   }
   .ultimo-izq .ign strong { font-weight: 700; color: #451a03; }
 
   .ultimo-der {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-radius: 16px;
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-    overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-radius: 16px; border: 1px solid transparent;
+    transition: all 0.2s ease; overflow: hidden;
   }
-
   .subcol {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 12px 6px;
-    gap: 2px;
-    min-width: 0;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center;
+    padding: 12px 6px; gap: 2px; min-width: 0;
   }
-
-  .subcol-tendencia {
-    border-right: 1px dashed rgba(0, 0, 0, 0.1);
-  }
-
+  .subcol-tendencia { border-right: 1px dashed rgba(0,0,0,0.1); }
   .subcol .titulo-seccion {
-    font-size: 0.58rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    opacity: 0.7;
-    margin-bottom: 4px;
+    font-size: 0.58rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    opacity: 0.7; margin-bottom: 4px;
   }
-
   .subcol-tendencia .flecha-estado {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.7rem;
-    font-weight: 800;
-    line-height: 1;
-    margin: 2px 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; font-weight: 800; line-height: 1;
+    margin: 2px 0; border-radius: 50%;
+    background: rgba(255,255,255,0.6);
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
   }
-
-  .subcol-tendencia .flecha-estado.estable {
-    font-size: 1.7rem;
-    letter-spacing: -2px;
-  }
-
+  .subcol-tendencia .flecha-estado.estable { font-size: 1.7rem; letter-spacing: -2px; }
   .subcol-tendencia .tend-texto {
-    font-size: 0.74rem;
-    font-weight: 800;
-    letter-spacing: -0.2px;
-    line-height: 1.1;
+    font-size: 0.74rem; font-weight: 800;
+    letter-spacing: -0.2px; line-height: 1.1;
   }
-
   .subcol-tendencia .tend-valor {
-    font-size: 0.85rem;
-    font-weight: 800;
-    margin-top: 2px;
-    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem; font-weight: 800;
+    margin-top: 2px; font-variant-numeric: tabular-nums;
   }
-
   .subcol-estado .estado-badge {
-    font-size: 0.68rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    margin-top: 6px;
+    font-size: 0.68rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    padding: 6px 12px; border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); margin-top: 6px;
   }
-
   .subcol-estado .icono-estado {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    font-weight: 800;
-    line-height: 1;
-    margin: 2px 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
+    width: 38px; height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 800; line-height: 1;
+    margin: 2px 0; border-radius: 50%;
+    background: rgba(255,255,255,0.6);
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
   }
-
-  .ultimo-der.normal {
-    background: var(--verde-claro);
-    border-color: #c6e7d0;
-  }
+  .ultimo-der.normal { background: var(--verde-claro); border-color: #c6e7d0; }
   .ultimo-der.normal .subcol .titulo-seccion,
   .ultimo-der.normal .subcol-tendencia .flecha-estado,
   .ultimo-der.normal .subcol-tendencia .tend-texto,
   .ultimo-der.normal .subcol-tendencia .tend-valor,
   .ultimo-der.normal .subcol-estado .icono-estado { color: var(--verde-oscuro); }
   .ultimo-der.normal .subcol-estado .estado-badge {
-    background: #ffffff;
-    color: var(--verde-oscuro);
-    border: 1px solid #b7e4c7;
+    background: #fff; color: var(--verde-oscuro); border: 1px solid #b7e4c7;
   }
-
-  .ultimo-der.alerta {
-    background: var(--amarillo-claro);
-    border-color: #fde68a;
-  }
+  .ultimo-der.alerta { background: var(--amarillo-claro); border-color: #fde68a; }
   .ultimo-der.alerta .subcol .titulo-seccion,
   .ultimo-der.alerta .subcol-tendencia .flecha-estado,
   .ultimo-der.alerta .subcol-tendencia .tend-texto,
   .ultimo-der.alerta .subcol-tendencia .tend-valor,
   .ultimo-der.alerta .subcol-estado .icono-estado { color: #b45309; }
-  .ultimo-der.alerta .subcol-estado .estado-badge {
-    background: #f59e0b;
-    color: #ffffff;
-  }
-
-  .ultimo-der.evacuacion {
-    background: var(--rojo-claro);
-    border-color: #fecaca;
-  }
+  .ultimo-der.alerta .subcol-estado .estado-badge { background: #f59e0b; color: #fff; }
+  .ultimo-der.evacuacion { background: var(--rojo-claro); border-color: #fecaca; }
   .ultimo-der.evacuacion .subcol .titulo-seccion,
   .ultimo-der.evacuacion .subcol-tendencia .flecha-estado,
   .ultimo-der.evacuacion .subcol-tendencia .tend-texto,
   .ultimo-der.evacuacion .subcol-tendencia .tend-valor,
   .ultimo-der.evacuacion .subcol-estado .icono-estado { color: #b91c1c; }
-  .ultimo-der.evacuacion .subcol-estado .estado-badge {
-    background: var(--rojo);
-    color: #ffffff;
-  }
+  .ultimo-der.evacuacion .subcol-estado .estado-badge { background: var(--rojo); color: #fff; }
 
   .ultimo-hist {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 16px;
-    background: linear-gradient(160deg, #ffffff 0%, var(--verde-muy-claro) 100%);
-    border: 1px solid var(--borde);
-    border-radius: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; padding: 16px;
+    background: linear-gradient(160deg, #fff 0%, var(--verde-muy-claro) 100%);
+    border: 1px solid var(--borde); border-radius: 20px;
     box-shadow: var(--sombra-suave);
   }
   .ultimo-hist .label {
-    font-size: 0.65rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
+    font-size: 0.65rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
   }
   .ultimo-hist .valor {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 2.6rem;
-    font-weight: 800;
-    color: var(--verde-oscuro);
-    line-height: 1;
-    margin-top: 6px;
-    letter-spacing: -2px;
+    font-size: 2.6rem; font-weight: 800;
+    color: var(--verde-oscuro); line-height: 1;
+    margin-top: 6px; letter-spacing: -2px;
     font-variant-numeric: tabular-nums;
   }
   .ultimo-hist .valor.rojo { color: var(--rojo); }
   .ultimo-hist .valor.azul { color: var(--azul-oscuro); }
   .ultimo-hist .unidad {
-    font-size: 1.4rem;
-    color: inherit;
-    font-weight: 600;
-    opacity: 0.75;
+    font-size: 1.4rem; color: inherit;
+    font-weight: 600; opacity: 0.75;
   }
   .ultimo-hist .fecha { color: var(--muted); font-size: 0.78rem; margin-top: 6px; }
   .ultimo-hist .ign {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 10px; padding-top: 10px;
     border-top: 1px dashed var(--borde);
-    color: var(--marron);
-    font-size: 0.85rem;
-    width: 100%;
+    color: var(--marron); font-size: 0.85rem; width: 100%;
   }
   .ultimo-hist .ign strong { font-size: 1.15rem; }
   .ultimo-hist .contexto-hist {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 10px; padding-top: 10px;
     border-top: 1px dashed var(--borde);
-    font-size: 0.82rem;
-    color: var(--texto);
-    line-height: 1.5;
-    width: 100%;
+    font-size: 0.82rem; color: var(--texto);
+    line-height: 1.5; width: 100%;
   }
   .ultimo-hist .contexto-hist .linea-contexto {
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
+    display: flex; justify-content: space-between; padding: 3px 0;
   }
   .ultimo-hist .contexto-hist .linea-contexto .num {
-    font-weight: 700;
-    color: var(--verde-oscuro);
+    font-weight: 700; color: var(--verde-oscuro);
   }
 
   .badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: .3px;
+    display: inline-block; padding: 3px 10px;
+    border-radius: 999px; font-size: 0.72rem;
+    font-weight: 700; letter-spacing: .3px;
   }
   .badge.alerta { background: var(--amarillo-brillante); color: #6b5400; }
   .badge.evacuacion { background: var(--rojo); color: #fff; }
   .badge.normal { background: var(--verde-claro); color: var(--verde-oscuro); }
 
   .btn-terraplenes {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
     padding: 10px 14px;
-    background: #fff;
-    color: var(--verde-oscuro);
-    border: 1px solid var(--verde);
-    border-radius: 12px;
-    font-size: 0.84rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-bottom: 10px;
+    background: #fff; color: var(--verde-oscuro);
+    border: 1px solid var(--verde); border-radius: 12px;
+    font-size: 0.84rem; font-weight: 700;
+    cursor: pointer; margin-bottom: 10px;
     transition: background .2s, color .2s, transform .1s;
-    min-height: 42px;
-    width: 100%;
-    justify-content: center;
+    min-height: 42px; width: 100%; justify-content: center;
     font-family: inherit;
   }
   .btn-terraplenes:hover { background: var(--verde-claro); }
   .btn-terraplenes:active { transform: scale(0.98); }
-  .btn-terraplenes.activo {
-    background: var(--verde);
-    color: #fff;
-    border-color: var(--verde);
-  }
+  .btn-terraplenes.activo { background: var(--verde); color: #fff; border-color: var(--verde); }
   .btn-terraplenes .icono {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    background: currentColor;
-    opacity: 0.7;
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 2px; background: currentColor; opacity: 0.7;
   }
 
   .banner-terraplenes {
-    display: none;
-    margin-bottom: 10px;
-    padding: 14px 16px;
-    border-radius: 14px;
+    display: none; margin-bottom: 10px;
+    padding: 14px 16px; border-radius: 14px;
     text-align: center;
     transition: background .3s, border-color .3s, color .3s;
-    border: 1px solid;
-    border-left-width: 4px;
+    border: 1px solid; border-left-width: 4px;
   }
   .banner-terraplenes.visible { display: block; }
-
   .banner-terraplenes .titulo-banner {
-    font-size: 0.66rem;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    font-weight: 800;
-    margin-bottom: 6px;
-    opacity: 0.9;
+    font-size: 0.66rem; text-transform: uppercase;
+    letter-spacing: 1.2px; font-weight: 800;
+    margin-bottom: 6px; opacity: 0.9;
   }
   .banner-terraplenes .valor-libre {
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 1.9rem;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -1.2px;
+    font-size: 1.9rem; font-weight: 800;
+    line-height: 1.1; letter-spacing: -1.2px;
     font-variant-numeric: tabular-nums;
   }
   .banner-terraplenes .detalle-banner {
-    font-size: 0.74rem;
-    margin-top: 6px;
-    opacity: 0.85;
+    font-size: 0.74rem; margin-top: 6px; opacity: 0.85;
   }
-
   .banner-terraplenes.normal {
     background: linear-gradient(135deg, #f0faf4 0%, #e0f2e7 100%);
-    border-color: var(--verde);
-    color: var(--verde-oscuro);
+    border-color: var(--verde); color: var(--verde-oscuro);
   }
-
   .banner-terraplenes.alerta {
     background: linear-gradient(135deg, var(--amarillo-claro) 0%, #fde68a 100%);
-    border-color: var(--amarillo);
-    color: #92400e;
+    border-color: var(--amarillo); color: #92400e;
   }
-  .banner-terraplenes.alerta .titulo-banner::before {
-    content: '⚠ ';
-  }
-
+  .banner-terraplenes.alerta .titulo-banner::before { content: '⚠ '; }
   .banner-terraplenes.evacuacion {
     background: linear-gradient(135deg, var(--rojo-claro) 0%, #fecaca 100%);
-    border-color: var(--rojo);
-    color: var(--rojo);
+    border-color: var(--rojo); color: var(--rojo);
   }
-  .banner-terraplenes.evacuacion .titulo-banner::before {
-    content: '⚠ ';
-  }
-
+  .banner-terraplenes.evacuacion .titulo-banner::before { content: '⚠ '; }
   .banner-terraplenes.superado {
     background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-intenso) 100%);
-    border-color: var(--rojo-intenso);
-    color: #fff;
+    border-color: var(--rojo-intenso); color: #fff;
   }
   .banner-terraplenes.superado .titulo-banner,
   .banner-terraplenes.superado .valor-libre,
-  .banner-terraplenes.superado .detalle-banner {
-    color: #fff;
-    opacity: 1;
-  }
-  .banner-terraplenes.superado .titulo-banner::before {
-    content: '⚠ ';
-  }
+  .banner-terraplenes.superado .detalle-banner { color: #fff; opacity: 1; }
+  .banner-terraplenes.superado .titulo-banner::before { content: '⚠ '; }
 
   .chart-container {
-    position: relative;
-    height: 280px;
-    touch-action: pan-y;
+    position: relative; height: 280px; touch-action: pan-y;
   }
   canvas { touch-action: pan-y !important; }
 
-  /* ============================================
-     LEYENDAS DE UMBRALES — JUSTO DEBAJO del gráfico
-     ============================================ */
   .leyenda-umbrales {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 10px;
-    padding-top: 10px;
+    display: flex; flex-direction: column; gap: 6px;
+    margin-top: 10px; padding-top: 10px;
     border-top: 1px dashed var(--borde);
-    font-size: 0.74rem;
-    color: var(--muted);
+    font-size: 0.74rem; color: var(--muted);
   }
   .leyenda-umbrales span { display: flex; align-items: center; gap: 8px; }
   .leyenda-umbrales .linea {
-    display: inline-block;
-    width: 24px;
-    height: 3px;
-    border-radius: 2px;
-    flex-shrink: 0;
+    display: inline-block; width: 24px; height: 3px;
+    border-radius: 2px; flex-shrink: 0;
   }
   .leyenda-umbrales .alerta { background: var(--amarillo-brillante); }
   .leyenda-umbrales .evacuacion { background: var(--rojo); }
   .leyenda-umbrales .banda {
-    display: inline-block;
-    width: 24px;
-    height: 10px;
+    display: inline-block; width: 24px; height: 10px;
     border-radius: 2px;
     background: var(--marron-claro);
-    border: 1px solid var(--marron);
-    flex-shrink: 0;
+    border: 1px solid var(--marron); flex-shrink: 0;
   }
   .leyenda-umbrales .cero { background: #6b7a6b; }
   .leyenda-umbrales .prono-linea {
@@ -781,135 +484,115 @@
     height: 0;
   }
 
+  .resumen-serie {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--borde);
+    font-size: 0.76rem; line-height: 1.55;
+    color: var(--muted); display: none;
+  }
+  .resumen-serie.visible { display: block; }
+  .resumen-serie .texto-resumen { margin: 0; }
+  .resumen-serie .texto-resumen strong {
+    font-weight: 700; color: var(--verde-oscuro);
+  }
+  .resumen-serie .texto-resumen strong.rojo { color: var(--rojo); }
+  .resumen-serie .texto-resumen strong.verde { color: var(--verde-oscuro); }
+  .resumen-serie .texto-resumen strong.amarillo { color: var(--amarillo); }
+  .resumen-serie .linea-promedio {
+    margin-top: 4px; font-size: 0.72rem;
+    color: var(--muted);
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .resumen-serie .linea-promedio strong {
+    color: var(--verde-oscuro); font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
   .marcas-rango {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 12px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 12px;
   }
   .marca {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 12px;
-    border-radius: 14px;
-    border: 1px solid var(--borde);
-    background: #fafafa;
-    font-size: 0.78rem;
-    position: relative;
-    overflow: hidden;
+    display: flex; flex-direction: column; align-items: flex-start;
+    padding: 10px 12px; border-radius: 14px;
+    border: 1px solid var(--borde); background: #fafafa;
+    font-size: 0.78rem; position: relative; overflow: hidden;
   }
   .marca::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0; width: 4px;
   }
   .marca-max::before { background: var(--rojo); }
   .marca-min::before { background: var(--azul); }
   .marca-label {
-    font-size: 0.64rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .8px;
-    font-weight: 700;
+    font-size: 0.64rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: .8px; font-weight: 700;
   }
   .marca-valor {
-    font-size: 1.15rem;
-    font-weight: 800;
-    color: var(--verde-oscuro);
-    margin-top: 3px;
+    font-size: 1.15rem; font-weight: 800;
+    color: var(--verde-oscuro); margin-top: 3px;
     letter-spacing: -0.5px;
   }
   .marca-max .marca-valor { color: var(--rojo); }
   .marca-min .marca-valor { color: var(--azul-oscuro); }
   .marca-ign {
-    font-size: 0.74rem;
-    font-weight: 600;
-    color: var(--marron);
-    margin-top: 2px;
+    font-size: 0.74rem; font-weight: 600;
+    color: var(--marron); margin-top: 2px;
   }
   .marca-fecha {
-    font-size: 0.7rem;
-    color: var(--muted);
-    margin-top: 3px;
+    font-size: 0.7rem; color: var(--muted); margin-top: 3px;
   }
 
   .pills-riesgo {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
+    display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;
   }
   .pill-riesgo {
-    flex: 1;
-    min-width: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 8px 12px;
-    border-radius: 14px;
-    font-size: 0.76rem;
-    font-weight: 600;
+    flex: 1; min-width: 130px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px; padding: 8px 12px;
+    border-radius: 14px; font-size: 0.76rem; font-weight: 600;
   }
   .pill-riesgo .pill-label {
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    opacity: 0.85;
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: .6px; opacity: 0.85;
   }
   .pill-riesgo .pill-num {
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
+    font-size: 1.15rem; font-weight: 800; letter-spacing: -0.5px;
   }
   .pill-riesgo.alerta {
-    background: var(--amarillo-claro);
-    color: #92400e;
+    background: var(--amarillo-claro); color: #92400e;
     border: 1px solid var(--amarillo-brillante);
   }
   .pill-riesgo.evacuacion {
-    background: var(--rojo-claro);
-    color: var(--rojo);
+    background: var(--rojo-claro); color: var(--rojo);
     border: 1px solid var(--rojo);
   }
-
-  /* ============================================
-     MODAL PRONÓSTICO INA — Verde punteado
-     ============================================ */
+  .pill-riesgo.alerta.cero,
+  .pill-riesgo.evacuacion.cero {
+    background: #f3f4f6;
+    color: var(--muted);
+    border: 1px solid var(--borde);
+  }
   .pronostico-card {
-    margin-top: 14px;
-    padding: 12px 14px;
+    margin-top: 14px; padding: 12px 14px;
     background: linear-gradient(135deg, var(--verde-muy-claro) 0%, #eef8f0 100%);
     border-left: 3px solid var(--verde);
-    border-radius: 12px;
-    font-size: 0.78rem;
-    color: var(--verde-oscuro);
-    line-height: 1.55;
+    border-radius: 12px; font-size: 0.78rem;
+    color: var(--verde-oscuro); line-height: 1.55;
     text-align: left;
   }
   .pronostico-card .titulo {
-    font-weight: 700;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-    margin-bottom: 8px;
-    color: var(--verde);
+    font-weight: 700; font-size: 0.72rem;
+    text-transform: uppercase; letter-spacing: .8px;
+    margin-bottom: 8px; color: var(--verde);
   }
   .pronostico-card .titulo .sigla {
-    font-weight: 500;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 0.66rem;
-    opacity: 0.8;
-    margin-left: 2px;
+    font-weight: 500; text-transform: none;
+    letter-spacing: 0; font-size: 0.66rem;
+    opacity: 0.8; margin-left: 2px;
   }
   .pronostico-card .linea-pron {
-    display: flex;
-    justify-content: space-between;
+    display: flex; justify-content: space-between;
     padding: 4px 0;
     border-bottom: 1px dashed rgba(45,106,63,0.2);
   }
@@ -917,26 +600,371 @@
   .pronostico-card .linea-pron .fecha-pron { color: var(--muted); font-size: 0.74rem; }
   .pronostico-card .linea-pron .valor-pron { font-weight: 700; color: var(--verde-oscuro); }
   .pronostico-card .rango-pron {
-    margin-top: 8px;
-    padding-top: 8px;
+    margin-top: 8px; padding-top: 8px;
     border-top: 1px solid rgba(45,106,63,0.25);
-    font-size: 0.74rem;
-    color: var(--verde-oscuro);
+    font-size: 0.74rem; color: var(--verde-oscuro);
   }
   .pronostico-card .emision {
-    margin-top: 8px;
-    font-size: 0.68rem;
-    color: var(--muted);
-    font-style: italic;
+    margin-top: 8px; font-size: 0.68rem;
+    color: var(--muted); font-style: italic;
   }
   .pronostico-card .aviso {
-    margin-top: 6px;
-    font-size: 0.68rem;
-    color: var(--muted);
-    font-style: italic;
+    margin-top: 6px; font-size: 0.68rem;
+    color: var(--muted); font-style: italic;
   }
 
   .nota-evacuacion {
+    margin-top: 12px; padding: 10px 12px;
+    background: #fafafa;
+    border-left: 3px solid var(--verde);
+    border-radius: 10px; font-size: 0.72rem;
+    color: var(--texto); line-height: 1.55; text-align: left;
+  }
+
+  .toggle-btn {
+    width: 100%; padding: 12px 16px;
+    background: var(--verde); color: #fff;
+    border: none; border-radius: 12px;
+    font-size: 0.88rem; font-weight: 700;
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    min-height: 52px; font-family: inherit;
+    transition: background .18s; text-align: left;
+  }
+  .toggle-btn:hover { background: var(--verde-oscuro); }
+  .toggle-btn .toggle-txt {
+    display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  }
+  .toggle-btn .toggle-titulo { font-size: 0.88rem; font-weight: 700; line-height: 1.15; }
+  .toggle-btn .toggle-sub {
+    font-size: 0.66rem; font-weight: 500; opacity: 0.85;
+    line-height: 1.15; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .toggle-btn .arrow { transition: transform .25s; flex-shrink: 0; }
+  .toggle-btn.open .arrow { transform: rotate(180deg); }
+
+  .tabla-contenedor { max-height: 0; overflow: hidden; transition: max-height .35s ease-out; }
+  .tabla-contenedor.open {
+    max-height: 500px; overflow-y: auto;
+    -webkit-overflow-scrolling: touch; margin-top: 12px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { padding: 8px 8px; text-align: left; border-bottom: 1px solid var(--borde); }
+  th {
+    background: var(--verde); color: #fff;
+    position: sticky; top: 0; font-weight: 600;
+    font-size: 0.78rem; z-index: 1;
+  }
+  tr:hover td { background: var(--verde-claro); }
+
+  /* ============================================================
+     INFORMACIÓN COMPLEMENTARIA
+     ============================================================ */
+  .card-info-complementaria .titulo-info {
+    font-size: 0.65rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.2px;
+    color: var(--muted); margin-bottom: 10px;
+    opacity: 0.75;
+  }
+
+  .paneles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .bloque-info-panel {
+    padding: 16px 14px;
+    background: linear-gradient(135deg, var(--verde-claro) 0%, #f0f8f2 100%);
+    border: 1px solid var(--verde);
+    border-radius: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;
+  }
+  .bloque-info-panel .pregunta {
+    font-size: 0.82rem; line-height: 1.45;
+    color: var(--verde-oscuro);
+    font-weight: 600; margin: 0 0 12px;
+  }
+
+  .btn-abrir-mapa {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 14px;
+    background: var(--verde); color: #fff;
+    border: none; border-radius: 10px;
+    font-family: inherit; font-size: 0.76rem; font-weight: 700;
+    cursor: pointer;
+    transition: background .18s, transform .1s;
+    box-shadow: 0 4px 12px rgba(45, 106, 63, 0.25);
+    margin-top: auto;
+    align-self: center;
+  }
+  .btn-abrir-mapa:hover { background: var(--verde-oscuro); }
+  .btn-abrir-mapa:active { transform: scale(0.97); }
+  .btn-abrir-mapa .flecha { font-size: 0.9rem; line-height: 1; }
+
+  .bloque-info-panel-cuenca {
+    padding: 16px 14px;
+    background: linear-gradient(135deg, var(--verde-claro) 0%, #f0f8f2 100%);
+    border: 1px solid var(--verde);
+    border-radius: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 150px;
+  }
+  .bloque-info-panel-cuenca .pregunta-cuenca {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .bloque-info-panel-cuenca .sub-cuenca {
+    font-size: 0.68rem;
+    line-height: 1.35;
+    color: var(--verde-oscuro);
+    opacity: 0.8;
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+
+  .btn-cuenca {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    background: var(--verde);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .18s, transform .1s;
+    box-shadow: 0 4px 12px rgba(45, 106, 63, 0.25);
+    margin-top: auto;
+    align-self: center;
+  }
+  .btn-cuenca:hover { background: var(--verde-oscuro); }
+  .btn-cuenca:active { transform: scale(0.97); }
+  .btn-cuenca .arrow {
+    display: inline-block;
+    font-size: 0.7rem;
+    transition: transform .25s ease;
+    line-height: 1;
+  }
+  .btn-cuenca.open .arrow { transform: rotate(180deg); }
+
+  .cuenca-acordeon {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .55s ease-out, margin-top .3s ease-out;
+  }
+  .cuenca-acordeon.open {
+    max-height: 3500px;
+    margin-top: 10px;
+  }
+
+  .mapa-puertos-wrapper {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    min-height: 700px;
+    max-height: 900px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--borde);
+    isolation: isolate;
+  }
+
+  #mapa-puertos-full {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .leyenda-mapa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: #fafafa;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    font-size: 0.74rem;
+    color: var(--texto);
+    font-weight: 600;
+  }
+  .leyenda-mapa .item-leyenda {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .leyenda-mapa .punto {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+  }
+  .leyenda-mapa .punto.sube { background: var(--azul); }
+  .leyenda-mapa .punto.baja { background: var(--verde); }
+  .leyenda-mapa .punto.estable { background: #6b7280; }
+
+  .botones-tablas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .btn-tabla {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: #fff;
+    color: var(--verde-oscuro);
+    border: 1px solid var(--verde);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .18s, color .18s, border-color .18s;
+    min-height: 48px;
+    text-align: center;
+    line-height: 1.15;
+  }
+  .btn-tabla:hover { background: var(--verde-claro); }
+  .btn-tabla.activo {
+    background: var(--verde);
+    color: #fff;
+    border-color: var(--verde);
+  }
+  .btn-tabla .flecha {
+    font-size: 0.7rem;
+    transition: transform .25s;
+    display: inline-block;
+    line-height: 1;
+  }
+  .btn-tabla.activo .flecha { transform: rotate(180deg); }
+
+  .contenedor-tabla {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .45s ease-out, margin-top .3s ease-out;
+  }
+  .contenedor-tabla.open {
+    max-height: 1400px;
+    margin-top: 12px;
+  }
+
+  .tabla-datos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+.tabla-datos thead th {
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  background: #fff;
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--borde);
+}
+  .tabla-datos thead th.num { text-align: right; }
+  .tabla-datos thead th.centro { text-align: center; }
+  .tabla-datos tbody td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--borde);
+    vertical-align: middle;
+  }
+  .tabla-datos tbody tr:last-child td { border-bottom: none; }
+  .tabla-datos tbody tr:hover td { background: var(--verde-muy-claro); }
+  .tabla-datos .estacion-nombre {
+    font-weight: 700;
+    color: var(--verde-oscuro);
+  }
+  .tabla-datos .valor-num {
+    text-align: right;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--azul-oscuro);
+    letter-spacing: -0.3px;
+  }
+  .tabla-datos .unidad {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-left: 2px;
+  }
+  .tabla-datos .delta {
+    text-align: right;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .tabla-datos .delta.sube { color: var(--azul); }
+  .tabla-datos .delta.baja { color: var(--verde-oscuro); }
+  .tabla-datos .delta.estable { color: var(--muted); }
+
+  .tabla-datos .tend-celda { text-align: center; }
+
+  /* Círculo con color — SOLO para tabla "Variación 24 hs" */
+  .tabla-datos .circulo-tend {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #fff;
+    border: 1.5px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    line-height: 1;
+  }
+  .tabla-datos .circulo-tend.sube { background: var(--azul); }
+  .tabla-datos .circulo-tend.baja { background: var(--verde); }
+  .tabla-datos .circulo-tend.estable { background: #6b7280; }
+
+  /* Flecha simple SIN círculo — SOLO para tabla "Caudal observado" */
+  .tabla-datos .flecha-simple {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .tabla-datos .flecha-simple.sube { color: var(--azul); }
+  .tabla-datos .flecha-simple.baja { color: var(--verde-oscuro); }
+  .tabla-datos .flecha-simple.estable { color: var(--muted); }
+
+  .tabla-datos tbody tr.destacada td { background: var(--verde-claro); }
+  .tabla-datos tbody tr.destacada td:first-child {
+    border-left: 3px solid var(--verde);
+    padding-left: 8px;
+  }
+
+  .nota-tabla {
     margin-top: 12px;
     padding: 10px 12px;
     background: #fafafa;
@@ -944,85 +972,279 @@
     border-radius: 10px;
     font-size: 0.72rem;
     color: var(--texto);
-    line-height: 1.55;
-    text-align: left;
+    line-height: 1.5;
   }
 
-  /* ============================================
-     TOGGLE LISTADO DE REGISTROS
-     ============================================ */
-  .toggle-btn {
-    width: 100%;
-    padding: 12px 16px;
-    background: var(--verde);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 52px;
-    font-family: inherit;
-    transition: background .18s;
-    text-align: left;
+  .bloque-comparacion {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(135deg, var(--amarillo-claro) 0%, #fef9e7 100%);
+    border: 1px solid var(--amarillo);
+    border-left: 4px solid var(--amarillo);
+    border-radius: 14px;
   }
-  .toggle-btn:hover { background: var(--verde-oscuro); }
-  .toggle-btn .toggle-txt {
+  .bloque-comparacion .titulo-comparacion {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #92400e;
+    margin-bottom: 10px;
+  }
+  .bloque-comparacion .titulo-comparacion::before {
+    content: '▲';
+    font-size: 0.7rem;
+    transform: rotate(180deg);
+    display: inline-block;
+  }
+  .bloque-comparacion .texto-comparacion {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: #78350f;
+    margin: 0 0 12px;
+  }
+  .bloque-comparacion .texto-comparacion strong {
+    font-weight: 800;
+    color: #451a03;
+  }
+  .bloque-comparacion .porcentaje {
+    font-size: 1rem;
+    font-weight: 900;
+    color: #b45309;
+    letter-spacing: -0.3px;
+  }
+  .bloque-comparacion .picos-lista {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 8px;
+  }
+  .bloque-comparacion .pico-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    font-size: 0.76rem;
+  }
+  .bloque-comparacion .pico-item .pico-fecha {
+    font-weight: 700;
+    color: #78350f;
+    flex-shrink: 0;
+  }
+  .bloque-comparacion .pico-item .pico-datos {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-align: right;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .bloque-comparacion .pico-item .pico-caudal {
+    font-weight: 800;
+    color: var(--azul-oscuro);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.88rem;
+  }
+  .bloque-comparacion .pico-item .pico-altura {
+    font-size: 0.72rem;
+    color: #78350f;
+    opacity: 0.8;
+  }
+  .bloque-comparacion .nota-comparacion {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(120, 53, 15, 0.25);
+    font-size: 0.7rem;
+    line-height: 1.5;
+    color: #78350f;
+    opacity: 0.85;
+    font-style: italic;
+  }
+
+  .cargador-puertos {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(8px);
+    padding: 24px 28px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid var(--borde);
+    text-align: center;
+    z-index: 1100;
+    min-width: 240px;
+    transition: opacity .3s ease;
+  }
+  .cargador-puertos.oculto {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .spinner-carga {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--verde-claro);
+    border-top-color: var(--verde);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin-bottom: 10px;
+  }
+  .cargador-texto {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--verde-oscuro);
+    margin-bottom: 10px;
+  }
+  .barra-progreso {
+    width: 100%;
+    height: 4px;
+    background: var(--verde-claro);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .barra-progreso-fill {
+    height: 100%;
+    background: var(--verde);
+    width: 0%;
+    transition: width .2s ease;
+  }
+
+  .marcador-puerto {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    gap: 4px; cursor: pointer;
+    transition: transform .15s;
+    user-select: none;
+    transform-origin: center top;
+  }
+  .marcador-puerto:hover { transform: scale(1.08); }
+  .marcador-puerto .circulo {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 800;
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+    line-height: 1; flex-shrink: 0;
+  }
+  .marcador-puerto .circulo.sube { background: var(--azul); }
+  .marcador-puerto .circulo.baja { background: var(--verde); }
+  .marcador-puerto .circulo.estable { background: #6b7280; }
+  .marcador-puerto .circulo.error { background: var(--rojo); }
+  .marcador-puerto .nombre {
+    font-size: 0.62rem; font-weight: 700;
+    color: var(--verde-oscuro);
+    background: rgba(255,255,255,0.95);
+    padding: 2px 7px; border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    letter-spacing: 0.2px;
+    order: 2; margin-top: 2px;
+    pointer-events: none;
+  }
+
+  .maplibregl-popup-content,
+  .leaflet-popup-content-wrapper {
+    font-family: 'Inter', system-ui, sans-serif !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    border: 1px solid var(--borde) !important;
+    min-width: 200px !important;
+  }
+  .leaflet-popup-content { margin: 12px 14px !important; }
+  .maplibregl-popup-content { padding: 12px 14px !important; }
+  .leaflet-marcador-puerto {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .popup-puerto { display: flex; flex-direction: column; gap: 4px; }
+  .popup-puerto .puerto-nombre {
+    font-size: 0.86rem; font-weight: 800;
+    color: var(--verde-oscuro); line-height: 1.2;
+  }
+  .popup-puerto .puerto-valor {
+    font-size: 1.4rem; font-weight: 800;
+    color: var(--verde-oscuro); line-height: 1;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+    display: flex; align-items: baseline; gap: 3px;
+  }
+  .popup-puerto .puerto-valor .unidad {
+    font-size: 0.8rem; color: var(--muted); font-weight: 600;
+  }
+  .popup-puerto .puerto-fecha {
+    font-size: 0.7rem; color: var(--muted); font-weight: 500;
+  }
+  .popup-puerto .puerto-tendencia {
+    margin-top: 4px; padding-top: 6px;
+    border-top: 1px dashed var(--borde);
+    font-size: 0.76rem; font-weight: 700;
+  }
+  .popup-puerto .puerto-tendencia.sube { color: var(--azul); }
+  .popup-puerto .puerto-tendencia.baja { color: var(--verde-oscuro); }
+  .popup-puerto .puerto-tendencia.estable { color: var(--muted); }
+  .popup-puerto .puerto-tendencia.error { color: var(--rojo); }
+
+  /* Link Observatorio */
+  .link-observatorio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+    padding: 11px 14px;
+    background: #fafafa;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background .18s, border-color .18s, color .18s;
+    text-align: left;
+    width: 100%;
+  }
+  .link-observatorio:hover {
+    background: var(--verde-claro);
+    border-color: var(--verde);
+    color: var(--verde-oscuro);
+  }
+  .link-observatorio .link-texto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     min-width: 0;
   }
-  .toggle-btn .toggle-titulo {
-    font-size: 0.88rem;
-    font-weight: 700;
-    line-height: 1.15;
+  .link-observatorio .icono-svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--verde);
+    opacity: 0.9;
   }
-  .toggle-btn .toggle-sub {
-    font-size: 0.66rem;
-    font-weight: 500;
-    opacity: 0.85;
-    line-height: 1.15;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .link-observatorio .flecha-link {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    flex-shrink: 0;
+    transition: transform .18s;
   }
-  .toggle-btn .arrow { transition: transform .25s; flex-shrink: 0; }
-  .toggle-btn.open .arrow { transform: rotate(180deg); }
-
-  .tabla-contenedor {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .35s ease-out;
+  .link-observatorio:hover .flecha-link {
+    transform: translateX(3px);
+    opacity: 1;
   }
-  .tabla-contenedor.open {
-    max-height: 500px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-top: 12px;
-  }
-
-  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-  th, td { padding: 8px 8px; text-align: left; border-bottom: 1px solid var(--borde); }
-  th {
-    background: var(--verde);
-    color: #fff;
-    position: sticky;
-    top: 0;
-    font-weight: 600;
-    font-size: 0.78rem;
-    z-index: 1;
-  }
-  tr:hover td { background: var(--verde-claro); }
 
   footer {
-    text-align: center;
-    color: var(--muted);
-    font-size: 0.72rem;
-    padding: 16px 4px 24px;
+    text-align: center; color: var(--muted);
+    font-size: 0.72rem; padding: 16px 4px 24px;
     line-height: 1.6;
   }
   footer strong { color: var(--marron); }
@@ -1030,41 +1252,26 @@
   .nota-metodologica {
     background: var(--verde-claro);
     border-left: 3px solid var(--verde);
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 0.72rem;
-    color: var(--verde-oscuro);
-    margin-top: 12px;
-    line-height: 1.55;
-    text-align: left;
+    padding: 10px 12px; border-radius: 10px;
+    font-size: 0.72rem; color: var(--verde-oscuro);
+    margin-top: 12px; line-height: 1.55; text-align: left;
   }
   .nota-metodologica code {
-    background: #fff;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    color: var(--marron);
+    background: #fff; padding: 1px 5px;
+    border-radius: 4px; font-size: 0.72rem; color: var(--marron);
   }
 
   .estado-carga {
-    text-align: center;
-    padding: 30px 15px;
-    color: var(--muted);
-    font-size: 0.9rem;
+    text-align: center; padding: 30px 15px;
+    color: var(--muted); font-size: 0.9rem;
   }
   .estado-carga.error {
-    color: var(--rojo);
-    background: var(--rojo-claro);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 10px;
-    font-size: 0.82rem;
-    line-height: 1.5;
+    color: var(--rojo); background: var(--rojo-claro);
+    border-radius: 12px; padding: 15px; margin-bottom: 10px;
+    font-size: 0.82rem; line-height: 1.5;
   }
   .spinner {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
+    display: inline-block; width: 24px; height: 24px;
     border: 3px solid var(--verde-claro);
     border-top-color: var(--verde);
     border-radius: 50%;
@@ -1073,90 +1280,66 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* ============================================================
+     POPUPS
+     ============================================================ */
   .popup-overlay {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     z-index: 9999;
     display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    opacity: 0;
+    align-items: center; justify-content: center;
+    padding: 12px; opacity: 0;
     transition: opacity .25s ease;
   }
-  .popup-overlay.visible {
-    display: flex;
-    opacity: 1;
-  }
+  .popup-overlay.visible { display: flex; opacity: 1; }
   .popup-caja {
-    background: #fff;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 480px;
+    background: #fff; border-radius: 20px;
+    width: 100%; max-width: 480px;
     height: auto;
     max-height: calc(100vh - 24px);
     max-height: calc(100dvh - 24px);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
     overflow: hidden;
     transform: translateY(10px) scale(0.98);
     transition: transform .25s ease;
   }
-  .popup-overlay.visible .popup-caja {
-    transform: translateY(0) scale(1);
-  }
+  .popup-overlay.visible .popup-caja { transform: translateY(0) scale(1); }
   .popup-header {
     background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
     color: #fff;
     padding: 16px 20px;
     padding-top: calc(16px + env(safe-area-inset-top, 0px));
-    text-align: center;
-    flex-shrink: 0;
-    position: relative;
+    text-align: center; flex-shrink: 0; position: relative;
   }
   .popup-header h2 {
-    font-size: 1.05rem;
-    margin: 0;
-    line-height: 1.2;
-    font-weight: 700;
-    color: #fff;
+    font-size: 1.05rem; margin: 0; line-height: 1.2;
+    font-weight: 700; color: #fff;
   }
   .popup-header .popup-sub {
-    font-size: 0.78rem;
-    opacity: 0.9;
-    margin-top: 2px;
+    font-size: 0.78rem; opacity: 0.9; margin-top: 2px;
   }
   .popup-header .popup-vecinal {
-    font-size: 0.68rem;
-    opacity: 0.75;
-    margin-top: 6px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    font-size: 0.68rem; opacity: 0.75;
+    margin-top: 6px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase;
   }
   .popup-cuerpo {
-    padding: 16px 20px;
-    overflow-y: auto;
-    flex: 1 1 auto;
-    min-height: 0;
+    padding: 16px 20px; overflow-y: auto;
+    flex: 1 1 auto; min-height: 0;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
   .popup-intro {
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--texto);
-    margin: 0 0 14px;
+    font-size: 0.85rem; line-height: 1.55;
+    color: var(--texto); margin: 0 0 14px;
   }
   .popup-bloque {
-    background: #f8f8f8;
-    border-radius: 14px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
+    background: #f8f8f8; border-radius: 14px;
+    padding: 12px 14px; margin-bottom: 12px;
   }
   .popup-bloque.verde { background: var(--verde-claro); }
   .popup-bloque.amarillo {
@@ -1164,43 +1347,34 @@
     border-left: 3px solid var(--amarillo-brillante);
   }
   .popup-bloque-titulo {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--verde-oscuro);
-    margin-bottom: 8px;
+    font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--verde-oscuro); margin-bottom: 8px;
   }
   .popup-bloque ul { list-style: none; padding: 0; margin: 0; }
   .popup-bloque li {
-    font-size: 0.82rem;
-    line-height: 1.5;
-    color: var(--texto);
-    padding-left: 14px;
-    position: relative;
-    margin-bottom: 6px;
+    font-size: 0.82rem; line-height: 1.5;
+    color: var(--texto); padding-left: 14px;
+    position: relative; margin-bottom: 6px;
   }
   .popup-bloque li:last-child { margin-bottom: 0; }
   .popup-bloque li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--verde);
-    font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.3;
+    content: '•'; position: absolute;
+    left: 0; top: 0; color: var(--verde);
+    font-weight: 700; font-size: 1rem; line-height: 1.3;
+  }
+  .popup-bloque p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--texto);
+    margin: 0;
   }
   .popup-referencias {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    display: flex; flex-direction: column; gap: 5px;
   }
   .popup-referencias .linea-ref {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    line-height: 1.4;
+    display: flex; justify-content: space-between;
+    font-size: 0.8rem; line-height: 1.4;
     padding: 3px 0;
     border-bottom: 1px dashed rgba(45, 106, 63, 0.15);
   }
@@ -1208,13 +1382,36 @@
   .popup-referencias .ref-label { color: var(--texto); }
   .popup-referencias .ref-valor { font-weight: 700; color: var(--verde-oscuro); }
   .popup-pie {
-    font-size: 0.72rem;
-    color: var(--muted);
-    line-height: 1.5;
-    text-align: center;
-    margin: 14px 0 0;
-    font-style: italic;
+    font-size: 0.72rem; color: var(--muted);
+    line-height: 1.5; text-align: center;
+    margin: 14px 0 0; font-style: italic;
   }
+
+  .btn-ir-observatorio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: 4px;
+    transition: filter .15s, transform .1s;
+    min-height: 48px;
+  }
+  .btn-ir-observatorio:hover { filter: brightness(1.08); }
+  .btn-ir-observatorio:active { transform: scale(0.98); }
+  .btn-ir-observatorio .flecha { font-size: 0.9rem; line-height: 1; }
+
   .popup-footer {
     padding: 12px 20px 16px;
     padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -1222,23 +1419,74 @@
     border-top: 1px solid var(--borde);
     background: #fff;
   }
+  .popup-btn-cerrar-principal {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+    color: #fff; border: none; border-radius: 12px;
+    font-family: inherit; font-size: 0.9rem;
+    font-weight: 700; letter-spacing: .3px;
+    cursor: pointer;
+    transition: filter .15s, transform .1s;
+    min-height: 50px;
+  }
+  .popup-btn-cerrar-principal:hover { filter: brightness(1.08); }
+  .popup-btn-cerrar-principal:active { transform: scale(0.98); }
+
   .popup-btn-cerrar {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
-    color: #fff;
-    border: none;
+    background: #fff;
+    color: var(--verde-oscuro);
+    border: 1px solid var(--verde);
     border-radius: 12px;
     font-family: inherit;
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: .3px;
     cursor: pointer;
-    transition: filter .15s, transform .1s;
+    transition: background .15s, transform .1s;
     min-height: 50px;
   }
-  .popup-btn-cerrar:hover { filter: brightness(1.08); }
+  .popup-btn-cerrar:hover { background: var(--verde-claro); }
   .popup-btn-cerrar:active { transform: scale(0.98); }
+
+  .popup-mapa {
+    position: fixed; inset: 0;
+    z-index: 99999;
+    background: #fff;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .popup-mapa.visible { display: flex; opacity: 1; }
+
+  .btn-cerrar-mapa {
+    position: absolute;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px; height: 48px;
+    background: var(--verde); color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 1.3rem; font-weight: 700;
+    cursor: pointer; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: transform .15s, background .15s;
+    font-family: inherit; line-height: 1;
+  }
+  .btn-cerrar-mapa:hover {
+    background: var(--verde-oscuro);
+    transform: translateX(-50%) scale(1.08);
+  }
+  .btn-cerrar-mapa:active { transform: translateX(-50%) scale(0.95); }
+
+  .popup-mapa iframe {
+    width: 100%; height: 100%;
+    border: 0; display: block; flex: 1;
+  }
 
   @media (min-width: 768px) {
     body { padding: 20px; padding-top: calc(var(--header-height) + 24px); }
@@ -1251,6 +1499,7 @@
     header .btn-info { width: 42px; height: 42px; font-size: 1.2rem; }
     .chart-container { height: 400px; }
     .card { padding: 18px; }
+    .resumen-serie { font-size: 0.8rem; }
     .ultimo-izq .valor { font-size: 3rem; }
     .ultimo-izq .valor .unidad { font-size: 1.5rem; }
     .btn-selector { font-size: 0.82rem; }
@@ -1260,9 +1509,7 @@
   }
 
   @media (max-width: 560px) {
-    :root {
-      --header-height: 84px;
-    }
+    :root { --header-height: 84px; }
     body { padding: 8px; padding-top: calc(var(--header-height) + 10px); }
     header { padding: 10px 12px; padding-top: calc(10px + env(safe-area-inset-top, 0px)); }
     header .header-inner { gap: 10px; }
@@ -1278,14 +1525,12 @@
 
     .chart-container { height: 250px; }
 
-    .ultimo {
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 10px;
-    }
+    .ultimo { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
     .ultimo-izq { padding: 2px; }
     .ultimo-izq .titulo-bloque { font-size: 0.56rem; margin-bottom: 4px; letter-spacing: 0.8px; }
-    .icono-olas { width: 22px; height: 22px; margin-bottom: 3px; }
+    .fila-icono-dia { min-height: 22px; gap: 4px; margin-bottom: 4px; }
+    .icono-olas { width: 22px; height: 22px; }
+    .etiqueta-dia { font-size: 0.62rem; letter-spacing: 1px; }
     .ultimo-izq .valor { font-size: 1.7rem; letter-spacing: -1px; gap: 1px; }
     .ultimo-izq .valor .unidad { font-size: 0.9rem; }
     .ultimo-izq .fecha { font-size: 0.62rem; margin-top: 4px; }
@@ -1301,6 +1546,9 @@
     .subcol-tendencia .tend-valor { font-size: 0.7rem; margin-top: 1px; }
     .subcol-estado .icono-estado { width: 28px; height: 28px; font-size: 0.95rem; margin: 1px 0; }
     .subcol-estado .estado-badge { font-size: 0.52rem; padding: 3px 7px; letter-spacing: 0.6px; margin-top: 4px; }
+
+    .resumen-serie { font-size: 0.72rem; margin-top: 8px; padding-top: 8px; }
+    .resumen-serie .linea-promedio { font-size: 0.68rem; }
 
     .ultimo-hist { padding: 12px; }
     .ultimo-hist .label { font-size: 0.6rem; }
@@ -1332,40 +1580,115 @@
     .toggle-btn .toggle-titulo { font-size: 0.82rem; }
     .toggle-btn .toggle-sub { font-size: 0.6rem; }
 
+    .card-info-complementaria .titulo-info { font-size: 0.6rem; margin-bottom: 8px; }
+    .paneles-grid { gap: 6px; }
+    .bloque-info-panel,
+    .bloque-info-panel-cuenca {
+      padding: 10px 8px;
+      min-height: 145px;
+    }
+    .bloque-info-panel .pregunta {
+      font-size: 0.68rem;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .bloque-info-panel-cuenca .pregunta-cuenca {
+      font-size: 0.72rem;
+      margin-bottom: 4px;
+    }
+    .bloque-info-panel-cuenca .sub-cuenca {
+      font-size: 0.58rem;
+      margin-bottom: 8px;
+    }
+    .btn-abrir-mapa,
+    .btn-cuenca {
+      font-size: 0.66rem;
+      padding: 7px 10px;
+      gap: 4px;
+    }
+    .link-observatorio {
+      font-size: 0.7rem;
+      padding: 9px 12px;
+      gap: 8px;
+    }
+    .link-observatorio .icono-svg {
+      width: 16px;
+      height: 16px;
+    }
+    .leyenda-mapa {
+      gap: 10px;
+      padding: 8px 10px;
+      font-size: 0.68rem;
+    }
+    .leyenda-mapa .punto {
+      width: 12px;
+      height: 12px;
+    }
+    .mapa-puertos-wrapper {
+      height: 60vh;
+      min-height: 420px;
+      max-height: 700px;
+    }
+    .cuenca-acordeon.open {
+      max-height: 2500px;
+    }
+    .btn-tabla {
+      font-size: 0.68rem;
+      padding: 10px 8px;
+      min-height: 46px;
+      gap: 5px;
+    }
+    .btn-tabla .flecha { font-size: 0.62rem; }
+    .tabla-datos { font-size: 0.72rem; }
+    .tabla-datos thead th { font-size: 0.6rem; padding: 6px 4px; }
+    .tabla-datos tbody td { padding: 8px 4px; }
+    .tabla-datos .valor-num { font-size: 0.78rem; }
+    .tabla-datos .unidad { font-size: 0.62rem; }
+    .tabla-datos .delta { font-size: 0.64rem; }
+    .tabla-datos .circulo-tend {
+      width: 18px;
+      height: 18px;
+      font-size: 0.62rem;
+    }
+    .tabla-datos .flecha-simple { font-size: 0.9rem; }
+
+    .bloque-comparacion { padding: 12px; }
+    .bloque-comparacion .texto-comparacion { font-size: 0.78rem; }
+    .bloque-comparacion .porcentaje { font-size: 0.92rem; }
+    .bloque-comparacion .pico-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+    .bloque-comparacion .pico-item .pico-datos {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
     table, thead, tbody, th, td, tr { display: block; }
     thead { display: none; }
     tbody tr {
-      background: #fff;
-      margin-bottom: 8px;
+      background: #fff; margin-bottom: 8px;
       border: 1px solid var(--borde);
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 12px; padding: 10px 12px;
     }
     tbody td {
-      border: none;
-      padding: 4px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border: none; padding: 4px 0;
+      display: flex; justify-content: space-between; align-items: center;
       font-size: 0.85rem;
     }
     tbody td::before {
       content: attr(data-label);
-      font-weight: 600;
-      color: var(--muted);
-      font-size: 0.78rem;
+      font-weight: 600; color: var(--muted); font-size: 0.78rem;
     }
     tbody td[data-label="Altura PNA"] {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--verde);
+      font-size: 1.1rem; font-weight: 700; color: var(--verde);
       padding-top: 6px;
       border-top: 1px dashed var(--borde);
       margin-top: 4px;
     }
     tbody td[data-label="Nivel IGN"] {
-      font-weight: 600;
-      color: var(--marron);
+      font-weight: 600; color: var(--marron);
     }
 
     .popup-overlay { padding: 8px; }
@@ -1382,10 +1705,23 @@
     .popup-intro { font-size: 0.82rem; }
     .popup-bloque { padding: 10px 12px; margin-bottom: 10px; }
     .popup-bloque li { font-size: 0.78rem; }
+    .popup-bloque p { font-size: 0.78rem; }
     .popup-referencias .linea-ref { font-size: 0.75rem; }
     .popup-pie { font-size: 0.68rem; }
     .popup-footer { padding: 10px 16px 14px; padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px)); }
+    .popup-btn-cerrar-principal { font-size: 0.85rem; min-height: 48px; }
     .popup-btn-cerrar { font-size: 0.85rem; min-height: 48px; }
+
+    .btn-cerrar-mapa {
+      width: 44px; height: 44px; font-size: 1.15rem;
+      top: calc(10px + env(safe-area-inset-top, 0px));
+    }
+
+    .cargador-puertos {
+      padding: 18px 20px;
+      min-width: 200px;
+    }
+    .cargador-texto { font-size: 0.74rem; }
   }
 </style>
 </head>
@@ -1408,21 +1744,18 @@
     </div>
   </header>
 
-  <!-- FILA DE CONTROLES -->
   <div class="fila-controles">
     <div class="selector-series-wrapper">
       <button class="btn-selector" id="btnSelector" onclick="toggleSelector(event)">
         <span class="texto-btn" id="btnSelectorTexto">Selector de series de datos</span>
         <span class="caret">▼</span>
       </button>
-
       <div class="panel-selector" id="panelSelector">
         <div class="grupo-titulo">Históricos</div>
         <button class="opcion" data-tipo="crecida" onclick="elegirOpcion(this)">Creciente 2015-2016</button>
         <button class="opcion" data-tipo="bajante" onclick="elegirOpcion(this)">Bajante 2021-2022</button>
-
         <div class="grupo-titulo">Últimos períodos</div>
-        <button class="opcion" data-dias="365" onclick="elegirOpcion(this)">Último año</button>
+        <button class="opcion" data-dias="365" onclick="elegirOpcion(this)">Últimos 12 meses</button>
         <button class="opcion" data-dias="180" onclick="elegirOpcion(this)">Últimos 6 meses</button>
         <button class="opcion" data-dias="90" onclick="elegirOpcion(this)">Últimos 3 meses</button>
         <button class="opcion" data-dias="30" onclick="elegirOpcion(this)">Últimos 30 días</button>
@@ -1478,6 +1811,8 @@
           <i class="linea prono-linea"></i> Proyección de pronóstico (próximos días)
         </span>
       </div>
+
+      <div class="resumen-serie" id="resumen-serie"></div>
 
       <div class="marcas-rango" id="marcas-rango">
         <div class="marca marca-min">
@@ -1540,6 +1875,141 @@
       </div>
     </div>
 
+    <div class="card card-info-complementaria">
+      <div class="titulo-info">Información complementaria</div>
+
+      <div class="paneles-grid">
+        <div class="bloque-info-panel">
+          <p class="pregunta">
+            ¿Querés saber cuál es la cota IGN de tu casa o conocer las curvas de nivel de tu barrio?
+          </p>
+          <button class="btn-abrir-mapa" onclick="abrirMapa()">
+            <span>Abrir mapa IGN</span>
+            <span class="flecha">→</span>
+          </button>
+        </div>
+
+        <div class="bloque-info-panel-cuenca">
+          <p class="pregunta-cuenca">Tendencia de la cuenca</p>
+          <p class="sub-cuenca">Estaciones de monitoreo en Paraná Medio - Paraná inferior</p>
+          <button class="btn-cuenca" id="btnCuenca" onclick="toggleMapaPuertos()">
+            <span id="textoDesplegar">Desplegar mapa</span>
+            <span class="arrow">▼</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="cuenca-acordeon" id="cuencaAcordeon">
+        <div class="mapa-puertos-wrapper">
+          <div id="mapa-puertos-full"></div>
+
+          <div class="cargador-puertos" id="cargadorPuertos">
+            <div class="spinner-carga"></div>
+            <div class="cargador-texto" id="cargadorTexto">Cargando estaciones del Paraná...</div>
+            <div class="barra-progreso"><div class="barra-progreso-fill" id="barraProgreso"></div></div>
+          </div>
+        </div>
+
+        <div class="leyenda-mapa">
+          <span class="item-leyenda"><span class="punto sube"></span>Subiendo</span>
+          <span class="item-leyenda"><span class="punto baja"></span>Bajando</span>
+          <span class="item-leyenda"><span class="punto estable"></span>Estable</span>
+        </div>
+
+        <div class="botones-tablas">
+          <button class="btn-tabla" id="btnTablaTendencia" onclick="toggleTablaTendencia()">
+            <span>Variación 24 hs</span>
+            <span class="flecha">▼</span>
+          </button>
+          <button class="btn-tabla" id="btnTablaCaudales" onclick="toggleTablaCaudales()">
+            <span>Caudal observado</span>
+            <span class="flecha">▼</span>
+          </button>
+        </div>
+
+        <!-- TABLA 1: VARIACIÓN 24 HS -->
+        <div class="contenedor-tabla" id="contenedorTendencia">
+          <table class="tabla-datos">
+            <thead>
+              <tr>
+                <th>Estación</th>
+                <th class="centro">Tend.</th>
+                <th class="num">Δ 24h</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyTendencia">
+              <!-- Se llena dinámicamente -->
+            </tbody>
+          </table>
+          <div class="nota-tabla">
+            <strong>Nota:</strong> variación de la altura del río en las últimas 24 horas.
+            Ordenadas de norte a sur, aguas abajo. Misma fuente que los marcadores del mapa.
+          </div>
+        </div>
+
+        <!-- TABLA 2: CAUDAL OBSERVADO -->
+        <div class="contenedor-tabla" id="contenedorCaudales">
+          <table class="tabla-datos">
+            <thead>
+              <tr>
+                <th>Estación</th>
+                <th class="num">Caudal</th>
+                <th class="centro">Tend.</th>
+                <th class="num">Δ 24h</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCaudales">
+              <!-- Se llena dinámicamente -->
+            </tbody>
+          </table>
+          <div class="nota-tabla" id="notaCaudales">
+            <strong>Nota:</strong> caudal observado del cauce principal (m³/s), dato no oficial.
+            La tendencia compara el valor actual con el de 24 h antes.
+          </div>
+
+          <div class="bloque-comparacion" id="bloqueComparacion">
+            <div class="titulo-comparacion">Para comparar · Creciente 2015-2016</div>
+            <p class="texto-comparacion" id="textoComparacion">
+              <!-- Se genera dinámicamente -->
+            </p>
+            <div class="picos-lista">
+              <div class="pico-item">
+                <span class="pico-fecha">05 Ene 2016</span>
+                <span class="pico-datos">
+                  <span class="pico-caudal">27.445 m³/s</span>
+                  <span class="pico-altura">Altura 6,60 m</span>
+                </span>
+              </div>
+              <div class="pico-item">
+                <span class="pico-fecha">13 Abr 2016</span>
+                <span class="pico-datos">
+                  <span class="pico-caudal">24.500 m³/s</span>
+                  <span class="pico-altura">Segundo pico</span>
+                </span>
+              </div>
+            </div>
+            <div class="nota-comparacion">
+              Valores del cauce principal. El caudal total considerando el valle de inundación
+              fue aún mayor.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="link-observatorio" onclick="abrirObservatorio()">
+        <span class="link-texto">
+          <svg class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 12s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
+            <path d="M2 17s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
+            <path d="M2 7s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
+          </svg>
+          <span>Observatorio Hidrológico Nacional del INA</span>
+        </span>
+        <span class="flecha-link">→</span>
+      </button>
+
+    </div>
+
     <footer>
       <strong>Vecinal Rincón Norte</strong><br>
       Fuente: Instituto Nacional del Agua (INA) – datos públicos.<br>
@@ -1557,6 +2027,7 @@
 
   </div>
 
+  <!-- POPUP INFORMATIVO PRINCIPAL -->
   <div class="popup-overlay" id="popupOverlay" onclick="cerrarPopupPorOverlay(event)">
     <div class="popup-caja" role="dialog" aria-modal="true" aria-labelledby="popupTitulo">
       <div class="popup-header">
@@ -1564,22 +2035,35 @@
         <div class="popup-sub">Puerto Santa Fe · Datos oficiales INA</div>
         <div class="popup-vecinal">Vecinal Rincón Norte</div>
       </div>
-      <div class="popup-cuerpo">
+           <div class="popup-cuerpo">
         <p class="popup-intro">
           Consultá el nivel del río Paraná en el Puerto de Santa Fe, con datos oficiales del INA.
           Una herramienta simple de la Vecinal Rincón Norte para que sepas, en cualquier momento,
           cómo está el río.
         </p>
+
         <div class="popup-bloque">
-          <div class="popup-bloque-titulo">Qué te muestra</div>
+          <div class="popup-bloque-titulo">Nivel del río en Santa Fe</div>
           <ul>
             <li>El último registro con tendencia (en ascenso, en descenso o estable).</li>
-            <li>Datos en tiempo real del INA y series de datos históricos: 1 año, 6 meses, 3 meses, 30 días o 10 días.</li>
+            <li>Datos en tiempo real y series históricas: 12 meses, 6 meses, 3 meses, 30 días o 10 días.</li>
             <li>El Nivel IGN calculado con el cero de escala oficial (8,38 m).</li>
             <li>Líneas de Alerta y Evacuación.</li>
             <li>Distancia al coronamiento del terraplén (17,50 m IGN).</li>
           </ul>
         </div>
+
+        <div class="popup-bloque">
+          <div class="popup-bloque-titulo">Información complementaria</div>
+          <ul>
+            <li><strong>Mapa IGN</strong>: cota de tu casa y curvas de nivel de tu barrio.</li>
+            <li><strong>Tendencia de la cuenca</strong>: mapa con 17 estaciones de monitoreo del Paraná Medio e Inferior, con la tendencia de cada una.</li>
+            <li><strong>Variación 24 hs</strong>: tabla con la variación de la altura en cada estación.</li>
+            <li><strong>Caudal observado</strong>: tabla con el caudal (m³/s) de estaciones clave del Paraná y comparación con el pico de la crecida de 2016.</li>
+            <li><strong>Observatorio Hidrológico Nacional</strong>: informes mensuales del INA sobre la cuenca.</li>
+          </ul>
+        </div>
+
         <div class="popup-bloque">
           <div class="popup-bloque-titulo">Contexto histórico</div>
           <ul>
@@ -1588,6 +2072,7 @@
             <li>En históricos, la tarjeta superior muestra el máximo de la creciente o el mínimo de la bajante, con contexto: días en evacuación, días negativos, días bajo aguas bajas.</li>
           </ul>
         </div>
+
         <div class="popup-bloque verde">
           <div class="popup-bloque-titulo">Referencias</div>
           <div class="popup-referencias">
@@ -1609,6 +2094,7 @@
             </div>
           </div>
         </div>
+
         <div class="popup-bloque amarillo">
           <div class="popup-bloque-titulo">⚠ Importante</div>
           <p style="font-size: 0.8rem; line-height: 1.5; margin: 0; color: var(--texto);">
@@ -1618,17 +2104,68 @@
             terraplenes con niveles inferiores a su coronamiento.
           </p>
         </div>
+
         <p class="popup-pie">
-          Fuente: Instituto Nacional del Agua (INA) – datos públicos.<br>
+          Fuente: Instituto Nacional del Agua (INA) y Prefectura Naval Argentina – datos públicos.<br>
           Sitio no oficial – visualización comunitaria.
         </p>
       </div>
       <div class="popup-footer">
-        <button class="popup-btn-cerrar" id="btnCerrarPopup" onclick="cerrarPopup()">
+        <button class="popup-btn-cerrar-principal" onclick="cerrarPopup()">
           ENTENDIDO, GRACIAS
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- POPUP OBSERVATORIO -->
+  <div class="popup-overlay" id="popupObservatorio" onclick="cerrarObservatorioPorOverlay(event)">
+    <div class="popup-caja" role="dialog" aria-modal="true" aria-labelledby="obsTitulo">
+      <div class="popup-header">
+        <h2 id="obsTitulo">Observatorio Hidrológico Nacional</h2>
+        <div class="popup-sub">Instituto Nacional del Agua</div>
+        <div class="popup-vecinal">Informe mensual · INA</div>
+      </div>
+      <div class="popup-cuerpo">
+        <p class="popup-intro">
+          El Observatorio Hidrológico Nacional es un proyecto del Instituto Nacional del Agua (INA)
+          que publica informes periódicos sobre las condiciones hidrológicas del mes anterior en
+          cuencas de distintas regiones del país.
+        </p>
+        <div class="popup-bloque">
+          <div class="popup-bloque-titulo">Qué encontrás</div>
+          <ul>
+            <li>Resúmenes climáticos e hidrológicos actualizados.</li>
+            <li>Datos de distintos puntos de medición del país.</li>
+            <li>Información sobre el caudal del río en el Litoral.</li>
+            <li>Análisis por cuencas y regiones.</li>
+          </ul>
+        </div>
+        <div class="popup-bloque verde">
+          <div class="popup-bloque-titulo">Para qué sirve</div>
+          <p>
+            Es una herramienta para la gestión del agua, la toma de decisiones y la formulación
+            de políticas hídricas sostenibles. Un material técnico útil para vecinos, instituciones
+            y equipos de trabajo.
+          </p>
+        </div>
+        <a class="btn-ir-observatorio" href="https://www.ina.gov.ar/observatorio/index.php" target="_blank" rel="noopener">
+          <span>Ir al Observatorio del INA</span>
+          <span class="flecha">→</span>
+        </a>
+      </div>
+      <div class="popup-footer">
+        <button class="popup-btn-cerrar" onclick="cerrarObservatorio()">
+          CERRAR
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP MAPA IGN -->
+  <div class="popup-mapa" id="popupMapa">
+    <button class="btn-cerrar-mapa" onclick="cerrarMapa()" aria-label="Cerrar mapa">✕</button>
+    <iframe id="iframeMapa" src="about:blank" title="Mapa de curvas de nivel y cotas IGN"></iframe>
   </div>
 
 <script>
@@ -1648,14 +2185,96 @@ const SERIES_ID = 30;
 const SITE_CODE = 30;
 const VAR_ID = 2;
 
+const URL_CAUDALES_WFS = 'https://alerta.ina.gob.ar/geoserver/siyah/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=siyah:ultimos_caudales&outputFormat=application/json';
+const URL_ULTIMAS_ALTURAS_WFS = 'https://alerta.ina.gob.ar/geoserver/siyah/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=siyah:ultimas_alturas&outputFormat=application/json';
+
+const CAUDAL_PICO_2016 = 27445;
+const CAUDAL_SANTAFE_RESPALDO = 19426;
+
 const PRONOSTICO_RESPALDO = {
   emision: "2026-09-25",
   pronostico: { fecha: "2026-09-29", valor: 3.33, min: 3.10, max: 3.80 },
   tendencia: { fecha: "2026-10-06", valor: 3.37, min: 3.10, max: 3.90 }
 };
 
+const VAR_ID_PUERTOS = 2;
+const PUERTOS_PARANA = [
+  { nombre: 'Puerto Iguazú', lat: -25.5972, lng: -54.5738, seriesId: 9 },
+  { nombre: 'Posadas',       lat: -27.3671, lng: -55.8960, seriesId: 14 },
+  { nombre: 'Ituzaingó',     lat: -27.5852, lng: -56.6872, seriesId: 15 },
+  { nombre: 'Itatí',         lat: -27.2700, lng: -58.2500, seriesId: 17 },
+  { nombre: 'Corrientes',    lat: -27.4692, lng: -58.8306, seriesId: 19 },
+  { nombre: 'Bella Vista',   lat: -28.5000, lng: -59.0500, seriesId: 22 },
+  { nombre: 'Goya',          lat: -29.1440, lng: -59.2624, seriesId: 23 },
+  { nombre: 'Reconquista',   lat: -29.1500, lng: -59.6500, seriesId: 24 },
+  { nombre: 'Esquina',       lat: -30.0167, lng: -59.5333, seriesId: 25 },
+  { nombre: 'La Paz',        lat: -30.7475, lng: -59.6482, seriesId: 26 },
+  { nombre: 'Santa Fe',      lat: -31.6107, lng: -60.6973, seriesId: 30 },
+  { nombre: 'Paraná',        lat: -31.7410, lng: -60.5286, seriesId: 29 },
+  { nombre: 'Rosario',       lat: -32.9570, lng: -60.6294, seriesId: 34 },
+  { nombre: 'San Nicolás',   lat: -33.3333, lng: -60.2255, seriesId: 36 },
+  { nombre: 'Zárate',        lat: -34.0973, lng: -59.0248, seriesId: 40 },
+  { nombre: 'Escobar',       lat: -34.3500, lng: -58.7907, seriesId: 42 },
+  { nombre: 'Buenos Aires',  lat: -34.6037, lng: -58.3816, seriesId: 85 }
+];
+
+// Estaciones para tabla de caudal (con nombre en la capa WFS)
+const CAUDALES_ESTACIONES = [
+  { display: 'Guaíra',      nombreINA: 'Guaíra Porto' },
+  { display: 'Itaipú',      nombreINA: 'Represa Itaipú' },
+  { display: 'Confluencia', nombreINA: 'Confluencia' },
+  { display: 'Corrientes',  nombreINA: 'Corrientes' },
+  { display: 'Santa Fe',    nombreINA: 'Santa Fe' }
+];
+
 // ============================================================
-// POPUP INFORMATIVO
+// DETECCIÓN DE DISPOSITIVO
+// ============================================================
+function esDispositivoMovil() {
+  const tactil = window.matchMedia('(pointer: coarse)').matches;
+  const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+  const uaMovil = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(ua);
+  return tactil && uaMovil;
+}
+
+// ============================================================
+// CARGA DINÁMICA DE LIBRERÍA DE MAPA
+// ============================================================
+function cargarScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('No se pudo cargar ' + src));
+    document.head.appendChild(s);
+  });
+}
+
+function cargarCSS(href) {
+  return new Promise((resolve) => {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = href;
+    l.onload = resolve;
+    l.onerror = resolve;
+    document.head.appendChild(l);
+  });
+}
+
+async function cargarLibreriaMapa() {
+  if (esDispositivoMovil()) {
+    await cargarCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
+    await cargarScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+    return 'leaflet';
+  } else {
+    await cargarCSS('https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css');
+    await cargarScript('https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js');
+    return 'maplibre';
+  }
+}
+
+// ============================================================
+// POPUP INFORMATIVO PRINCIPAL
 // ============================================================
 const KEY_LOCALSTORAGE = 'popup_visto';
 
@@ -1669,23 +2288,43 @@ function cerrarPopup() {
   const overlay = document.getElementById('popupOverlay');
   overlay.classList.remove('visible');
   document.body.style.overflow = '';
-  try {
-    localStorage.setItem(KEY_LOCALSTORAGE, 'true');
-  } catch (e) {
-    console.warn('localStorage no disponible:', e);
-  }
+  try { localStorage.setItem(KEY_LOCALSTORAGE, 'true'); } catch (e) {}
 }
 
 function cerrarPopupPorOverlay(event) {
-  if (event.target.id === 'popupOverlay') {
-    cerrarPopup();
-  }
+  if (event.target.id === 'popupOverlay') cerrarPopup();
+}
+
+// ============================================================
+// POPUP OBSERVATORIO
+// ============================================================
+function abrirObservatorio() {
+  const overlay = document.getElementById('popupObservatorio');
+  overlay.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarObservatorio() {
+  const overlay = document.getElementById('popupObservatorio');
+  overlay.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function cerrarObservatorioPorOverlay(event) {
+  if (event.target.id === 'popupObservatorio') cerrarObservatorio();
 }
 
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
-    const overlay = document.getElementById('popupOverlay');
-    if (overlay.classList.contains('visible')) {
+    if (document.getElementById('popupObservatorio').classList.contains('visible')) {
+      cerrarObservatorio();
+      return;
+    }
+    if (document.getElementById('popupMapa').classList.contains('visible')) {
+      cerrarMapa();
+      return;
+    }
+    if (document.getElementById('popupOverlay').classList.contains('visible')) {
       cerrarPopup();
     }
   }
@@ -1693,15 +2332,659 @@ document.addEventListener('keydown', function(e) {
 
 document.addEventListener('DOMContentLoaded', function() {
   let yaVisto = false;
-  try {
-    yaVisto = localStorage.getItem(KEY_LOCALSTORAGE) === 'true';
-  } catch (e) {
-    yaVisto = false;
-  }
-  if (!yaVisto) {
-    setTimeout(abrirPopup, 400);
-  }
+  try { yaVisto = localStorage.getItem(KEY_LOCALSTORAGE) === 'true'; } catch (e) {}
+  if (!yaVisto) setTimeout(abrirPopup, 400);
 });
+
+// ============================================================
+// POPUP MAPA COTAS IGN
+// ============================================================
+function abrirMapa() {
+  const popup = document.getElementById('popupMapa');
+  const iframe = document.getElementById('iframeMapa');
+  if (!iframe.src || iframe.src === 'about:blank') {
+    iframe.src = URL_MAPA;
+  }
+  popup.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarMapa() {
+  const popup = document.getElementById('popupMapa');
+  popup.classList.remove('visible');
+  if (document.getElementById('popupOverlay').classList.contains('visible')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+}
+
+// ============================================================
+// MAPA PUERTOS DEL PARANÁ (ACORDEÓN + CARGA DIFERIDA)
+// ============================================================
+let mapaPuertos = null;
+let marcadoresPuertos = [];
+let libreriaMapa = null;
+let mapaPuertosCargado = false;
+let datosPuertosCargados = null;
+
+function toggleMapaPuertos() {
+  const btn = document.getElementById('btnCuenca');
+  const cont = document.getElementById('cuencaAcordeon');
+  const texto = document.getElementById('textoDesplegar');
+  const abriendo = !cont.classList.contains('open');
+
+  cont.classList.toggle('open');
+  btn.classList.toggle('open');
+
+  if (abriendo) {
+    texto.textContent = 'Cerrar mapa';
+    // Abrir por defecto la tabla de caudales
+    setTimeout(() => {
+      abrirTablaCaudalesPorDefecto();
+    }, 100);
+    if (!mapaPuertosCargado) {
+      mapaPuertosCargado = true;
+      setTimeout(() => {
+        inicializarMapaPuertos();
+      }, 500);
+    } else if (mapaPuertos) {
+      setTimeout(() => {
+        if (libreriaMapa === 'leaflet') {
+          mapaPuertos.invalidateSize();
+        } else if (libreriaMapa === 'maplibre') {
+          mapaPuertos.resize();
+        }
+      }, 500);
+    }
+  } else {
+    texto.textContent = 'Desplegar mapa';
+  }
+}
+
+async function inicializarMapaPuertos() {
+  if (!libreriaMapa) {
+    try {
+      libreriaMapa = await cargarLibreriaMapa();
+    } catch (err) {
+      console.error('Error cargando librería de mapa:', err);
+      return;
+    }
+  }
+
+  if (libreriaMapa === 'leaflet') {
+    crearMapaPuertosLeaflet();
+  } else {
+    crearMapaPuertosMapLibre();
+  }
+}
+
+// ============================================================
+// TABLAS DESPLEGABLES
+// ============================================================
+function abrirTablaCaudalesPorDefecto() {
+  const contTend = document.getElementById('contenedorTendencia');
+  const contCaud = document.getElementById('contenedorCaudales');
+  const btnTend = document.getElementById('btnTablaTendencia');
+  const btnCaud = document.getElementById('btnTablaCaudales');
+
+  contTend.classList.remove('open');
+  btnTend.classList.remove('activo');
+  contCaud.classList.add('open');
+  btnCaud.classList.add('activo');
+}
+
+function toggleTablaTendencia() {
+  const contTend = document.getElementById('contenedorTendencia');
+  const contCaud = document.getElementById('contenedorCaudales');
+  const btnTend = document.getElementById('btnTablaTendencia');
+  const btnCaud = document.getElementById('btnTablaCaudales');
+  const abriendo = !contTend.classList.contains('open');
+
+  contCaud.classList.remove('open');
+  btnCaud.classList.remove('activo');
+  contTend.classList.toggle('open', abriendo);
+  btnTend.classList.toggle('activo', abriendo);
+}
+
+function toggleTablaCaudales() {
+  const contTend = document.getElementById('contenedorTendencia');
+  const contCaud = document.getElementById('contenedorCaudales');
+  const btnTend = document.getElementById('btnTablaTendencia');
+  const btnCaud = document.getElementById('btnTablaCaudales');
+  const abriendo = !contCaud.classList.contains('open');
+
+  contTend.classList.remove('open');
+  btnTend.classList.remove('activo');
+  contCaud.classList.toggle('open', abriendo);
+  btnCaud.classList.toggle('activo', abriendo);
+}
+
+// ============================================================
+// UTILIDADES DE FECHAS Y CONSULTAS INA
+// ============================================================
+function formatearFechaISO(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+
+function calcularRangoPuertos(dias) {
+  const hoy = new Date();
+  const desde = new Date();
+  desde.setDate(hoy.getDate() - dias);
+  return { timeStart: formatearFechaISO(desde), timeEnd: formatearFechaISO(hoy) };
+}
+
+// Cache del WFS para no consultar múltiples veces
+let cacheUltimasAlturas = null;
+
+async function cargarUltimasAlturasWFS() {
+  if (cacheUltimasAlturas) return cacheUltimasAlturas;
+  const respuesta = await fetch(URL_ULTIMAS_ALTURAS_WFS);
+  if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
+  const json = await respuesta.json();
+  if (!json.features || !Array.isArray(json.features)) {
+    throw new Error('Sin datos');
+  }
+  cacheUltimasAlturas = json.features;
+  return cacheUltimasAlturas;
+}
+
+async function consultarPuertoINA(nombrePuerto) {
+  const features = await cargarUltimasAlturasWFS();
+  const feature = features.find(f => {
+    const n = (f.properties && f.properties.nombre) || '';
+    return n.trim() === nombrePuerto;
+  });
+
+  if (!feature || !feature.properties) {
+    throw new Error('Estación no encontrada en la capa');
+  }
+
+  const props = feature.properties;
+  const valor = parseFloat(props.valor);
+  const valorPrev = props.valor_precedente != null ? parseFloat(props.valor_precedente) : null;
+
+  // Tendencia ya viene del INA: "crece", "baja", "permanece"
+  let tendencia, flecha;
+  const t = (props.tendencia || '').toLowerCase();
+  if (t === 'crece') { tendencia = 'sube'; flecha = '↗'; }
+  else if (t === 'baja') { tendencia = 'baja'; flecha = '↘'; }
+  else { tendencia = 'estable'; flecha = '—'; }
+
+  // Delta en cm (solo para mostrar)
+  let deltaCm = 0;
+  if (valorPrev != null && !isNaN(valorPrev)) {
+    deltaCm = Math.round((valor - valorPrev) * 100);
+  }
+
+  // Fecha (ISO completa)
+  const fechaISO = props.fecha ? props.fecha.slice(0, 10) : formatearFechaISO(new Date());
+
+  return {
+    altura: valor,
+    fecha: fechaISO,
+    delta: deltaCm / 100,
+    deltaCm: deltaCm,
+    tendencia,
+    flecha,
+    ok: true
+  };
+}
+
+function datosEjemploPuerto() {
+  const base = Math.random() * 3 + 0.5;
+  const diffCm = Math.floor(Math.random() * 20) - 10;
+  let tendencia, flecha;
+  if (diffCm > 1) { tendencia = 'sube'; flecha = '↗'; }
+  else if (diffCm < -1) { tendencia = 'baja'; flecha = '↘'; }
+  else { tendencia = 'estable'; flecha = '—'; }
+  return {
+    altura: base, fecha: formatearFechaISO(new Date()),
+    delta: diffCm / 100, deltaCm: diffCm,
+    tendencia, flecha, ok: true, ejemplo: true
+  };
+}
+
+function formatearFechaCortaPuerto(fechaISO) {
+  const [y, m, d] = fechaISO.split('-');
+  const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  return `${parseInt(d)} ${MESES[parseInt(m) - 1]} ${y}`;
+}
+
+function construirPopupHTML(puerto, datos) {
+  let textoDelta = '';
+  if (datos.tendencia === 'sube') textoDelta = `↑ +${Math.abs(datos.deltaCm)} cm`;
+  else if (datos.tendencia === 'baja') textoDelta = `↓ −${Math.abs(datos.deltaCm)} cm`;
+  else textoDelta = `— Sin cambios`;
+
+  return `
+    <div class="popup-puerto">
+      <div class="puerto-nombre">${puerto.nombre}</div>
+      <div class="puerto-valor">${datos.altura.toFixed(2).replace('.', ',')}<span class="unidad">m</span></div>
+      <div class="puerto-fecha">${datos.ejemplo ? 'Dato de ejemplo · ' : ''}${formatearFechaCortaPuerto(datos.fecha)}</div>
+      <div class="puerto-tendencia ${datos.tendencia}">${textoDelta}</div>
+    </div>
+  `;
+}
+
+async function cargarDatosPuertos(onProgreso) {
+  // Primero cargamos toda la capa WFS de una vez
+  const features = await cargarUltimasAlturasWFS();
+  const total = PUERTOS_PARANA.length;
+  const resultados = [];
+
+  for (let i = 0; i < PUERTOS_PARANA.length; i++) {
+    const puerto = PUERTOS_PARANA[i];
+    try {
+      const feature = features.find(f => {
+        const n = (f.properties && f.properties.nombre) || '';
+        return n.trim() === puerto.nombre;
+      });
+
+      if (!feature) throw new Error('No encontrada');
+
+      const props = feature.properties;
+      const valor = parseFloat(props.valor);
+      const valorPrev = props.valor_precedente != null ? parseFloat(props.valor_precedente) : null;
+
+      let tendencia, flecha;
+      const t = (props.tendencia || '').toLowerCase();
+      if (t === 'crece') { tendencia = 'sube'; flecha = '↗'; }
+      else if (t === 'baja') { tendencia = 'baja'; flecha = '↘'; }
+      else { tendencia = 'estable'; flecha = '—'; }
+
+      let deltaCm = 0;
+      if (valorPrev != null && !isNaN(valorPrev)) {
+        deltaCm = Math.round((valor - valorPrev) * 100);
+      }
+
+      const fechaISO = props.fecha ? props.fecha.slice(0, 10) : formatearFechaISO(new Date());
+
+      resultados.push({
+        puerto,
+        datos: {
+          altura: valor,
+          fecha: fechaISO,
+          delta: deltaCm / 100,
+          deltaCm: deltaCm,
+          tendencia,
+          flecha,
+          ok: true
+        }
+      });
+    } catch (err) {
+      console.warn(`Error con ${puerto.nombre}:`, err.message);
+      const datos = datosEjemploPuerto();
+      datos.error = true;
+      resultados.push({ puerto, datos });
+    }
+
+    onProgreso(i + 1, total);
+  }
+
+  return resultados;
+}
+
+// ============================================================
+// RENDER DE LA TABLA DE VARIACIÓN 24 HS
+// ============================================================
+function renderTablaTendencia(datosPuertos) {
+  const tbody = document.getElementById('tbodyTendencia');
+  if (!tbody) return;
+
+  if (!datosPuertos || datosPuertos.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Datos no disponibles temporalmente</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = datosPuertos.map(({ puerto, datos }) => {
+    const esSantaFe = puerto.nombre === 'Santa Fe';
+    let deltaTexto;
+    if (datos.deltaCm > 0) deltaTexto = `+${datos.deltaCm} cm`;
+    else if (datos.deltaCm < 0) deltaTexto = `${datos.deltaCm} cm`;
+    else deltaTexto = '0 cm';
+
+    return `
+      <tr${esSantaFe ? ' class="destacada"' : ''}>
+        <td class="estacion-nombre">${puerto.nombre}</td>
+        <td class="tend-celda"><span class="circulo-tend ${datos.tendencia}">${datos.flecha}</span></td>
+        <td class="delta ${datos.tendencia}">${deltaTexto}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// RENDER DE LA TABLA DE CAUDAL
+// ============================================================
+async function cargarDatosCaudales() {
+  const tbody = document.getElementById('tbodyCaudales');
+  const nota = document.getElementById('notaCaudales');
+  if (!tbody) return;
+
+  try {
+    const respuesta = await fetch(URL_CAUDALES_WFS);
+    if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
+    const json = await respuesta.json();
+    if (!json.features || !Array.isArray(json.features)) {
+      throw new Error('Sin features');
+    }
+
+    const mapaNombres = {};
+    CAUDALES_ESTACIONES.forEach(e => { mapaNombres[e.nombreINA] = e; });
+
+    const filas = [];
+    let caudalSantaFeActual = null;
+
+    CAUDALES_ESTACIONES.forEach(est => {
+      const feature = json.features.find(f => {
+        const nombre = f.properties && f.properties.nombre;
+        return nombre && nombre.trim() === est.nombreINA;
+      });
+
+      if (feature && feature.properties) {
+        const props = feature.properties;
+        const valor = parseFloat(props.valor);
+        const valorPrev = props.valor_precedente != null ? parseFloat(props.valor_precedente) : null;
+        const tendenciaRaw = props.tendencia || 'permanece';
+        let tendencia, flecha;
+        if (tendenciaRaw === 'crece') { tendencia = 'sube'; flecha = '↗'; }
+        else if (tendenciaRaw === 'baja') { tendencia = 'baja'; flecha = '↘'; }
+        else { tendencia = 'estable'; flecha = '—'; }
+
+        let delta = null;
+        if (valorPrev != null && !isNaN(valorPrev)) {
+          delta = Math.round(valor - valorPrev);
+        }
+
+        if (est.nombreINA === 'Santa Fe') {
+          caudalSantaFeActual = valor;
+        }
+
+        filas.push({
+          display: est.display,
+          valor: valor,
+          valorPrev: valorPrev,
+          delta: delta,
+          tendencia, flecha,
+          esSantaFe: est.nombreINA === 'Santa Fe'
+        });
+      } else {
+        // No se encontró la estación
+        filas.push({
+          display: est.display,
+          valor: null,
+          valorPrev: null,
+          delta: null,
+          tendencia: null, flecha: null,
+          esSantaFe: est.nombreINA === 'Santa Fe',
+          error: true
+        });
+      }
+    });
+
+    // Render de la tabla
+    tbody.innerHTML = filas.map(fila => {
+      const claseDestacada = fila.esSantaFe ? ' class="destacada"' : '';
+      if (fila.error || fila.valor === null) {
+        return `
+          <tr${claseDestacada}>
+            <td class="estacion-nombre">${fila.display}</td>
+            <td class="valor-num" colspan="3" style="text-align:center; color:var(--muted); font-size:0.75rem;">Sin datos</td>
+          </tr>
+        `;
+      }
+      const valorFormateado = Math.round(fila.valor).toLocaleString('es-AR');
+      const deltaTexto = fila.delta != null
+        ? (fila.delta > 0 ? `+${fila.delta.toLocaleString('es-AR')}` : fila.delta.toLocaleString('es-AR'))
+        : '—';
+      return `
+        <tr${claseDestacada}>
+          <td class="estacion-nombre">${fila.display}</td>
+          <td class="valor-num">${valorFormateado}<span class="unidad">m³/s</span></td>
+          <td class="tend-celda"><span class="flecha-simple ${fila.tendencia}">${fila.flecha}</span></td>
+          <td class="delta ${fila.tendencia}">${deltaTexto}</td>
+        </tr>
+      `;
+    }).join('');
+
+    // Actualizar bloque de comparación 2016
+    actualizarComparacion2016(caudalSantaFeActual);
+
+  } catch (err) {
+    console.warn('Error cargando caudales:', err.message);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" style="text-align:center; color:var(--muted); padding:20px; font-size:0.78rem;">
+          Datos no disponibles temporalmente
+        </td>
+      </tr>
+    `;
+    // Bloque de comparación con mensaje alternativo
+    const textoComp = document.getElementById('textoComparacion');
+    if (textoComp) {
+      textoComp.innerHTML = '<span style="color:#78350f; opacity:0.8;">No hay datos actualizados por el momento.</span>';
+    }
+  }
+}
+
+// ============================================================
+// ACTUALIZAR BLOQUE DE COMPARACIÓN 2016
+// ============================================================
+function actualizarComparacion2016(caudalSantaFe) {
+  const textoComp = document.getElementById('textoComparacion');
+  if (!textoComp) return;
+
+  // Si no hay dato, usar respaldo
+  const caudalUsar = (caudalSantaFe != null && !isNaN(caudalSantaFe) && caudalSantaFe > 0)
+    ? caudalSantaFe
+    : CAUDAL_SANTAFE_RESPALDO;
+
+  const caudalRedondeado = Math.round(caudalUsar);
+  const caudalFormateado = caudalRedondeado.toLocaleString('es-AR');
+
+  const diff = CAUDAL_PICO_2016 - caudalUsar;
+  const porcentaje = Math.round((Math.abs(diff) / caudalUsar) * 100);
+
+  if (caudalUsar >= CAUDAL_PICO_2016 * 0.95 && caudalUsar <= CAUDAL_PICO_2016 * 1.05) {
+    // Cerca del pico
+    textoComp.innerHTML = `
+      El caudal actual (<strong>${caudalFormateado} m³/s</strong>) está en un nivel
+      <span class="porcentaje">similar al pico de la crecida de 2016</span>.
+      Un evento de esta magnitud no se registra desde entonces.
+    `;
+  } else if (caudalUsar > CAUDAL_PICO_2016 * 1.05) {
+    // Supera el pico
+    textoComp.innerHTML = `
+      El caudal actual (<strong>${caudalFormateado} m³/s</strong>) supera en
+      <span class="porcentaje">${porcentaje}%</span>
+      al pico de la crecida de 2016 (27.445 m³/s).
+      <strong>Un evento de esta magnitud no tiene precedentes recientes.</strong>
+    `;
+  } else {
+    // Menor que el pico (caso normal)
+    textoComp.innerHTML = `
+      En el pico de la crecida de 2016, el caudal en Santa Fe superó
+      <strong>los 27.000 m³/s</strong>, un
+      <span class="porcentaje">${porcentaje}% más</span>
+      que el caudal actual (${caudalFormateado} m³/s).
+    `;
+  }
+}
+
+// ============================================================
+// CREAR MAPA — MAPLIBRE (PC)
+// ============================================================
+function crearMapaPuertosMapLibre() {
+  if (typeof maplibregl === 'undefined') {
+    console.error('MapLibre no está cargado');
+    return;
+  }
+
+  const cargador = document.getElementById('cargadorPuertos');
+  const textoCarga = document.getElementById('cargadorTexto');
+  const barraProgreso = document.getElementById('barraProgreso');
+
+  if (cargador) cargador.classList.remove('oculto');
+
+  mapaPuertos = new maplibregl.Map({
+    container: 'mapa-puertos-full',
+    style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+    center: [-58.5, -29.5],
+    zoom: 5,
+    attributionControl: true
+  });
+
+  mapaPuertos.on('load', async () => {
+    const resultados = await cargarDatosPuertos((comp, tot) => {
+      const pct = (comp / tot) * 100;
+      if (barraProgreso) barraProgreso.style.width = pct + '%';
+      if (textoCarga) textoCarga.textContent = `Cargando estaciones... ${comp} de ${tot}`;
+    });
+
+    resultados.forEach(({ puerto, datos }) => {
+      agregarMarcadorMapLibre(puerto, datos);
+    });
+
+    // Guardar datos para la tabla
+    datosPuertosCargados = resultados;
+    renderTablaTendencia(resultados);
+
+    const bounds = new maplibregl.LngLatBounds();
+    PUERTOS_PARANA.forEach(p => bounds.extend([p.lng, p.lat]));
+    mapaPuertos.fitBounds(bounds, {
+      padding: { top: 60, bottom: 60, left: 50, right: 50 },
+      duration: 0,
+      maxZoom: 6.2
+    });
+
+    if (cargador) cargador.classList.add('oculto');
+
+    mapaPuertos.resize();
+    setTimeout(() => { if (mapaPuertos) mapaPuertos.resize(); }, 300);
+  });
+
+  mapaPuertos.on('error', (e) => {
+    console.error('Error en mapa de puertos (MapLibre):', e.error);
+  });
+
+  // Cargar caudales en paralelo
+  cargarDatosCaudales();
+}
+
+function agregarMarcadorMapLibre(puerto, datos) {
+  const el = document.createElement('div');
+  el.className = 'marcador-puerto';
+  el.innerHTML = `
+    <div class="circulo ${datos.tendencia}">${datos.flecha}</div>
+    <div class="nombre">${puerto.nombre}</div>
+  `;
+
+  const popupHTML = construirPopupHTML(puerto, datos);
+
+  const popup = new maplibregl.Popup({
+    offset: 25, closeButton: true, closeOnClick: true
+  }).setHTML(popupHTML);
+
+  const marker = new maplibregl.Marker({ element: el, anchor: 'top' })
+    .setLngLat([puerto.lng, puerto.lat])
+    .setPopup(popup)
+    .addTo(mapaPuertos);
+
+  marcadoresPuertos.push({ puerto, datos, marker });
+}
+
+// ============================================================
+// CREAR MAPA — LEAFLET (Móvil)
+// ============================================================
+function crearMapaPuertosLeaflet() {
+  if (typeof L === 'undefined') {
+    console.error('Leaflet no está cargado');
+    return;
+  }
+
+  const cargador = document.getElementById('cargadorPuertos');
+  const textoCarga = document.getElementById('cargadorTexto');
+  const barraProgreso = document.getElementById('barraProgreso');
+
+  if (cargador) cargador.classList.remove('oculto');
+
+  mapaPuertos = L.map('mapa-puertos-full', {
+    center: [-29.5, -58.5],
+    zoom: 5,
+    zoomControl: true,
+    attributionControl: true
+  });
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(mapaPuertos);
+
+  setTimeout(() => mapaPuertos.invalidateSize(), 100);
+
+  (async () => {
+    const resultados = await cargarDatosPuertos((comp, tot) => {
+      const pct = (comp / tot) * 100;
+      if (barraProgreso) barraProgreso.style.width = pct + '%';
+      if (textoCarga) textoCarga.textContent = `Cargando estaciones... ${comp} de ${tot}`;
+    });
+
+    resultados.forEach(({ puerto, datos }) => {
+      agregarMarcadorLeaflet(puerto, datos);
+    });
+
+    datosPuertosCargados = resultados;
+    renderTablaTendencia(resultados);
+
+    if (marcadoresPuertos.length > 0) {
+      const grupo = L.featureGroup(marcadoresPuertos.map(m => m.marker));
+      mapaPuertos.fitBounds(grupo.getBounds(), {
+        padding: [40, 40],
+        maxZoom: 6.2
+      });
+    }
+
+    if (cargador) cargador.classList.add('oculto');
+
+    mapaPuertos.invalidateSize();
+    setTimeout(() => { if (mapaPuertos) mapaPuertos.invalidateSize(); }, 300);
+  })();
+
+  // Cargar caudales en paralelo
+  cargarDatosCaudales();
+}
+
+function agregarMarcadorLeaflet(puerto, datos) {
+  const htmlIcono = `
+    <div class="marcador-puerto">
+      <div class="circulo ${datos.tendencia}">${datos.flecha}</div>
+      <div class="nombre">${puerto.nombre}</div>
+    </div>
+  `;
+
+  const icono = L.divIcon({
+    html: htmlIcono,
+    className: 'leaflet-marcador-puerto',
+    iconSize: [80, 60],
+    iconAnchor: [40, 32]
+  });
+
+  const popupHTML = construirPopupHTML(puerto, datos);
+
+  const marker = L.marker([puerto.lat, puerto.lng], { icon: icono })
+    .addTo(mapaPuertos)
+    .bindPopup(popupHTML, {
+      offset: [0, -30],
+      closeButton: true,
+      autoPan: true
+    });
+
+  marcadoresPuertos.push({ puerto, datos, marker });
+}
 
 // ============================================================
 // DATOS HISTÓRICOS
@@ -1753,53 +3036,38 @@ let pronosticoActual = null;
 // ============================================================
 // UTILIDADES
 // ============================================================
-function formatearFechaISO(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-}
-
-function calcularRango(dias) {
-  const hoy = new Date();
-  const desde = new Date();
-  desde.setDate(hoy.getDate() - dias);
-  return { timeStart: formatearFechaISO(desde), timeEnd: formatearFechaISO(hoy) };
-}
-
-function construirURL(periodo) {
-  const r = calcularRango(periodo);
-  return `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${r.timeStart}&timeEnd=${r.timeEnd}&seriesId=${SERIES_ID}&siteCode=${SITE_CODE}&varId=${VAR_ID}&format=json`;
-}
-
 function formatearFechaLarga(fechaISO) {
   const [y, m, d] = fechaISO.split('-');
   const MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   return `${parseInt(d)} de ${MESES[parseInt(m) - 1]} de ${y}`;
 }
 
-function formatearFechaCorta(fechaISO) {
+function formatearFechaCortaGeneral(fechaISO) {
   const [y, m, d] = fechaISO.split('-');
   const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   return `${parseInt(d)} ${MESES[parseInt(m) - 1]} ${y}`;
 }
 
-// ============================================================
-// SUBTÍTULO DINÁMICO DE LA SERIE
-// ============================================================
+function calcularEtiquetaDia(fechaISO) {
+  const fechaRegistro = new Date(fechaISO + 'T00:00:00');
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const diffMs = hoy - fechaRegistro;
+  const diffDias = Math.round(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDias === 0) return 'HOY';
+  if (diffDias === 1) return 'AYER';
+  return '';
+}
+
 function actualizarSubtituloSerie() {
   const sub = document.getElementById('tabla-subtitulo');
   if (!sub) return;
-
   let texto = '';
-
-  if (tipoActual === 'crecida') {
-    texto = 'Registro de creciente 2015-2016';
-  } else if (tipoActual === 'bajante') {
-    texto = 'Registro de bajante 2021-2022';
-  } else {
+  if (tipoActual === 'crecida') texto = 'Registro de creciente 2015-2016';
+  else if (tipoActual === 'bajante') texto = 'Registro de bajante 2021-2022';
+  else {
     switch (periodoActual) {
-      case 365: texto = 'Registros del último año'; break;
+      case 365: texto = 'Registros de los últimos 12 meses'; break;
       case 180: texto = 'Registros de los últimos 6 meses'; break;
       case 90:  texto = 'Registros de los últimos 3 meses'; break;
       case 30:  texto = 'Registros de los últimos 30 días'; break;
@@ -1807,12 +3075,80 @@ function actualizarSubtituloSerie() {
       default:  texto = `Registros de los últimos ${periodoActual} días`;
     }
   }
-
   sub.textContent = texto;
 }
 
+function renderResumenSerie() {
+  const card = document.getElementById('resumen-serie');
+  if (!card) return;
+  if (tipoActual === 'crecida' || tipoActual === 'bajante') {
+    card.classList.remove('visible'); card.innerHTML = ''; return;
+  }
+  if (!registros || registros.length < 2) {
+    card.classList.remove('visible'); card.innerHTML = ''; return;
+  }
+  const alturas = registros.map(r => r.altura);
+  const primero = alturas[0];
+  const ultimo = alturas[alturas.length - 1];
+  const max = Math.max(...alturas);
+  const min = Math.min(...alturas);
+  const promedio = alturas.reduce((a, b) => a + b, 0) / alturas.length;
+  const diffTotal = ultimo - primero;
+  const rango = max - min;
+  const diffAbs = Math.abs(diffTotal);
+  let comportamiento;
+  if (diffAbs <= 0.03) {
+    if (rango <= 0.05) comportamiento = 'estable';
+    else comportamiento = 'oscilo';
+  } else if (diffTotal > 0) {
+    if (rango > diffAbs * 3 && rango > 0.30) comportamiento = 'oscilo';
+    else comportamiento = 'subio';
+  } else {
+    if (rango > diffAbs * 3 && rango > 0.30) comportamiento = 'oscilo';
+    else comportamiento = 'bajo';
+  }
+  let etiquetaPeriodo = '';
+  switch (periodoActual) {
+    case 365: etiquetaPeriodo = 'En los últimos 12 meses'; break;
+    case 180: etiquetaPeriodo = 'En los últimos 6 meses'; break;
+    case 90:  etiquetaPeriodo = 'En los últimos 3 meses'; break;
+    case 30:  etiquetaPeriodo = 'En los últimos 30 días'; break;
+    case 10:  etiquetaPeriodo = 'En los últimos 10 días'; break;
+    default:  etiquetaPeriodo = `En los últimos ${periodoActual} días`;
+  }
+  function formatearDiff(diff) {
+    const abs = Math.abs(diff);
+    if (abs < 1) return `${Math.round(abs * 100)} cm`;
+    else return `${abs.toFixed(2).replace('.', ',')} m`;
+  }
+  let textoResumen = '';
+  let mostrarPromedio = false;
+  if (comportamiento === 'subio') {
+    textoResumen = `${etiquetaPeriodo} el nivel del río <strong class="rojo">subió ${formatearDiff(diffTotal)}</strong> en el Puerto de Santa Fe.`;
+  } else if (comportamiento === 'bajo') {
+    textoResumen = `${etiquetaPeriodo} el nivel del río <strong class="verde">bajó ${formatearDiff(diffTotal)}</strong> en el Puerto de Santa Fe.`;
+  } else if (comportamiento === 'estable') {
+    textoResumen = `${etiquetaPeriodo} el nivel del río se mantuvo <strong>estable</strong>, con variaciones menores a <strong>${formatearDiff(rango)}</strong>.`;
+  } else {
+    textoResumen = `${etiquetaPeriodo} el nivel del río <strong class="amarillo">osciló</strong> entre <strong>${min.toFixed(2).replace('.', ',')} m</strong> y <strong>${max.toFixed(2).replace('.', ',')} m</strong>.`;
+    mostrarPromedio = true;
+  }
+  if (periodoActual >= 90) mostrarPromedio = true;
+  let html = `<p class="texto-resumen">${textoResumen}</p>`;
+  if (mostrarPromedio) {
+    html += `
+      <div class="linea-promedio">
+        <span>Promedio del período</span>
+        <strong>${promedio.toFixed(2).replace('.', ',')} m</strong>
+      </div>
+    `;
+  }
+  card.innerHTML = html;
+  card.classList.add('visible');
+}
+
 // ============================================================
-// SELECTOR DE SERIES (panel desplegable)
+// SELECTOR
 // ============================================================
 function toggleSelector(e) {
   if (e) e.stopPropagation();
@@ -1821,69 +3157,41 @@ function toggleSelector(e) {
   btn.classList.toggle('abierto');
   panel.classList.toggle('abierto');
 }
-
 function cerrarSelector() {
   document.getElementById('btnSelector').classList.remove('abierto');
   document.getElementById('panelSelector').classList.remove('abierto');
 }
-
 function elegirOpcion(el) {
-  // Marcar como activo
   document.querySelectorAll('#panelSelector .opcion').forEach(o => o.classList.remove('activo'));
   el.classList.add('activo');
-
-  // Actualizar texto del botón
   document.getElementById('btnSelectorTexto').textContent = el.textContent;
-
-  // Cerrar panel
   cerrarSelector();
-
-  // Determinar qué tipo de opción se eligió
   const tipo = el.dataset.tipo;
   const dias = el.dataset.dias;
-
-  if (tipo === 'crecida' || tipo === 'bajante') {
-    seleccionarHistorico(tipo);
-  } else if (dias) {
-    seleccionarPeriodo(parseInt(dias));
-  }
+  if (tipo === 'crecida' || tipo === 'bajante') seleccionarHistorico(tipo);
+  else if (dias) seleccionarPeriodo(parseInt(dias));
 }
-
-// Cerrar panel al tocar afuera
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.selector-series-wrapper')) {
-    cerrarSelector();
-  }
+  if (!e.target.closest('.selector-series-wrapper')) cerrarSelector();
 });
 
-// ============================================================
-// SELECCIÓN DE PERÍODO / HISTÓRICO
-// ============================================================
 function seleccionarPeriodo(dias) {
   tipoActual = 'actual';
   periodoActual = dias;
   ultimoPeriodoActual = dias;
-
-  // Reactivar pronóstico al volver a un período actual
   document.getElementById('prono-btn').classList.remove('deshabilitado');
-
   actualizarSubtituloSerie();
   cargarDatos();
 }
-
 function seleccionarHistorico(tipo) {
   tipoActual = tipo;
-
   document.getElementById('contexto').textContent =
     tipo === 'crecida' ? 'Viendo: Creciente histórica 2015-2016' : 'Viendo: Bajante histórica 2021-2022';
-
-  // CAMBIO CRÍTICO: al elegir histórico, desactivar el pronóstico INA
   document.getElementById('pronostico-card').style.display = 'none';
   document.getElementById('prono-btn').classList.add('deshabilitado');
   document.getElementById('prono-btn').classList.remove('activo');
   document.getElementById('leyenda-prono').style.display = 'none';
   mostrarPronostico = false;
-
   actualizarSubtituloSerie();
   cargarDatos();
 }
@@ -1892,45 +3200,31 @@ function seleccionarHistorico(tipo) {
 // CARGA DE DATOS
 // ============================================================
 async function cargarDatos() {
-  if (tipoActual === 'actual') {
-    await cargarDesdeINA(periodoActual);
-  } else {
-    cargarDesdeHistorico(tipoActual);
-  }
+  if (tipoActual === 'actual') await cargarDesdeINA(periodoActual);
+  else cargarDesdeHistorico(tipoActual);
   cargarPronostico();
 }
-
 async function cargarDesdeINA(periodo) {
   mostrarCargando();
-
   try {
-    const url = construirURL(periodo);
+    const r = calcularRangoPuertos(periodo);
+    const url = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${r.timeStart}&timeEnd=${r.timeEnd}&seriesId=${SERIES_ID}&siteCode=${SITE_CODE}&varId=${VAR_ID}&format=json`;
     const respuesta = await fetch(url);
     if (!respuesta.ok) throw new Error(`El servidor respondió con error ${respuesta.status}`);
     const json = await respuesta.json();
-    if (!json.data || !Array.isArray(json.data) || json.data.length === 0) {
-      throw new Error('La respuesta no contiene datos.');
-    }
-
+    if (!json.data || !Array.isArray(json.data) || json.data.length === 0) throw new Error('La respuesta no contiene datos.');
     registros = json.data.map(d => ({
       fecha: d.timestart.slice(0, 10),
       altura: parseFloat(d.valor)
     })).sort((a, b) => a.fecha.localeCompare(b.fecha));
-
     mostrarContenido();
     renderTodo();
-  } catch (err) {
-    mostrarError(err.message);
-  }
+  } catch (err) { mostrarError(err.message); }
 }
-
 function cargarDesdeHistorico(tipo) {
   mostrarCargando();
   registros = tipo === 'crecida' ? [...CRECIDA_2016] : [...BAJANTE_2021];
-  setTimeout(() => {
-    mostrarContenido();
-    renderTodo();
-  }, 200);
+  setTimeout(() => { mostrarContenido(); renderTodo(); }, 200);
 }
 
 // ============================================================
@@ -1942,9 +3236,7 @@ async function cargarPronostico() {
     const respuesta = await fetch(url);
     if (!respuesta.ok) throw new Error('Error HTTP ' + respuesta.status);
     const json = await respuesta.json();
-
     if (!json.features || json.features.length === 0) throw new Error('Sin datos');
-
     const props = json.features[0].properties;
     pronosticoActual = {
       emision: props.fecha_hoy.slice(0, 10),
@@ -1965,47 +3257,36 @@ async function cargarPronostico() {
     console.warn('Usando pronóstico de respaldo:', err.message);
     pronosticoActual = PRONOSTICO_RESPALDO;
   }
-
   const esHistorico = (tipoActual === 'crecida' || tipoActual === 'bajante');
-  if (!esHistorico) {
-    renderPronosticoCard(pronosticoActual);
-  }
+  if (!esHistorico) renderPronosticoCard(pronosticoActual);
   if (mostrarPronostico) renderGrafico();
 }
-
 function renderPronosticoCard(p) {
   const card = document.getElementById('pronostico-card');
   const cont = document.getElementById('pronostico-contenido');
-
   cont.innerHTML = `
     <div class="linea-pron">
-      <span class="fecha-pron">${formatearFechaCorta(p.pronostico.fecha)}</span>
+      <span class="fecha-pron">${formatearFechaCortaGeneral(p.pronostico.fecha)}</span>
       <span class="valor-pron">${p.pronostico.valor.toFixed(2)} m</span>
     </div>
     <div class="linea-pron">
-      <span class="fecha-pron">${formatearFechaCorta(p.tendencia.fecha)}</span>
+      <span class="fecha-pron">${formatearFechaCortaGeneral(p.tendencia.fecha)}</span>
       <span class="valor-pron">${p.tendencia.valor.toFixed(2)} m</span>
     </div>
     <div class="rango-pron">
       <strong>Rango estimado:</strong> ${p.pronostico.min.toFixed(2)} – ${p.pronostico.max.toFixed(2)} m
     </div>
   `;
-
   document.getElementById('pronostico-emision').textContent =
     `Emisión: ${formatearFechaLarga(p.emision)}`;
-
   const esHistorico = (tipoActual === 'crecida' || tipoActual === 'bajante');
   card.style.display = esHistorico ? 'none' : 'block';
 }
-
 function togglePronostico() {
   if (tipoActual === 'crecida' || tipoActual === 'bajante') return;
-
   mostrarPronostico = !mostrarPronostico;
-
   const btn = document.getElementById('prono-btn');
   const leyenda = document.getElementById('leyenda-prono');
-
   if (mostrarPronostico) {
     btn.classList.add('activo');
     leyenda.style.display = 'flex';
@@ -2013,7 +3294,6 @@ function togglePronostico() {
     btn.classList.remove('activo');
     leyenda.style.display = 'none';
   }
-
   renderGrafico();
 }
 
@@ -2025,7 +3305,6 @@ function mostrarCargando() {
   document.getElementById('error').style.display = 'none';
   document.getElementById('contenido').style.display = 'none';
 }
-
 function mostrarError(mensaje) {
   const div = document.getElementById('error');
   div.innerHTML = `<strong>No se pudieron cargar los datos</strong><br>${mensaje}<br><br><small>Verificá tu conexión a internet. Si el problema persiste, es posible que el servidor del INA esté temporalmente fuera de servicio.</small>`;
@@ -2033,7 +3312,6 @@ function mostrarError(mensaje) {
   document.getElementById('cargando').style.display = 'none';
   document.getElementById('contenido').style.display = 'none';
 }
-
 function mostrarContenido() {
   document.getElementById('cargando').style.display = 'none';
   document.getElementById('error').style.display = 'none';
@@ -2045,6 +3323,7 @@ function mostrarContenido() {
 // ============================================================
 function renderTodo() {
   renderTarjetaSuperior();
+  renderResumenSerie();
   renderGrafico();
   renderTabla();
   renderPillsRiesgo();
@@ -2054,39 +3333,24 @@ function renderTodo() {
 
 function renderTarjetaSuperior() {
   const tarjeta = document.getElementById('tarjeta-superior');
-
   if (tipoActual === 'crecida' || tipoActual === 'bajante') {
     const esCrecida = tipoActual === 'crecida';
     const valores = registros.map(r => r.altura);
     const extremo = esCrecida ? Math.max(...valores) : Math.min(...valores);
     const registroExtremo = registros.find(r => r.altura === extremo);
     const ignExtremo = extremo + CERO_ESCALA;
-
     const diasEvac = registros.filter(r => r.altura >= UMBRAL_EVACUACION).length;
     const diasNegativos = registros.filter(r => r.altura < 0).length;
     const diasAguasBajas = registros.filter(r => r.altura < NIVEL_AGUAS_BAJAS).length;
-
     let contextoHTML = '';
     if (esCrecida) {
-      contextoHTML = `
-        <div class="linea-contexto">
-          <span>Días superando la evacuación:</span>
-          <span class="num">${diasEvac}</span>
-        </div>
-      `;
+      contextoHTML = `<div class="linea-contexto"><span>Días superando la evacuación:</span><span class="num">${diasEvac}</span></div>`;
     } else {
       contextoHTML = `
-        <div class="linea-contexto">
-          <span>Días con valores negativos:</span>
-          <span class="num">${diasNegativos}</span>
-        </div>
-        <div class="linea-contexto">
-          <span>Días bajo aguas bajas (${NIVEL_AGUAS_BAJAS.toFixed(2)} m):</span>
-          <span class="num">${diasAguasBajas}</span>
-        </div>
+        <div class="linea-contexto"><span>Días con valores negativos:</span><span class="num">${diasNegativos}</span></div>
+        <div class="linea-contexto"><span>Días bajo aguas bajas (${NIVEL_AGUAS_BAJAS.toFixed(2)} m):</span><span class="num">${diasAguasBajas}</span></div>
       `;
     }
-
     tarjeta.className = 'card ultimo-hist';
     tarjeta.innerHTML = `
       <div class="label">${esCrecida ? 'Máximo de la creciente' : 'Mínimo de la bajante'}</div>
@@ -2097,59 +3361,46 @@ function renderTarjetaSuperior() {
     `;
     return;
   }
-
   tarjeta.className = 'card ultimo';
-
   const ultimo = registros[registros.length - 1];
   const anterior = registros[registros.length - 2];
   const ignUltimo = ultimo.altura + CERO_ESCALA;
-
   const diffMetros = anterior ? (ultimo.altura - anterior.altura) : 0;
   const diffCm = Math.round(diffMetros * 100);
-
   let flechaTexto = '≈';
   let flechaClase = 'estable';
   let tendTexto = 'Estable';
   let valorCambio = '0 cm';
-
   if (diffCm > 1) {
-    flechaTexto = '↗';
-    flechaClase = '';
-    tendTexto = 'En ascenso';
-    valorCambio = `+${diffCm} cm`;
+    flechaTexto = '↗'; flechaClase = ''; tendTexto = 'En ascenso'; valorCambio = `+${diffCm} cm`;
   } else if (diffCm < -1) {
-    flechaTexto = '↘';
-    flechaClase = '';
-    tendTexto = 'En descenso';
-    valorCambio = `−${Math.abs(diffCm)} cm`;
+    flechaTexto = '↘'; flechaClase = ''; tendTexto = 'En descenso'; valorCambio = `−${Math.abs(diffCm)} cm`;
   }
-
   let estadoClase = 'normal';
   let estadoTexto = 'Normal';
   let estadoIcono = '✓';
   if (ultimo.altura >= UMBRAL_EVACUACION) {
-    estadoClase = 'evacuacion';
-    estadoTexto = 'Evacuación';
-    estadoIcono = '!';
+    estadoClase = 'evacuacion'; estadoTexto = 'Evacuación'; estadoIcono = '!';
   } else if (ultimo.altura >= UMBRAL_ALERTA) {
-    estadoClase = 'alerta';
-    estadoTexto = 'Alerta';
-    estadoIcono = '!';
+    estadoClase = 'alerta'; estadoTexto = 'Alerta'; estadoIcono = '!';
   }
-
+  const etiquetaDia = calcularEtiquetaDia(ultimo.fecha);
   tarjeta.innerHTML = `
     <div class="ultimo-izq">
       <div class="titulo-bloque">Último registro</div>
-      <div class="icono-olas">
-        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 10c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
-          <path d="M2 18c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
-          <path d="M2 26c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
-        </svg>
+      <div class="fila-icono-dia">
+        <div class="icono-olas">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 10c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
+            <path d="M2 18c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
+            <path d="M2 26c3 0 3 3 6 3s3-3 6-3 3 3 6 3 3-3 6-3 3 3 6 3"/>
+          </svg>
+        </div>
+        ${etiquetaDia ? `<div class="etiqueta-dia">${etiquetaDia}</div>` : ''}
       </div>
       <div>
         <div class="valor">${ultimo.altura.toFixed(2)}<span class="unidad">m</span></div>
-        <div class="fecha">${formatearFechaCorta(ultimo.fecha)}</div>
+        <div class="fecha">${formatearFechaCortaGeneral(ultimo.fecha)}</div>
       </div>
       <div class="ign">Nivel IGN <strong>${ignUltimo.toFixed(2)} m</strong></div>
     </div>
@@ -2173,8 +3424,21 @@ function renderPillsRiesgo() {
   const diasAlerta = registros.filter(r => r.altura >= UMBRAL_ALERTA).length;
   const diasEvac = registros.filter(r => r.altura >= UMBRAL_EVACUACION).length;
 
+  const pillAlerta = document.querySelector('.pill-riesgo.alerta');
+  const pillEvac = document.querySelector('.pill-riesgo.evacuacion');
+
   document.getElementById('pill-dias-alerta').textContent = diasAlerta;
   document.getElementById('pill-dias-evacuacion').textContent = diasEvac;
+
+  // Si el valor es 0, mostrarlo en gris neutro
+  if (pillAlerta) {
+    if (diasAlerta === 0) pillAlerta.classList.add('cero');
+    else pillAlerta.classList.remove('cero');
+  }
+  if (pillEvac) {
+    if (diasEvac === 0) pillEvac.classList.add('cero');
+    else pillEvac.classList.remove('cero');
+  }
 }
 
 function renderBannerTerraplenes() {
@@ -2182,82 +3446,53 @@ function renderBannerTerraplenes() {
   const titulo = document.getElementById('banner-titulo');
   const valorEl = document.getElementById('banner-valor-libre');
   const detalleEl = document.getElementById('banner-detalle');
-
   if (!mostrarTerraplenes || registros.length === 0) {
     banner.classList.remove('visible');
     banner.classList.remove('normal', 'alerta', 'evacuacion', 'superado');
     return;
   }
-
   let valorReferencia;
   let etiquetaValor;
-
   if (tipoActual === 'crecida') {
-    const valores = registros.map(r => r.altura);
-    valorReferencia = Math.max(...valores);
+    valorReferencia = Math.max(...registros.map(r => r.altura));
     etiquetaValor = 'Nivel máximo de la creciente';
   } else if (tipoActual === 'bajante') {
-    const valores = registros.map(r => r.altura);
-    valorReferencia = Math.min(...valores);
+    valorReferencia = Math.min(...registros.map(r => r.altura));
     etiquetaValor = 'Nivel mínimo de la bajante';
   } else {
     valorReferencia = registros[registros.length - 1].altura;
     etiquetaValor = 'Nivel actual';
   }
-
   const ignRef = valorReferencia + CERO_ESCALA;
   const libre = TERRAPLEN_IGN_MAX - ignRef;
-
-  if (libre > 0) {
-    valorEl.textContent = `${libre.toFixed(2)} m libres`;
-  } else {
-    valorEl.textContent = `Superado por ${Math.abs(libre).toFixed(2)} m`;
-  }
-
+  if (libre > 0) valorEl.textContent = `${libre.toFixed(2)} m libres`;
+  else valorEl.textContent = `Superado por ${Math.abs(libre).toFixed(2)} m`;
   detalleEl.textContent = `${etiquetaValor}: ${ignRef.toFixed(2)} m IGN · Coronamiento: ${TERRAPLEN_IGN_MAX.toFixed(2)} m IGN`;
-
   let estado;
-  if (libre < 0) {
-    estado = 'superado';
-  } else if (valorReferencia >= UMBRAL_EVACUACION) {
-    estado = 'evacuacion';
-  } else if (valorReferencia >= UMBRAL_ALERTA) {
-    estado = 'alerta';
-  } else {
-    estado = 'normal';
-  }
-
+  if (libre < 0) estado = 'superado';
+  else if (valorReferencia >= UMBRAL_EVACUACION) estado = 'evacuacion';
+  else if (valorReferencia >= UMBRAL_ALERTA) estado = 'alerta';
+  else estado = 'normal';
   banner.classList.remove('normal', 'alerta', 'evacuacion', 'superado');
   banner.classList.add(estado);
-
-  if (estado === 'superado') {
-    titulo.textContent = 'CORONAMIENTO SUPERADO';
-  } else if (estado === 'evacuacion') {
-    titulo.textContent = 'Distancia al coronamiento · EVACUACIÓN';
-  } else if (estado === 'alerta') {
-    titulo.textContent = 'Distancia al coronamiento · ALERTA';
-  } else {
-    titulo.textContent = 'Distancia al coronamiento (17,50 m IGN)';
-  }
-
+  if (estado === 'superado') titulo.textContent = 'CORONAMIENTO SUPERADO';
+  else if (estado === 'evacuacion') titulo.textContent = 'Distancia al coronamiento · EVACUACIÓN';
+  else if (estado === 'alerta') titulo.textContent = 'Distancia al coronamiento · ALERTA';
+  else titulo.textContent = 'Distancia al coronamiento (17,50 m IGN)';
   banner.classList.add('visible');
 }
 
 function renderGrafico() {
   const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
   const labels = registros.map(r => {
     const dia = parseInt(r.fecha.slice(8, 10), 10);
     const mes = parseInt(r.fecha.slice(5, 7), 10) - 1;
     return `${dia} ${MESES[mes]}`;
   });
-
   const alturas = registros.map(r => r.altura);
   const dataCero = alturas.map(() => 0);
-
   let labelsFinales = [...labels];
   let alturasFinales = [...alturas];
-
   if (mostrarPronostico && pronosticoActual && tipoActual === 'actual') {
     const fechaPron = pronosticoActual.pronostico.fecha;
     const fechaTend = pronosticoActual.tendencia.fecha;
@@ -2265,52 +3500,38 @@ function renderGrafico() {
     const diaP = parseInt(fechaPron.slice(8, 10), 10);
     const mesT = parseInt(fechaTend.slice(5, 7), 10) - 1;
     const diaT = parseInt(fechaTend.slice(8, 10), 10);
-
     labelsFinales.push(`${diaP} ${MESES[mesP]}`);
     alturasFinales.push(pronosticoActual.pronostico.valor);
-
     labelsFinales.push(`${diaT} ${MESES[mesT]}`);
     alturasFinales.push(pronosticoActual.tendencia.valor);
   }
-
   const dataAlertaExt = labelsFinales.map(() => UMBRAL_ALERTA);
   const dataEvacExt = labelsFinales.map(() => UMBRAL_EVACUACION);
   const dataTerraplenMin = labelsFinales.map(() => TERRAPLEN_PNA_MIN);
   const dataTerraplenMax = labelsFinales.map(() => TERRAPLEN_PNA_MAX);
-
   const dataAlturaLinea = alturasFinales.map((v, i) => i < alturas.length ? v : null);
   const dataPronostico = alturasFinales.map((v, i) => {
     if (i < alturas.length - 1) return null;
     if (i === alturas.length - 1) return alturas[alturas.length - 1];
     return v;
   });
-
   const yMinDatos = Math.min(...alturasFinales);
   const yMaxDatos = Math.max(...alturasFinales);
   const yMin = Math.min(yMinDatos - 0.3, tipoActual === 'bajante' ? -0.5 : 0);
-
   let yMax = Math.max(yMaxDatos + 0.5, tipoActual === 'actual' ? 6 : yMaxDatos + 0.5);
-  if (mostrarTerraplenes) {
-    yMax = Math.max(yMax, TERRAPLEN_PNA_MAX + 0.5);
-  }
-
+  if (mostrarTerraplenes) yMax = Math.max(yMax, TERRAPLEN_PNA_MAX + 0.5);
   const ctx = document.getElementById('grafico').getContext('2d');
   if (chart) chart.destroy();
-
   const colorLinea = tipoActual === 'bajante' ? '#2b6cb0' : '#2d6a3f';
   const colorFondo = tipoActual === 'bajante' ? 'rgba(43,108,176,0.10)' : 'rgba(45,106,63,0.10)';
-
   const datasets = [
     {
       label: 'Altura PNA',
       data: dataAlturaLinea,
       borderColor: colorLinea,
       backgroundColor: colorFondo,
-      borderWidth: 2.5,
-      fill: true,
-      tension: 0.3,
-      pointRadius: 0,
-      pointHoverRadius: 6,
+      borderWidth: 2.5, fill: true, tension: 0.3,
+      pointRadius: 0, pointHoverRadius: 6,
       pointHoverBackgroundColor: '#f4d03f',
       pointHoverBorderColor: colorLinea,
       pointHoverBorderWidth: 2,
@@ -2320,150 +3541,98 @@ function renderGrafico() {
       label: 'Alerta',
       data: dataAlertaExt,
       borderColor: '#f4d03f',
-      borderWidth: 2,
-      borderDash: [8, 6],
-      pointRadius: 0,
-      fill: false,
-      order: 2
+      borderWidth: 2, borderDash: [8, 6],
+      pointRadius: 0, fill: false, order: 2
     },
     {
       label: 'Evacuación',
       data: dataEvacExt,
       borderColor: '#dc2626',
-      borderWidth: 2,
-      borderDash: [8, 6],
-      pointRadius: 0,
-      fill: false,
-      order: 3
+      borderWidth: 2, borderDash: [8, 6],
+      pointRadius: 0, fill: false, order: 3
     }
   ];
-
   if (tipoActual === 'bajante') {
     datasets.push({
       label: 'Cero',
       data: dataCero,
       borderColor: '#6b7a6b',
-      borderWidth: 1,
-      borderDash: [2, 4],
-      pointRadius: 0,
-      fill: false,
-      order: 4
+      borderWidth: 1, borderDash: [2, 4],
+      pointRadius: 0, fill: false, order: 4
     });
   }
-
   if (mostrarPronostico && pronosticoActual && tipoActual === 'actual') {
     datasets.push({
       label: 'Pronóstico',
       data: dataPronostico,
       borderColor: '#2d6a3f',
       backgroundColor: 'rgba(45,106,63,0.10)',
-      borderWidth: 2,
-      borderDash: [6, 4],
+      borderWidth: 2, borderDash: [6, 4],
       pointRadius: 5,
       pointBackgroundColor: '#2d6a3f',
       pointBorderColor: '#fff',
       pointBorderWidth: 2,
-      fill: true,
-      tension: 0.3,
-      order: 0
+      fill: true, tension: 0.3, order: 0
     });
   }
-
   datasets.push(
     {
       label: 'Terraplén (mín)',
       data: dataTerraplenMin,
       borderColor: 'rgba(120, 53, 15, 0.6)',
-      borderWidth: 1,
-      borderDash: [4, 4],
-      pointRadius: 0,
-      fill: '+1',
+      borderWidth: 1, borderDash: [4, 4],
+      pointRadius: 0, fill: '+1',
       backgroundColor: 'rgba(120, 53, 15, 0.15)',
-      hidden: !mostrarTerraplenes,
-      order: 5
+      hidden: !mostrarTerraplenes, order: 5
     },
     {
       label: 'Terraplén (máx)',
       data: dataTerraplenMax,
       borderColor: 'rgba(120, 53, 15, 0.6)',
-      borderWidth: 1,
-      borderDash: [4, 4],
-      pointRadius: 0,
-      fill: false,
-      hidden: !mostrarTerraplenes,
-      order: 6
+      borderWidth: 1, borderDash: [4, 4],
+      pointRadius: 0, fill: false,
+      hidden: !mostrarTerraplenes, order: 6
     }
   );
-
   const annotations = {};
-
   const idxMax = alturas.indexOf(Math.max(...alturas));
   const idxMin = alturas.indexOf(Math.min(...alturas));
-
   if (idxMax !== idxMin) {
     annotations.lineaMax = {
-      type: 'line',
-      xMin: idxMax,
-      xMax: idxMax,
+      type: 'line', xMin: idxMax, xMax: idxMax,
       borderColor: 'rgba(220, 38, 38, 0.4)',
-      borderWidth: 1.5,
-      borderDash: [3, 4]
+      borderWidth: 1.5, borderDash: [3, 4]
     };
-
     annotations.puntoMax = {
-      type: 'point',
-      xValue: idxMax,
-      yValue: alturas[idxMax],
-      backgroundColor: '#dc2626',
-      borderColor: '#fff',
-      borderWidth: 2,
-      radius: 6
+      type: 'point', xValue: idxMax, yValue: alturas[idxMax],
+      backgroundColor: '#dc2626', borderColor: '#fff',
+      borderWidth: 2, radius: 6
     };
-
     annotations.lineaMin = {
-      type: 'line',
-      xMin: idxMin,
-      xMax: idxMin,
+      type: 'line', xMin: idxMin, xMax: idxMin,
       borderColor: 'rgba(43, 108, 176, 0.4)',
-      borderWidth: 1.5,
-      borderDash: [3, 4]
+      borderWidth: 1.5, borderDash: [3, 4]
     };
-
     annotations.puntoMin = {
-      type: 'point',
-      xValue: idxMin,
-      yValue: alturas[idxMin],
-      backgroundColor: '#2b6cb0',
-      borderColor: '#fff',
-      borderWidth: 2,
-      radius: 6
+      type: 'point', xValue: idxMin, yValue: alturas[idxMin],
+      backgroundColor: '#2b6cb0', borderColor: '#fff',
+      borderWidth: 2, radius: 6
     };
   }
-
   chart = new Chart(ctx, {
     type: 'line',
     data: { labels: labelsFinales, datasets },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { display: false },
         annotation: { annotations },
         zoom: {
-          pan: {
-            enabled: true,
-            mode: 'x',
-            modifierKey: null
-          },
+          pan: { enabled: true, mode: 'x', modifierKey: null },
           zoom: {
-            wheel: {
-              enabled: true,
-              speed: 0.1
-            },
-            pinch: {
-              enabled: true
-            },
+            wheel: { enabled: true, speed: 0.1 },
+            pinch: { enabled: true },
             mode: 'x'
           },
           limits: {
@@ -2476,10 +3645,8 @@ function renderGrafico() {
           titleColor: '#f4d03f',
           bodyColor: '#fff',
           borderColor: '#2d6a3f',
-          borderWidth: 1,
-          padding: 12,
-          cornerRadius: 10,
-          displayColors: false,
+          borderWidth: 1, padding: 12,
+          cornerRadius: 10, displayColors: false,
           titleFont: { size: 13, weight: '700' },
           bodyFont: { size: 13 },
           callbacks: {
@@ -2523,44 +3690,35 @@ function renderGrafico() {
         y: {
           ticks: { font: { size: 10 }, color: '#4b5563' },
           grid: { color: '#e5e7eb' },
-          suggestedMin: yMin,
-          suggestedMax: yMax
+          suggestedMin: yMin, suggestedMax: yMax
         }
       }
     }
   });
-
-  const fechaIni = formatearFechaCorta(registros[0].fecha);
-  const fechaFin = formatearFechaCorta(registros[registros.length - 1].fecha);
+  const fechaIni = formatearFechaCortaGeneral(registros[0].fecha);
+  const fechaFin = formatearFechaCortaGeneral(registros[registros.length - 1].fecha);
   document.getElementById('titulo-grafico').textContent = `Del ${fechaIni} al ${fechaFin}`;
-
   document.getElementById('leyenda-cero').style.display = (tipoActual === 'bajante') ? 'flex' : 'none';
-
   const maxVal = Math.max(...alturas);
   const minVal = Math.min(...alturas);
-
   document.getElementById('marca-max-valor').textContent = `${maxVal.toFixed(2)} m`;
   document.getElementById('marca-max-ign').textContent = `${(maxVal + CERO_ESCALA).toFixed(2)} m IGN`;
-  document.getElementById('marca-max-fecha').textContent = formatearFechaCorta(registros[idxMax].fecha);
-
+  document.getElementById('marca-max-fecha').textContent = formatearFechaCortaGeneral(registros[idxMax].fecha);
   document.getElementById('marca-min-valor').textContent = `${minVal.toFixed(2)} m`;
   document.getElementById('marca-min-ign').textContent = `${(minVal + CERO_ESCALA).toFixed(2)} m IGN`;
-  document.getElementById('marca-min-fecha').textContent = formatearFechaCorta(registros[idxMin].fecha);
-
+  document.getElementById('marca-min-fecha').textContent = formatearFechaCortaGeneral(registros[idxMin].fecha);
   configurarCierreTooltip(ctx.canvas);
 }
 
 function configurarCierreTooltip(canvas) {
   if (canvas.dataset.cierreTooltip === 'true') return;
   canvas.dataset.cierreTooltip = 'true';
-
   canvas.addEventListener('click', function() {
     if (chart && chart.tooltip && chart.tooltip.getActiveElements().length > 0) {
       chart.tooltip.setActiveElements([], { x: 0, y: 0 });
       chart.update('none');
     }
   });
-
   document.addEventListener('click', function(e) {
     if (!chart) return;
     if (e.target === canvas) return;
@@ -2570,7 +3728,6 @@ function configurarCierreTooltip(canvas) {
       chart.update('none');
     }
   }, true);
-
   document.addEventListener('touchstart', function(e) {
     if (!chart) return;
     if (e.target === canvas || canvas.contains(e.target)) return;
@@ -2585,11 +3742,9 @@ function toggleTerraplenes() {
   mostrarTerraplenes = !mostrarTerraplenes;
   renderGrafico();
   renderBannerTerraplenes();
-
   const btn = document.getElementById('btn-terraplenes');
   const btnTexto = document.getElementById('btn-terraplenes-texto');
   const leyendaBanda = document.getElementById('leyenda-banda');
-
   if (mostrarTerraplenes) {
     btn.classList.add('activo');
     btnTexto.textContent = 'Ocultar cota de terraplenes';
