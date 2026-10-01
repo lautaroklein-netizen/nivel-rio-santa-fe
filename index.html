@@ -1665,32 +1665,36 @@
       text-align: left;
     }
 
-    table, thead, tbody, th, td, tr { display: block; }
-    thead { display: none; }
-    tbody tr {
+        .tabla-contenedor table,
+    .tabla-contenedor thead,
+    .tabla-contenedor tbody,
+    .tabla-contenedor th,
+    .tabla-contenedor td,
+    .tabla-contenedor tr { display: block; }
+    .tabla-contenedor thead { display: none; }
+    .tabla-contenedor tbody tr {
       background: #fff; margin-bottom: 8px;
       border: 1px solid var(--borde);
       border-radius: 12px; padding: 10px 12px;
     }
-    tbody td {
+    .tabla-contenedor tbody td {
       border: none; padding: 4px 0;
       display: flex; justify-content: space-between; align-items: center;
       font-size: 0.85rem;
     }
-    tbody td::before {
+    .tabla-contenedor tbody td::before {
       content: attr(data-label);
       font-weight: 600; color: var(--muted); font-size: 0.78rem;
     }
-    tbody td[data-label="Altura PNA"] {
+    .tabla-contenedor tbody td[data-label="Altura PNA"] {
       font-size: 1.1rem; font-weight: 700; color: var(--verde);
       padding-top: 6px;
       border-top: 1px dashed var(--borde);
       margin-top: 4px;
     }
-    tbody td[data-label="Nivel IGN"] {
+    .tabla-contenedor tbody td[data-label="Nivel IGN"] {
       font-weight: 600; color: var(--marron);
     }
-
     .popup-overlay { padding: 8px; }
     .popup-caja {
       max-height: calc(100vh - 16px);
