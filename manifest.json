@@ -1,0 +1,33 @@
+{
+  "name": "Nivel del Río Paraná — Puerto de Santa Fe",
+  "short_name": "Nivel Paraná",
+  "description": "Nivel del río Paraná en el Puerto de Santa Fe. Datos oficiales del INA. Vecinal Rincón Norte.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f4f6",
+  "theme_color": "#2d6a3f",
+  "lang": "es-AR",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
