@@ -137,6 +137,10 @@
   }
   header .btn-info:hover { background: rgba(255,255,255,0.28); }
   header .btn-info:active { transform: scale(0.94); }
+  .icono-info-container {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%;
+  }
 
   h2 { font-size: 0.95rem; margin: 0 0 10px; color: var(--verde-oscuro); font-weight: 700; }
 
@@ -769,12 +773,12 @@
     background: linear-gradient(135deg, var(--amarillo-claro) 0%, #fde68a 100%);
     border-color: var(--amarillo); color: #92400e;
   }
-  .banner-terraplenes.alerta .titulo-banner::before { content: '⚠ '; }
+  .banner-terraplenes.alerta .titulo-banner::before { content: ''; }
   .banner-terraplenes.evacuacion {
     background: linear-gradient(135deg, var(--rojo-claro) 0%, #fecaca 100%);
     border-color: var(--rojo); color: var(--rojo);
   }
-  .banner-terraplenes.evacuacion .titulo-banner::before { content: '⚠ '; }
+  .banner-terraplenes.evacuacion .titulo-banner::before { content: ''; }
   .banner-terraplenes.superado {
     background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-intenso) 100%);
     border-color: var(--rojo-intenso); color: #fff;
@@ -782,7 +786,7 @@
   .banner-terraplenes.superado .titulo-banner,
   .banner-terraplenes.superado .valor-libre,
   .banner-terraplenes.superado .detalle-banner { color: #fff; opacity: 1; }
-  .banner-terraplenes.superado .titulo-banner::before { content: '⚠ '; }
+  .banner-terraplenes.superado .titulo-banner::before { content: ''; }
 
   .chart-container {
     position: relative; height: 280px; touch-action: pan-y;
@@ -1637,7 +1641,7 @@
     padding-top: calc(16px + env(safe-area-inset-top, 0px));
     text-align: center; flex-shrink: 0; position: relative;
   }
-     .popup-logo-vecinal {
+  .popup-logo-vecinal {
     display: block;
     margin: 0 auto 10px;
     height: 70px;
@@ -1902,7 +1906,7 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-image: 
+    background-image:
       linear-gradient(rgba(26, 75, 140, 0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(26, 75, 140, 0.03) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -1921,7 +1925,7 @@
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-radius: 32px;
     border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 
+    box-shadow:
       0 4px 30px rgba(10, 28, 58, 0.05),
       0 1px 3px rgba(10, 28, 58, 0.03),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
@@ -2222,11 +2226,61 @@
     }
     .cargador-texto { font-size: 0.74rem; }
   }
+
+  /* ======= ICONOS SVG INLINE (mismo diseño en todos los dispositivos) ======= */
+  .icono-tend {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.15em;
+    color: inherit;
+  }
+  .icono-link {
+    width: 0.9em;
+    height: 0.9em;
+    display: inline-block;
+    vertical-align: -0.1em;
+    color: inherit;
+  }
+  .icono-check {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.12em;
+    color: inherit;
+  }
+  .icono-alerta {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.12em;
+    color: inherit;
+  }
+  .icono-info {
+    width: 1.1em;
+    height: 1.1em;
+    display: inline-block;
+    vertical-align: -0.15em;
+    color: inherit;
+  }
+  .icono-caret {
+    width: 0.7em;
+    height: 0.7em;
+    display: inline-block;
+    vertical-align: 0.05em;
+    color: inherit;
+    transition: transform .2s;
+  }
+  .btn-selector.abierto .icono-caret { transform: rotate(180deg); }
+  .btn-terraplenes.activo .icono-caret { transform: rotate(180deg); }
+  .btn-cuenca.open .icono-caret { transform: rotate(180deg); }
+  .btn-tabla.activo .icono-caret { transform: rotate(180deg); }
+  .toggle-btn.open .icono-caret { transform: rotate(180deg); }
 </style>
 </head>
 <body>
 
-  <!-- SPLASH: pegar el Base64 del logo de Nivel Paraná -->
+   <!-- SPLASH: pegar el Base64 del logo de Nivel Paraná -->
   <div class="splash-overlay" id="splashScreen">
     <div class="splash-aurora">
       <div class="splash-blob splash-blob-1"></div>
@@ -2262,8 +2316,8 @@
   <div class="fila-controles">
     <div class="selector-series-wrapper">
       <button class="btn-selector" id="btnSelector" onclick="toggleSelector(event)">
-        <span class="texto-btn" id="btnSelectorTexto">Selector de series de datos</span>
-        <span class="caret">▼</span>
+        <span class="texto-btn" id="btnSelectorTexto">Últimos 3 días</span>
+        <span class="caret" id="btnSelectorCaret"></span>
       </button>
       <div class="panel-selector" id="panelSelector">
         <div class="grupo-titulo">Históricos</div>
@@ -2274,13 +2328,14 @@
         <button class="opcion" data-dias="180" onclick="elegirOpcion(this)">Últimos 6 meses</button>
         <button class="opcion" data-dias="90" onclick="elegirOpcion(this)">Últimos 3 meses</button>
         <button class="opcion" data-dias="30" onclick="elegirOpcion(this)">Últimos 30 días</button>
-        <button class="opcion activo" data-dias="10" onclick="elegirOpcion(this)">Últimos 10 días</button>
+        <button class="opcion" data-dias="10" onclick="elegirOpcion(this)">Últimos 10 días</button>
+        <button class="opcion activo" data-dias="3" onclick="elegirOpcion(this)">Últimos 3 días</button>
       </div>
     </div>
 
     <button class="btn-prono activo" id="prono-btn" onclick="togglePronostico()">
       <span class="texto-prono">Pronóstico INA</span>
-      <span class="flechita">→</span>
+      <span class="flechita" id="pronoFlechita"></span>
     </button>
   </div>
 
@@ -2412,7 +2467,7 @@
 
       <button class="btn-terraplenes" id="btn-terraplenes" onclick="toggleTerraplenes()">
         <span class="btn-terraplenes-texto" id="btn-terraplenes-texto">Mostrar cota de terraplenes</span>
-        <span class="flecha-desplegable">▼</span>
+        <span class="flecha-desplegable" id="btnTerraplenesFlecha"></span>
       </button>
 
       <div class="banner-terraplenes" id="banner-terraplenes">
@@ -2481,9 +2536,9 @@
       <button class="toggle-btn" id="toggle-tabla" onclick="toggleTabla()">
         <span class="toggle-txt">
           <span class="toggle-titulo">Serie de datos seleccionada</span>
-          <span class="toggle-sub" id="tabla-subtitulo">Registro de últimos 10 días</span>
+          <span class="toggle-sub" id="tabla-subtitulo">Registro de últimos 3 días</span>
         </span>
-        <span class="arrow">▼</span>
+        <span class="arrow" id="toggleTablaFlecha"></span>
       </button>
       <div class="tabla-contenedor" id="tabla-contenedor">
         <table>
@@ -2510,7 +2565,7 @@
           </p>
           <button class="btn-abrir-mapa" onclick="abrirMapa()">
             <span>Abrir mapa IGN</span>
-            <span class="flecha">→</span>
+            <span class="flecha" id="btnAbrirMapaFlecha"></span>
           </button>
         </div>
 
@@ -2519,7 +2574,7 @@
           <p class="sub-cuenca">Estaciones de monitoreo en Paraná Medio - Paraná inferior</p>
           <button class="btn-cuenca" id="btnCuenca" onclick="toggleMapaPuertos()">
             <span id="textoDesplegar">Desplegar mapa</span>
-            <span class="arrow">▼</span>
+            <span class="arrow" id="btnCuencaFlecha"></span>
           </button>
         </div>
       </div>
@@ -2544,11 +2599,11 @@
         <div class="botones-tablas">
           <button class="btn-tabla" id="btnTablaTendencia" onclick="toggleTablaTendencia()">
             <span>Variación 24 hs</span>
-            <span class="flecha">▼</span>
+            <span class="flecha" id="btnTablaTendenciaFlecha"></span>
           </button>
           <button class="btn-tabla" id="btnTablaCaudales" onclick="toggleTablaCaudales()">
             <span>Caudal observado</span>
-            <span class="flecha">▼</span>
+            <span class="flecha" id="btnTablaCaudalesFlecha"></span>
           </button>
         </div>
 
@@ -2622,7 +2677,7 @@
           </svg>
           <span>Observatorio Hidrológico Nacional del INA</span>
         </span>
-        <span class="flecha-link">→</span>
+        <span class="flecha-link" id="linkObservatorioFlecha"></span>
       </button>
 
     </div>
@@ -2644,7 +2699,7 @@
 
   </div>
 
-  <!-- POPUP INFORMATIVO PRINCIPAL -->
+    <!-- POPUP INFORMATIVO PRINCIPAL -->
   <div class="popup-overlay" id="popupOverlay" onclick="cerrarPopupPorOverlay(event)">
     <div class="popup-caja" role="dialog" aria-modal="true" aria-labelledby="popupTitulo">
             <div class="popup-header">
@@ -2775,7 +2830,7 @@
         </div>
         <a class="btn-ir-observatorio" href="https://www.ina.gov.ar/observatorio/index.php" target="_blank" rel="noopener">
           <span>Ir al Observatorio del INA</span>
-          <span class="flecha">→</span>
+          <span class="flecha" id="linkObservatorioFlecha2"></span>
         </a>
       </div>
       <div class="popup-footer">
@@ -2821,6 +2876,26 @@ const PRONOSTICO_RESPALDO = {
   tendencia: { fecha: "2026-10-06", valor: 3.37, min: 3.10, max: 3.90 }
 };
 
+// ============================================================
+// ICONOS SVG INLINE
+// Reemplazan emojis/glifos para verse igual en todos los dispositivos.
+// ============================================================
+const SVG_FLECHAS = {
+    sube: '<svg class="icono-tend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="9 7 17 7 17 15"/></svg>',
+    baja: '<svg class="icono-tend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 9 17 17 9 17"/></svg>',
+    estable: '<svg class="icono-tend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+};
+
+const SVG_FLECHA_LINK = '<svg class="icono-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+
+const SVG_CHECK = '<svg class="icono-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+const SVG_ALERTA = '<svg class="icono-alerta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>';
+
+const SVG_INFO = '<svg class="icono-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
+const SVG_CARET = '<svg class="icono-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>';
+
 const VAR_ID_PUERTOS = 2;
 const PUERTOS_PARANA = [
   { nombre: 'Puerto Iguazú', lat: -25.5972, lng: -54.5738, seriesId: 9 },
@@ -2857,14 +2932,12 @@ const MEDIDOR_RANGO_MIN = -1;
 const MEDIDOR_RANGO_MAX = 10;
 const MEDIDOR_RANGO_TOTAL = MEDIDOR_RANGO_MAX - MEDIDOR_RANGO_MIN;
 
-// Tramos para interpolación por posición visual
-// Los porcentajes coinciden con los anchos de las franjas en el CSS
 const MEDIDOR_TRAMOS = [
-  { vIni: -1,   vFin: 2.00, pIni: 0,    pFin: 25.6 },   // bajas (25.6%)
-  { vIni: 2.00, vFin: 5.30, pIni: 25.6, pFin: 53.6 },   // medias (28%)
-  { vIni: 5.30, vFin: 5.70, pIni: 53.6, pFin: 60.6 },   // alerta (7%)
-  { vIni: 5.70, vFin: 9.12, pIni: 60.6, pFin: 91 },     // evacuación (30.4%)
-  { vIni: 9.12, vFin: 10,   pIni: 91,   pFin: 100 }     // emergencia (9%)
+  { vIni: -1,   vFin: 2.00, pIni: 0,    pFin: 25.6 },
+  { vIni: 2.00, vFin: 5.30, pIni: 25.6, pFin: 53.6 },
+  { vIni: 5.30, vFin: 5.70, pIni: 53.6, pFin: 60.6 },
+  { vIni: 5.70, vFin: 9.12, pIni: 60.6, pFin: 91 },
+  { vIni: 9.12, vFin: 10,   pIni: 91,   pFin: 100 }
 ];
 
 function valorAPosicionVisual(n) {
@@ -3287,10 +3360,11 @@ function renderTablaTendencia(datosPuertos) {
     if (datos.deltaCm > 0) deltaTexto = `+${datos.deltaCm} cm`;
     else if (datos.deltaCm < 0) deltaTexto = `${datos.deltaCm} cm`;
     else deltaTexto = '0 cm';
+    const iconoTend = datos.tendencia === 'sube' ? SVG_FLECHAS.sube : (datos.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
     return `
       <tr${esSantaFe ? ' class="destacada"' : ''}>
         <td class="estacion-nombre">${puerto.nombre}</td>
-        <td class="tend-celda"><span class="circulo-tend ${datos.tendencia}">${datos.flecha}</span></td>
+        <td class="tend-celda"><span class="circulo-tend ${datos.tendencia}">${iconoTend}</span></td>
         <td class="delta ${datos.tendencia}">${deltaTexto}</td>
       </tr>
     `;
@@ -3345,11 +3419,12 @@ async function cargarDatosCaudales() {
       const deltaTexto = fila.delta != null
         ? (fila.delta > 0 ? `+${fila.delta.toLocaleString('es-AR')}` : fila.delta.toLocaleString('es-AR'))
         : '—';
+      const iconoTend = fila.tendencia === 'sube' ? SVG_FLECHAS.sube : (fila.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
       return `
         <tr${claseDestacada}>
           <td class="estacion-nombre">${fila.display}</td>
           <td class="valor-num">${valorFormateado}<span class="unidad">m³/s</span></td>
-          <td class="tend-celda"><span class="flecha-simple ${fila.tendencia}">${fila.flecha}</span></td>
+          <td class="tend-celda"><span class="flecha-simple ${fila.tendencia}">${iconoTend}</span></td>
           <td class="delta ${fila.tendencia}">${deltaTexto}</td>
         </tr>
       `;
@@ -3445,8 +3520,9 @@ function crearMapaPuertosMapLibre() {
 function agregarMarcadorMapLibre(puerto, datos) {
   const el = document.createElement('div');
   el.className = 'marcador-puerto';
+  const iconoTend = datos.tendencia === 'sube' ? SVG_FLECHAS.sube : (datos.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
   el.innerHTML = `
-    <div class="circulo ${datos.tendencia}">${datos.flecha}</div>
+    <div class="circulo ${datos.tendencia}">${iconoTend}</div>
     <div class="nombre">${puerto.nombre}</div>
   `;
   const popupHTML = construirPopupHTML(puerto, datos);
@@ -3500,9 +3576,10 @@ function crearMapaPuertosLeaflet() {
   cargarDatosCaudales();
 }
 function agregarMarcadorLeaflet(puerto, datos) {
+  const iconoTend = datos.tendencia === 'sube' ? SVG_FLECHAS.sube : (datos.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
   const htmlIcono = `
     <div class="marcador-puerto">
-      <div class="circulo ${datos.tendencia}">${datos.flecha}</div>
+      <div class="circulo ${datos.tendencia}">${iconoTend}</div>
       <div class="nombre">${puerto.nombre}</div>
     </div>
   `;
@@ -3558,8 +3635,8 @@ const BAJANTE_2021 = [
 // ESTADO
 // ============================================================
 let tipoActual = 'actual';
-let periodoActual = 10;
-let ultimoPeriodoActual = 10;
+let periodoActual = 3;
+let ultimoPeriodoActual = 3;
 let registros = [];
 let chart = null;
 let mostrarTerraplenes = false;
@@ -3602,6 +3679,7 @@ function actualizarSubtituloSerie() {
       case 90:  texto = 'Registros de los últimos 3 meses'; break;
       case 30:  texto = 'Registros de los últimos 30 días'; break;
       case 10:  texto = 'Registro de últimos 10 días'; break;
+      case 3:   texto = 'Registro de últimos 3 días'; break;
       default:  texto = `Registros de los últimos ${periodoActual} días`;
     }
   }
@@ -3643,6 +3721,7 @@ function renderResumenSerie() {
     case 90:  etiquetaPeriodo = 'En los últimos 3 meses'; break;
     case 30:  etiquetaPeriodo = 'En los últimos 30 días'; break;
     case 10:  etiquetaPeriodo = 'En los últimos 10 días'; break;
+    case 3:   etiquetaPeriodo = 'En los últimos 3 días'; break;
     default:  etiquetaPeriodo = `En los últimos ${periodoActual} días`;
   }
   function formatearDiff(diff) {
@@ -3904,22 +3983,22 @@ function renderTarjetaSuperior() {
   const ignUltimo = ultimo.altura + CERO_ESCALA;
   const diffMetros = anterior ? (ultimo.altura - anterior.altura) : 0;
   const diffCm = Math.round(diffMetros * 100);
-  let flechaTexto = '≈';
+  let flechaTexto = SVG_FLECHAS.estable;
   let flechaClase = 'estable';
   let tendTexto = 'Estable';
   let valorCambio = '0 cm';
   if (diffCm > 1) {
-    flechaTexto = '↗'; flechaClase = ''; tendTexto = 'En ascenso'; valorCambio = `+${diffCm} cm`;
+    flechaTexto = SVG_FLECHAS.sube; flechaClase = ''; tendTexto = 'En ascenso'; valorCambio = `+${diffCm} cm`;
   } else if (diffCm < -1) {
-    flechaTexto = '↘'; flechaClase = ''; tendTexto = 'En descenso'; valorCambio = `−${Math.abs(diffCm)} cm`;
+    flechaTexto = SVG_FLECHAS.baja; flechaClase = ''; tendTexto = 'En descenso'; valorCambio = `−${Math.abs(diffCm)} cm`;
   }
   let estadoClase = 'normal';
   let estadoTexto = 'Normal';
-  let estadoIcono = '✓';
+  let estadoIcono = SVG_CHECK;
   if (ultimo.altura >= UMBRAL_EVACUACION) {
-    estadoClase = 'evacuacion'; estadoTexto = 'Evacuación'; estadoIcono = '!';
+    estadoClase = 'evacuacion'; estadoTexto = 'Evacuación'; estadoIcono = SVG_ALERTA;
   } else if (ultimo.altura >= UMBRAL_ALERTA) {
-    estadoClase = 'alerta'; estadoTexto = 'Alerta'; estadoIcono = '!';
+    estadoClase = 'alerta'; estadoTexto = 'Alerta'; estadoIcono = SVG_ALERTA;
   }
   const etiquetaDia = calcularEtiquetaDia(ultimo.fecha);
   tarjeta.innerHTML = `
@@ -4320,6 +4399,37 @@ function renderTabla() {
 // ============================================================
 actualizarSubtituloSerie();
 cargarDatos();
+
+// Registro del Service Worker para PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').catch(function(err) {
+            console.warn('Service Worker no registrado:', err);
+        });
+    });
+}
+
+// ============================================================
+// INYECTAR ICONOS SVG (para que se vean igual en todos los dispositivos)
+// ============================================================
+function inyectarIconosSVG() {
+    const asignar = (id, svg) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svg;
+    };
+    asignar('btnInfoIcono', SVG_INFO);
+    asignar('btnSelectorCaret', SVG_CARET);
+    asignar('pronoFlechita', SVG_FLECHA_LINK);
+    asignar('btnTerraplenesFlecha', SVG_CARET);
+    asignar('toggleTablaFlecha', SVG_CARET);
+    asignar('btnCuencaFlecha', SVG_CARET);
+    asignar('btnTablaTendenciaFlecha', SVG_CARET);
+    asignar('btnTablaCaudalesFlecha', SVG_CARET);
+    asignar('linkObservatorioFlecha', SVG_FLECHA_LINK);
+    asignar('linkObservatorioFlecha2', SVG_FLECHA_LINK);
+    asignar('btnAbrirMapaFlecha', SVG_FLECHA_LINK);
+}
+inyectarIconosSVG();
 </script>
 </body>
 </html>
