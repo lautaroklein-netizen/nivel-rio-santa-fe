@@ -2316,7 +2316,7 @@
   <div class="fila-controles">
     <div class="selector-series-wrapper">
       <button class="btn-selector" id="btnSelector" onclick="toggleSelector(event)">
-        <span class="texto-btn" id="btnSelectorTexto">Últimos 3 días</span>
+        <span class="texto-btn" id="btnSelectorTexto">Últimos 10 días</span>
         <span class="caret" id="btnSelectorCaret"></span>
       </button>
       <div class="panel-selector" id="panelSelector">
@@ -2328,9 +2328,8 @@
         <button class="opcion" data-dias="180" onclick="elegirOpcion(this)">Últimos 6 meses</button>
         <button class="opcion" data-dias="90" onclick="elegirOpcion(this)">Últimos 3 meses</button>
         <button class="opcion" data-dias="30" onclick="elegirOpcion(this)">Últimos 30 días</button>
-        <button class="opcion" data-dias="10" onclick="elegirOpcion(this)">Últimos 10 días</button>
-        <button class="opcion activo" data-dias="3" onclick="elegirOpcion(this)">Últimos 3 días</button>
-      </div>
+        <button class="opcion activo" data-dias="10" onclick="elegirOpcion(this)">Últimos 10 días</button>
+              </div>
     </div>
 
     <button class="btn-prono activo" id="prono-btn" onclick="togglePronostico()">
@@ -2598,13 +2597,10 @@
 
         <div class="botones-tablas">
           <button class="btn-tabla" id="btnTablaTendencia" onclick="toggleTablaTendencia()">
-            <span>Variación 24 hs</span>
+            <span>Estaciones Paraná</span>
             <span class="flecha" id="btnTablaTendenciaFlecha"></span>
           </button>
-          <button class="btn-tabla" id="btnTablaCaudales" onclick="toggleTablaCaudales()">
-            <span>Caudal observado</span>
-            <span class="flecha" id="btnTablaCaudalesFlecha"></span>
-          </button>
+          
         </div>
 
         <div class="contenedor-tabla" id="contenedorTendencia">
@@ -2614,6 +2610,7 @@
                 <th>Estación</th>
                 <th class="centro">Tend.</th>
                 <th class="num">Δ 24h</th>
+                <th style="text-align: center;">Estado</th>
               </tr>
             </thead>
             <tbody id="tbodyTendencia"></tbody>
@@ -2624,58 +2621,14 @@
           </div>
         </div>
 
-        <div class="contenedor-tabla" id="contenedorCaudales">
-          <table class="tabla-datos">
-            <thead>
-              <tr>
-                <th>Estación</th>
-                <th class="num">Caudal</th>
-                <th class="centro">Tend.</th>
-                <th class="num">Δ 24h</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyCaudales"></tbody>
-          </table>
-          <div class="nota-tabla" id="notaCaudales">
-            <strong>Nota:</strong> caudal observado del cauce principal (m³/s), dato no oficial.
-            La tendencia compara el valor actual con el de 24 h antes.
-          </div>
-
-          <div class="bloque-comparacion" id="bloqueComparacion">
-            <div class="titulo-comparacion">Para comparar · Creciente 2015-2016</div>
-            <p class="texto-comparacion" id="textoComparacion"></p>
-            <div class="picos-lista">
-              <div class="pico-item">
-                <span class="pico-fecha">05 Ene 2016</span>
-                <span class="pico-datos">
-                  <span class="pico-caudal">27.445 m³/s</span>
-                  <span class="pico-altura">Altura 6,60 m</span>
-                </span>
-              </div>
-              <div class="pico-item">
-                <span class="pico-fecha">13 Abr 2016</span>
-                <span class="pico-datos">
-                  <span class="pico-caudal">24.500 m³/s</span>
-                  <span class="pico-altura">Segundo pico</span>
-                </span>
-              </div>
-            </div>
-            <div class="nota-comparacion">
-              Valores del cauce principal. El caudal total considerando el valle de inundación
-              fue aún mayor.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <button class="link-observatorio" onclick="abrirObservatorio()">
+        <button class="link-observatorio" onclick="abrirObservatorio()">
         <span class="link-texto">
           <svg class="icono-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M2 12s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
             <path d="M2 17s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
             <path d="M2 7s3-3 5-3 3 2 5 2 3-2 5-2 5 3 5 3"/>
           </svg>
-          <span>Observatorio Hidrológico Nacional del INA</span>
+          <span>Reporte Diario de la Cuenca del Plata</span>
         </span>
         <span class="flecha-link" id="linkObservatorioFlecha"></span>
       </button>
@@ -2801,23 +2754,21 @@
   <div class="popup-overlay" id="popupObservatorio" onclick="cerrarObservatorioPorOverlay(event)">
     <div class="popup-caja" role="dialog" aria-modal="true" aria-labelledby="obsTitulo">
       <div class="popup-header">
-        <h2 id="obsTitulo">Observatorio Hidrológico Nacional</h2>
+        <h2 id="obsTitulo">Reporte Diario de la Cuenca del Plata</h2>
         <div class="popup-sub">Instituto Nacional del Agua</div>
         <div class="popup-vecinal">Informe mensual · INA</div>
       </div>
       <div class="popup-cuerpo">
         <p class="popup-intro">
-          El Observatorio Hidrológico Nacional es un proyecto del Instituto Nacional del Agua (INA)
-          que publica informes periódicos sobre las condiciones hidrológicas del mes anterior en
-          cuencas de distintas regiones del país.
+          El Reporte Diario del INA publica la situación hidrometeorológica de la Cuenca del Plata,
+          incluyendo caudales observados, niveles de ríos, estados de alerta y perspectivas para los principales puertos.
         </p>
         <div class="popup-bloque">
           <div class="popup-bloque-titulo">Qué encontrás</div>
           <ul>
-            <li>Resúmenes climáticos e hidrológicos actualizados.</li>
-            <li>Datos de distintos puntos de medición del país.</li>
-            <li>Información sobre el caudal del río en el Litoral.</li>
-            <li>Análisis por cuencas y regiones.</li>
+            <li>Caudales de estaciones del Paraná (Guaíra, Itaipú, Confluencia, Yacyretá).</li>
+            <li>Niveles de alerta y evacuación de los principales puertos.</li>
+            <li>Perspectivas hidrológicas y meteorológicas.</li>
           </ul>
         </div>
         <div class="popup-bloque verde">
@@ -2828,7 +2779,7 @@
             y equipos de trabajo.
           </p>
         </div>
-        <a class="btn-ir-observatorio" href="https://www.ina.gov.ar/observatorio/index.php" target="_blank" rel="noopener">
+        <a class="btn-ir-observatorio" href="https://alerta.ina.gob.ar/a5/diario/reporte_diario" target="_blank" rel="noopener">
           <span>Ir al Observatorio del INA</span>
           <span class="flecha" id="linkObservatorioFlecha2"></span>
         </a>
@@ -2864,17 +2815,8 @@ const SERIES_ID = 30;
 const SITE_CODE = 30;
 const VAR_ID = 2;
 const URL_MAPA = 'https://lautaroklein-netizen.github.io/Mapa_info_E.Hidrica/';
-const URL_CAUDALES_WFS = 'https://alerta.ina.gob.ar/geoserver/siyah/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=siyah:ultimos_caudales&outputFormat=application/json';
 const URL_ULTIMAS_ALTURAS_WFS = 'https://alerta.ina.gob.ar/geoserver/siyah/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=siyah:ultimas_alturas&outputFormat=application/json';
-
-const CAUDAL_PICO_2016 = 27445;
-const CAUDAL_SANTAFE_RESPALDO = 19426;
-
-const PRONOSTICO_RESPALDO = {
-  emision: "2026-09-25",
-  pronostico: { fecha: "2026-09-29", valor: 3.33, min: 3.10, max: 3.80 },
-  tendencia: { fecha: "2026-10-06", valor: 3.37, min: 3.10, max: 3.90 }
-};
+const URL_PRONOSTICO_API = 'https://alerta.ina.gob.ar/pub/datos/datos&request=seriesProno&all=false&format=json';
 
 // ============================================================
 // ICONOS SVG INLINE
@@ -2913,17 +2855,7 @@ const PUERTOS_PARANA = [
   { nombre: 'Rosario',       lat: -32.9570, lng: -60.6294, seriesId: 34 },
   { nombre: 'San Nicolás',   lat: -33.3333, lng: -60.2255, seriesId: 36 },
   { nombre: 'Zárate',        lat: -34.0973, lng: -59.0248, seriesId: 40 },
-  { nombre: 'Escobar',       lat: -34.3500, lng: -58.7907, seriesId: 42 },
-  { nombre: 'Buenos Aires',  lat: -34.6037, lng: -58.3816, seriesId: 85 }
-];
-
-const CAUDALES_ESTACIONES = [
-  { display: 'Guaíra',      nombreINA: 'Guaíra Porto' },
-  { display: 'Itaipú',      nombreINA: 'Represa Itaipú' },
-  { display: 'Confluencia', nombreINA: 'Confluencia' },
-  { display: 'Corrientes',  nombreINA: 'Corrientes' },
-  { display: 'Santa Fe',    nombreINA: 'Santa Fe' }
-];
+ ];
 
 // ============================================================
 // MEDIDOR DE ESTADO DEL RÍO
@@ -3222,35 +3154,18 @@ async function inicializarMapaPuertos() {
 
 function abrirTablaCaudalesPorDefecto() {
   const contTend = document.getElementById('contenedorTendencia');
-  const contCaud = document.getElementById('contenedorCaudales');
   const btnTend = document.getElementById('btnTablaTendencia');
-  const btnCaud = document.getElementById('btnTablaCaudales');
-  contTend.classList.remove('open');
-  btnTend.classList.remove('activo');
-  contCaud.classList.add('open');
-  btnCaud.classList.add('activo');
+  if (!contTend || !btnTend) return;
+  contTend.classList.add('open');
+  btnTend.classList.add('activo');
 }
 function toggleTablaTendencia() {
   const contTend = document.getElementById('contenedorTendencia');
-  const contCaud = document.getElementById('contenedorCaudales');
   const btnTend = document.getElementById('btnTablaTendencia');
-  const btnCaud = document.getElementById('btnTablaCaudales');
+  if (!contTend || !btnTend) return;
   const abriendo = !contTend.classList.contains('open');
-  contCaud.classList.remove('open');
-  btnCaud.classList.remove('activo');
   contTend.classList.toggle('open', abriendo);
   btnTend.classList.toggle('activo', abriendo);
-}
-function toggleTablaCaudales() {
-  const contTend = document.getElementById('contenedorTendencia');
-  const contCaud = document.getElementById('contenedorCaudales');
-  const btnTend = document.getElementById('btnTablaTendencia');
-  const btnCaud = document.getElementById('btnTablaCaudales');
-  const abriendo = !contCaud.classList.contains('open');
-  contTend.classList.remove('open');
-  btnTend.classList.remove('activo');
-  contCaud.classList.toggle('open', abriendo);
-  btnCaud.classList.toggle('activo', abriendo);
 }
 
 function formatearFechaISO(date) {
@@ -3269,11 +3184,64 @@ function calcularRangoPuertos(dias) {
 let cacheUltimasAlturas = null;
 async function cargarUltimasAlturasWFS() {
   if (cacheUltimasAlturas) return cacheUltimasAlturas;
-  const respuesta = await fetch(URL_ULTIMAS_ALTURAS_WFS);
-  if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
-  const json = await respuesta.json();
-  if (!json.features || !Array.isArray(json.features)) throw new Error('Sin datos');
-  cacheUltimasAlturas = json.features;
+  
+  const hoy = new Date();
+  const ayer = new Date();
+  ayer.setDate(hoy.getDate() - 1);
+  const strHoy = hoy.toISOString().slice(0, 10);
+  const strAyer = ayer.toISOString().slice(0, 10);
+
+  const resultados = [];
+  await Promise.all(PUERTOS_PARANA.map(async (puerto) => {
+    try {
+      const urlHoy = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${strHoy}&timeEnd=${strHoy}&seriesId=${puerto.seriesId}&siteCode=${puerto.seriesId}&varId=2&format=json`;
+      const urlAyer = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${strAyer}&timeEnd=${strAyer}&seriesId=${puerto.seriesId}&siteCode=${puerto.seriesId}&varId=2&format=json`;
+      
+      const [respHoy, respAyer] = await Promise.all([fetch(urlHoy), fetch(urlAyer)]);
+      const jsonHoy = await respHoy.json();
+      const jsonAyer = await respAyer.json();
+      
+      let valorHoy = null;
+      let valorAyer = null;
+      let fechaHoy = strHoy;
+
+      if (jsonHoy.data && jsonHoy.data.length > 0) {
+        valorHoy = parseFloat(jsonHoy.data[jsonHoy.data.length - 1].valor);
+        fechaHoy = jsonHoy.data[jsonHoy.data.length - 1].timestart;
+      }
+      if (jsonAyer.data && jsonAyer.data.length > 0) {
+        valorAyer = parseFloat(jsonAyer.data[jsonAyer.data.length - 1].valor);
+      }
+
+      if (valorHoy === null && valorAyer !== null) {
+        valorHoy = valorAyer;
+        fechaHoy = strAyer;
+      }
+      
+      if (valorHoy !== null) {
+        let tendencia = 'permanece';
+        if (valorAyer !== null) {
+          if (valorHoy > valorAyer + 0.01) tendencia = 'crece';
+          else if (valorHoy < valorAyer - 0.01) tendencia = 'baja';
+        }
+
+        resultados.push({
+          properties: {
+            nombre: puerto.nombre,
+            valor: valorHoy,
+            valor_precedente: valorAyer,
+            tendencia: tendencia,
+            fecha: fechaHoy
+          }
+        });
+      }
+    } catch (e) {
+      console.warn(`No se pudo cargar ${puerto.nombre}`);
+    }
+  }));
+
+  const ordenados = PUERTOS_PARANA.map(p => resultados.find(r => r.properties.nombre === p.nombre)).filter(Boolean);
+  cacheUltimasAlturas = ordenados;
   return cacheUltimasAlturas;
 }
 function datosEjemploPuerto() {
@@ -3312,37 +3280,48 @@ async function cargarDatosPuertos(onProgreso) {
   const features = await cargarUltimasAlturasWFS();
   const total = PUERTOS_PARANA.length;
   const resultados = [];
+  
   for (let i = 0; i < PUERTOS_PARANA.length; i++) {
     const puerto = PUERTOS_PARANA[i];
-    try {
-      const feature = features.find(f => {
-        const n = (f.properties && f.properties.nombre) || '';
-        return n.trim() === puerto.nombre;
-      });
-      if (!feature) throw new Error('No encontrada');
+    const feature = features.find(f => f.properties.nombre === puerto.nombre);
+    
+    if (feature) {
       const props = feature.properties;
-      const valor = parseFloat(props.valor);
-      const valorPrev = props.valor_precedente != null ? parseFloat(props.valor_precedente) : null;
-      let tendencia, flecha;
-      const t = (props.tendencia || '').toLowerCase();
-      if (t === 'crece') { tendencia = 'sube'; flecha = '↗'; }
-      else if (t === 'baja') { tendencia = 'baja'; flecha = '↘'; }
-      else { tendencia = 'estable'; flecha = '—'; }
       let deltaCm = 0;
-      if (valorPrev != null && !isNaN(valorPrev)) {
-        deltaCm = Math.round((valor - valorPrev) * 100);
+      if (props.valor_precedente != null && !isNaN(props.valor_precedente)) {
+        deltaCm = Math.round((props.valor - props.valor_precedente) * 100);
       }
-      const fechaISO = props.fecha ? props.fecha.slice(0, 10) : formatearFechaISO(new Date());
+      
+      let tendenciaUI = 'estable';
+      if (props.tendencia === 'crece') tendenciaUI = 'sube';
+      else if (props.tendencia === 'baja') tendenciaUI = 'baja';
+      
       resultados.push({
-        puerto,
-        datos: { altura: valor, fecha: fechaISO, delta: deltaCm / 100, deltaCm, tendencia, flecha, ok: true }
+        puerto: puerto,
+        datos: {
+          altura: props.valor,
+          fecha: props.fecha,
+          deltaCm: deltaCm,
+          tendencia: tendenciaUI,
+          ok: true
+        }
       });
-    } catch (err) {
-      const datos = datosEjemploPuerto();
-      datos.error = true;
-      resultados.push({ puerto, datos });
+    } else {
+      // Si falló, usamos datos de ejemplo para que no quede vacío
+      const datosFicticios = datosEjemploPuerto();
+      resultados.push({
+        puerto: puerto,
+        datos: {
+          altura: datosFicticios.altura,
+          fecha: datosFicticios.fecha,
+          deltaCm: datosFicticios.deltaCm,
+          tendencia: datosFicticios.tendencia,
+          ok: false,
+          error: true
+        }
+      });
     }
-    onProgreso(i + 1, total);
+    if (onProgreso) onProgreso(i + 1, total);
   }
   return resultados;
 }
@@ -3350,133 +3329,50 @@ async function cargarDatosPuertos(onProgreso) {
 function renderTablaTendencia(datosPuertos) {
   const tbody = document.getElementById('tbodyTendencia');
   if (!tbody) return;
+
   if (!datosPuertos || datosPuertos.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--muted); padding:20px;">Datos no disponibles temporalmente</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--muted); padding:20px;">Datos no disponibles temporalmente</td></tr>';
     return;
   }
+
   tbody.innerHTML = datosPuertos.map(({ puerto, datos }) => {
     const esSantaFe = puerto.nombre === 'Santa Fe';
-    let deltaTexto;
-    if (datos.deltaCm > 0) deltaTexto = `+${datos.deltaCm} cm`;
-    else if (datos.deltaCm < 0) deltaTexto = `${datos.deltaCm} cm`;
-    else deltaTexto = '0 cm';
+
+    let deltaCm = datos.deltaCm || 0;
+    const deltaTexto = deltaCm > 0 ? '+' + deltaCm + ' cm' : (deltaCm < 0 ? deltaCm + ' cm' : '0 cm');
     const iconoTend = datos.tendencia === 'sube' ? SVG_FLECHAS.sube : (datos.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
-    return `
-      <tr${esSantaFe ? ' class="destacada"' : ''}>
-        <td class="estacion-nombre">${puerto.nombre}</td>
-        <td class="tend-celda"><span class="circulo-tend ${datos.tendencia}">${iconoTend}</span></td>
-        <td class="delta ${datos.tendencia}">${deltaTexto}</td>
-      </tr>
-    `;
-  }).join('');
-}
+    const claseTend = datos.tendencia === 'sube' ? 'sube' : (datos.tendencia === 'baja' ? 'baja' : 'estable');
 
-async function cargarDatosCaudales() {
-  const tbody = document.getElementById('tbodyCaudales');
-  if (!tbody) return;
-  try {
-    const respuesta = await fetch(URL_CAUDALES_WFS);
-    if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
-    const json = await respuesta.json();
-    if (!json.features || !Array.isArray(json.features)) throw new Error('Sin features');
-    const filas = [];
-    let caudalSantaFeActual = null;
-    CAUDALES_ESTACIONES.forEach(est => {
-      const feature = json.features.find(f => {
-        const nombre = f.properties && f.properties.nombre;
-        return nombre && nombre.trim() === est.nombreINA;
-      });
-      if (feature && feature.properties) {
-        const props = feature.properties;
-        const valor = parseFloat(props.valor);
-        const valorPrev = props.valor_precedente != null ? parseFloat(props.valor_precedente) : null;
-        const tendenciaRaw = props.tendencia || 'permanece';
-        let tendencia, flecha;
-        if (tendenciaRaw === 'crece') { tendencia = 'sube'; flecha = '↗'; }
-        else if (tendenciaRaw === 'baja') { tendencia = 'baja'; flecha = '↘'; }
-        else { tendencia = 'estable'; flecha = '—'; }
-        let delta = null;
-        if (valorPrev != null && !isNaN(valorPrev)) {
-          delta = Math.round(valor - valorPrev);
-        }
-        if (est.nombreINA === 'Santa Fe') caudalSantaFeActual = valor;
-        filas.push({ display: est.display, valor, valorPrev, delta, tendencia, flecha, esSantaFe: est.nombreINA === 'Santa Fe' });
-      } else {
-        filas.push({ display: est.display, valor: null, valorPrev: null, delta: null, tendencia: null, flecha: null, esSantaFe: est.nombreINA === 'Santa Fe', error: true });
-      }
-    });
-    tbody.innerHTML = filas.map(fila => {
-      const claseDestacada = fila.esSantaFe ? ' class="destacada"' : '';
-      if (fila.error || fila.valor === null) {
-        return `
-          <tr${claseDestacada}>
-            <td class="estacion-nombre">${fila.display}</td>
-            <td class="valor-num" colspan="3" style="text-align:center; color:var(--muted); font-size:0.75rem;">Sin datos</td>
-          </tr>
-        `;
-      }
-      const valorFormateado = Math.round(fila.valor).toLocaleString('es-AR');
-      const deltaTexto = fila.delta != null
-        ? (fila.delta > 0 ? `+${fila.delta.toLocaleString('es-AR')}` : fila.delta.toLocaleString('es-AR'))
-        : '—';
-      const iconoTend = fila.tendencia === 'sube' ? SVG_FLECHAS.sube : (fila.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
-      return `
-        <tr${claseDestacada}>
-          <td class="estacion-nombre">${fila.display}</td>
-          <td class="valor-num">${valorFormateado}<span class="unidad">m³/s</span></td>
-          <td class="tend-celda"><span class="flecha-simple ${fila.tendencia}">${iconoTend}</span></td>
-          <td class="delta ${fila.tendencia}">${deltaTexto}</td>
-        </tr>
-      `;
-    }).join('');
-    actualizarComparacion2016(caudalSantaFeActual);
-  } catch (err) {
-    console.warn('Error cargando caudales:', err.message);
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="4" style="text-align:center; color:var(--muted); padding:20px; font-size:0.78rem;">
-          Datos no disponibles temporalmente
-        </td>
-      </tr>
-    `;
-    const textoComp = document.getElementById('textoComparacion');
-    if (textoComp) {
-      textoComp.innerHTML = '<span style="color:#78350f; opacity:0.8;">No hay datos actualizados por el momento.</span>';
+    const altura = datos.altura;
+    const alturaTexto = (altura != null && !isNaN(altura))
+      ? altura.toFixed(2).replace('.', ',') + ' m'
+      : '—';
+
+    let estadoHTML = '';
+
+    if (altura >= UMBRAL_EVACUACION) {
+      estadoHTML = '<span class="badge evacuacion">Evacuación</span>';
+    } else if (altura >= UMBRAL_ALERTA) {
+      const faltaEvac = Math.round((UMBRAL_EVACUACION - altura) * 100);
+      estadoHTML = '<span class="badge alerta">Alerta</span>'
+        + '<span class="falta-cm" style="display:block; font-size:0.6rem; color:var(--muted); margin-top:4px; font-weight:600;">Faltan ' + faltaEvac + ' cm</span>';
+    } else {
+      const faltaAlerta = Math.round((UMBRAL_ALERTA - altura) * 100);
+      estadoHTML = '<span class="badge normal">Normal</span>'
+        + '<span class="falta-cm" style="display:block; font-size:0.6rem; color:var(--muted); margin-top:4px; font-weight:600;">Faltan ' + faltaAlerta + ' cm</span>';
     }
-  }
-}
 
-function actualizarComparacion2016(caudalSantaFe) {
-  const textoComp = document.getElementById('textoComparacion');
-  if (!textoComp) return;
-  const caudalUsar = (caudalSantaFe != null && !isNaN(caudalSantaFe) && caudalSantaFe > 0)
-    ? caudalSantaFe
-    : CAUDAL_SANTAFE_RESPALDO;
-  const caudalRedondeado = Math.round(caudalUsar);
-  const caudalFormateado = caudalRedondeado.toLocaleString('es-AR');
-  const diff = CAUDAL_PICO_2016 - caudalUsar;
-  const porcentaje = Math.round((Math.abs(diff) / caudalUsar) * 100);
-  if (caudalUsar >= CAUDAL_PICO_2016 * 0.95 && caudalUsar <= CAUDAL_PICO_2016 * 1.05) {
-    textoComp.innerHTML = `
-      El caudal actual (<strong>${caudalFormateado} m³/s</strong>) está en un nivel
-      <span class="porcentaje">similar al pico de la crecida de 2016</span>.
-      Un evento de esta magnitud no se registra desde entonces.
-    `;
-  } else if (caudalUsar > CAUDAL_PICO_2016 * 1.05) {
-    textoComp.innerHTML = `
-      El caudal actual (<strong>${caudalFormateado} m³/s</strong>) supera en
-      <span class="porcentaje">${porcentaje}%</span>
-      al pico de la crecida de 2016 (27.445 m³/s).
-      <strong>Un evento de esta magnitud no tiene precedentes recientes.</strong>
-    `;
-  } else {
-    textoComp.innerHTML = `
-      En el pico de la crecida de 2016, el caudal en Santa Fe superó
-      <strong>los 27.000 m³/s</strong>, un
-      <span class="porcentaje">${porcentaje}% más</span>
-      que el caudal actual (${caudalFormateado} m³/s).
-    `;
-  }
+    return ''
+      + '<tr' + (esSantaFe ? ' class="destacada"' : '') + '>'
+      +   '<td class="estacion-nombre">' + puerto.nombre + '</td>'
+      +   '<td class="tend-celda" style="text-align:center;"><span class="circulo-tend ' + claseTend + '">' + iconoTend + '</span></td>'
+      +   '<td class="delta ' + claseTend + '">' + deltaTexto + '</td>'
+      +   '<td style="text-align:center;">'
+      +     '<div style="font-weight:800; font-variant-numeric:tabular-nums; color:var(--azul-oscuro); font-size:0.85rem;">' + alturaTexto + '</div>'
+      +     estadoHTML
+      +   '</td>'
+      + '</tr>';
+  }).join('');
 }
 
 function crearMapaPuertosMapLibre() {
@@ -3515,7 +3411,6 @@ function crearMapaPuertosMapLibre() {
     setTimeout(() => { if (mapaPuertos) mapaPuertos.resize(); }, 300);
   });
   mapaPuertos.on('error', (e) => { console.error('Error en mapa de puertos (MapLibre):', e.error); });
-  cargarDatosCaudales();
 }
 function agregarMarcadorMapLibre(puerto, datos) {
   const el = document.createElement('div');
@@ -3573,7 +3468,6 @@ function crearMapaPuertosLeaflet() {
     mapaPuertos.invalidateSize();
     setTimeout(() => { if (mapaPuertos) mapaPuertos.invalidateSize(); }, 300);
   })();
-  cargarDatosCaudales();
 }
 function agregarMarcadorLeaflet(puerto, datos) {
   const iconoTend = datos.tendencia === 'sube' ? SVG_FLECHAS.sube : (datos.tendencia === 'baja' ? SVG_FLECHAS.baja : SVG_FLECHAS.estable);
@@ -3635,8 +3529,8 @@ const BAJANTE_2021 = [
 // ESTADO
 // ============================================================
 let tipoActual = 'actual';
-let periodoActual = 3;
-let ultimoPeriodoActual = 3;
+let periodoActual = 10;
+let ultimoPeriodoActual = 10;
 let registros = [];
 let chart = null;
 let mostrarTerraplenes = false;
@@ -3844,35 +3738,60 @@ function cargarDesdeHistorico(tipo) {
 // PRONÓSTICO
 // ============================================================
 async function cargarPronostico() {
+  const btn = document.getElementById('prono-btn');
   try {
-    const url = 'https://alerta.ina.gob.ar/geoserver/siyah/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=siyah:tabprono_parana&outputFormat=application/json&cql_filter=estacion_id=30';
+    const url = URL_PRONOSTICO_API;
     const respuesta = await fetch(url);
     if (!respuesta.ok) throw new Error('Error HTTP ' + respuesta.status);
     const json = await respuesta.json();
-    if (!json.features || json.features.length === 0) throw new Error('Sin datos');
-    const props = json.features[0].properties;
+    const datosSantaFe = json.data.find(d => d.estacion_nombre === 'Santa Fe' && d.varid === 2);
+    if (!datosSantaFe) throw new Error('No hay pronóstico para Santa Fe');
+    
+    const seriesIdPron = datosSantaFe.seriesid;
+    const hoy = new Date();
+    const hace7Dias = new Date();
+    hace7Dias.setDate(hoy.getDate() - 7);
+    const strHoy = hoy.toISOString().slice(0, 10);
+    const strHace7Dias = hace7Dias.toISOString().slice(0, 10);
+    
+    const urlValores = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${strHace7Dias}&timeEnd=${strHoy}&seriesId=${seriesIdPron}&siteCode=30&varId=2&format=json`;
+    const respValores = await fetch(urlValores);
+    const jsonValores = await respValores.json();
+    
+    if (!jsonValores.data || jsonValores.data.length === 0) throw new Error('Sin valores de pronóstico');
+    
+    const p1 = jsonValores.data[0];
+    const p2 = jsonValores.data.length > 1 ? jsonValores.data[1] : p1;
+    
     pronosticoActual = {
-      emision: props.fecha_hoy.slice(0, 10),
-      pronostico: {
-        fecha: props.fecha_pronostico.slice(0, 10),
-        valor: props.altura_pronostico,
-        min: props.altura_pronostico_min,
-        max: props.altura_pronostico_max
-      },
-      tendencia: {
-        fecha: props.fecha_tendencia.slice(0, 10),
-        valor: props.altura_tendencia,
-        min: props.altura_tendencia_min,
-        max: props.altura_tendencia_max
-      }
+      emision: datosSantaFe.forecastdate.slice(0, 10),
+      pronostico: { fecha: p1.timestart.slice(0, 10), valor: parseFloat(p1.valor), min: parseFloat(p1.valor) - 0.15, max: parseFloat(p1.valor) + 0.15 },
+      tendencia: { fecha: p2.timestart.slice(0, 10), valor: parseFloat(p2.valor), min: parseFloat(p2.valor) - 0.15, max: parseFloat(p2.valor) + 0.15 }
     };
+    renderPronosticoCard(pronosticoActual);
+    if (btn) {
+      btn.style.display = 'flex';
+      btn.classList.remove('deshabilitado');
+      btn.classList.add('activo');
+      const textoBtn = btn.querySelector('.texto-prono');
+      if (textoBtn) textoBtn.textContent = 'Pronóstico INA';
+    }
   } catch (err) {
-    console.warn('Usando pronóstico de respaldo:', err.message);
-    pronosticoActual = PRONOSTICO_RESPALDO;
+    console.warn('Pronóstico no disponible:', err.message);
+    pronosticoActual = null;
+    const card = document.getElementById('pronostico-card');
+    if (card) card.style.display = 'none';
+    if (btn) {
+      btn.style.display = 'flex';
+      btn.classList.add('deshabilitado');
+      btn.classList.remove('activo');
+      const textoBtn = btn.querySelector('.texto-prono');
+      if (textoBtn) textoBtn.textContent = 'Pronóstico no disponible';
+    }
+    const leyenda = document.getElementById('leyenda-prono');
+    if (leyenda) leyenda.style.display = 'none';
   }
-  const esHistorico = (tipoActual === 'crecida' || tipoActual === 'bajante');
-  if (!esHistorico) renderPronosticoCard(pronosticoActual);
-  if (mostrarPronostico) renderGrafico();
+  renderGrafico();
 }
 function renderPronosticoCard(p) {
   const card = document.getElementById('pronostico-card');
@@ -4424,7 +4343,6 @@ function inyectarIconosSVG() {
     asignar('toggleTablaFlecha', SVG_CARET);
     asignar('btnCuencaFlecha', SVG_CARET);
     asignar('btnTablaTendenciaFlecha', SVG_CARET);
-    asignar('btnTablaCaudalesFlecha', SVG_CARET);
     asignar('linkObservatorioFlecha', SVG_FLECHA_LINK);
     asignar('linkObservatorioFlecha2', SVG_FLECHA_LINK);
     asignar('btnAbrirMapaFlecha', SVG_FLECHA_LINK);
