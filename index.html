@@ -2840,21 +2840,21 @@ const SVG_CARET = '<svg class="icono-caret" viewBox="0 0 24 24" fill="none" stro
 
 const VAR_ID_PUERTOS = 2;
 const PUERTOS_PARANA = [
-  { nombre: 'Puerto Iguazú', lat: -25.5972, lng: -54.5738, seriesId: 9 },
-  { nombre: 'Posadas',       lat: -27.3671, lng: -55.8960, seriesId: 14 },
-  { nombre: 'Ituzaingó',     lat: -27.5852, lng: -56.6872, seriesId: 15 },
-  { nombre: 'Itatí',         lat: -27.2700, lng: -58.2500, seriesId: 17 },
-  { nombre: 'Corrientes',    lat: -27.4692, lng: -58.8306, seriesId: 19 },
-  { nombre: 'Bella Vista',   lat: -28.5000, lng: -59.0500, seriesId: 22 },
-  { nombre: 'Goya',          lat: -29.1440, lng: -59.2624, seriesId: 23 },
-  { nombre: 'Reconquista',   lat: -29.1500, lng: -59.6500, seriesId: 24 },
-  { nombre: 'Esquina',       lat: -30.0167, lng: -59.5333, seriesId: 25 },
-  { nombre: 'La Paz',        lat: -30.7475, lng: -59.6482, seriesId: 26 },
-  { nombre: 'Santa Fe',      lat: -31.6107, lng: -60.6973, seriesId: 30 },
-  { nombre: 'Paraná',        lat: -31.7410, lng: -60.5286, seriesId: 29 },
-  { nombre: 'Rosario',       lat: -32.9570, lng: -60.6294, seriesId: 34 },
-  { nombre: 'San Nicolás',   lat: -33.3333, lng: -60.2255, seriesId: 36 },
-  { nombre: 'Zárate',        lat: -34.0973, lng: -59.0248, seriesId: 40 },
+  { nombre: 'Puerto Iguazú', lat: -25.5972, lng: -54.5738, seriesId: 9,  alerta: 25.00, evacuacion: 28.00 },
+  { nombre: 'Posadas',       lat: -27.3671, lng: -55.8960, seriesId: 14, alerta: 11.00, evacuacion: 12.00 },
+  { nombre: 'Ituzaingó',     lat: -27.5852, lng: -56.6872, seriesId: 15, alerta:  3.50, evacuacion:  4.00 },
+  { nombre: 'Itatí',         lat: -27.2700, lng: -58.2500, seriesId: 17, alerta:  6.80, evacuacion:  7.50 },
+  { nombre: 'Corrientes',    lat: -27.4692, lng: -58.8306, seriesId: 19, alerta:  6.50, evacuacion:  7.00 },
+  { nombre: 'Bella Vista',   lat: -28.5000, lng: -59.0500, seriesId: 22, alerta:  6.00, evacuacion:  6.40 },
+  { nombre: 'Goya',          lat: -29.1440, lng: -59.2624, seriesId: 23, alerta:  5.20, evacuacion:  5.70 },
+  { nombre: 'Reconquista',   lat: -29.1500, lng: -59.6500, seriesId: 24, alerta:  5.10, evacuacion:  5.30 },
+  { nombre: 'Esquina',       lat: -30.0167, lng: -59.5333, seriesId: 25, alerta:  5.00, evacuacion:  5.40 },
+  { nombre: 'La Paz',        lat: -30.7475, lng: -59.6482, seriesId: 26, alerta:  5.80, evacuacion:  6.15 },
+  { nombre: 'Santa Fe',      lat: -31.6107, lng: -60.6973, seriesId: 30, alerta:  5.30, evacuacion:  5.70 },
+  { nombre: 'Paraná',        lat: -31.7410, lng: -60.5286, seriesId: 29, alerta:  4.70, evacuacion:  5.00 },
+  { nombre: 'Rosario',       lat: -32.9570, lng: -60.6294, seriesId: 34, alerta:  5.00, evacuacion:  5.25 },
+  { nombre: 'San Nicolás',   lat: -33.3333, lng: -60.2255, seriesId: 36, alerta:  4.20, evacuacion:  5.00 },
+  { nombre: 'Zárate',        lat: -34.0973, lng: -59.0248, seriesId: 40, alerta:  2.00, evacuacion:  2.20 },
  ];
 
 // ============================================================
@@ -3348,16 +3348,20 @@ function renderTablaTendencia(datosPuertos) {
       ? altura.toFixed(2).replace('.', ',') + ' m'
       : '—';
 
+       // Umbrales propios del puerto
+    const alertaPuerto = puerto.alerta;
+    const evacPuerto   = puerto.evacuacion;
+
     let estadoHTML = '';
 
-    if (altura >= UMBRAL_EVACUACION) {
+    if (altura >= evacPuerto) {
       estadoHTML = '<span class="badge evacuacion">Evacuación</span>';
-    } else if (altura >= UMBRAL_ALERTA) {
-      const faltaEvac = Math.round((UMBRAL_EVACUACION - altura) * 100);
+    } else if (altura >= alertaPuerto) {
+      const faltaEvac = Math.round((evacPuerto - altura) * 100);
       estadoHTML = '<span class="badge alerta">Alerta</span>'
         + '<span class="falta-cm" style="display:block; font-size:0.6rem; color:var(--muted); margin-top:4px; font-weight:600;">Faltan ' + faltaEvac + ' cm</span>';
     } else {
-      const faltaAlerta = Math.round((UMBRAL_ALERTA - altura) * 100);
+      const faltaAlerta = Math.round((alertaPuerto - altura) * 100);
       estadoHTML = '<span class="badge normal">Normal</span>'
         + '<span class="falta-cm" style="display:block; font-size:0.6rem; color:var(--muted); margin-top:4px; font-weight:600;">Faltan ' + faltaAlerta + ' cm</span>';
     }
