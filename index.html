@@ -2276,6 +2276,128 @@
   .btn-cuenca.open .icono-caret { transform: rotate(180deg); }
   .btn-tabla.activo .icono-caret { transform: rotate(180deg); }
   .toggle-btn.open .icono-caret { transform: rotate(180deg); }
+
+  /* ============================================================
+     MODAL DE PRONÓSTICO INA CON ZOOM TÁCTIL
+     ============================================================ */
+  .popup-pronostico {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #fff;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .popup-pronostico.visible {
+    display: flex;
+    opacity: 1;
+  }
+  .popup-pronostico-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .popup-pronostico-header h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .popup-pronostico-header .sub {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .popup-pronostico-cerrar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background .15s, transform .15s;
+    line-height: 1;
+    padding: 0;
+    font-family: inherit;
+  }
+  .popup-pronostico-cerrar:hover {
+    background: rgba(255,255,255,0.35);
+  }
+  .popup-pronostico-cerrar:active {
+    transform: scale(0.92);
+  }
+  .popup-pronostico-body {
+    flex: 1 1 auto;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #f3f4f6;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 12px;
+  }
+  .popup-pronostico-img-wrapper {
+    display: inline-block;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    overflow: hidden;
+    max-width: 100%;
+  }
+  .popup-pronostico-img-wrapper img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    cursor: zoom-in;
+    transition: transform .2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
+  }
+  .popup-pronostico-img-wrapper.zoomed img {
+    cursor: zoom-out;
+  }
+  .popup-pronostico-footer {
+    flex-shrink: 0;
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: #fff;
+    border-top: 1px solid var(--borde);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.4;
+  }
+  .popup-pronostico-footer strong {
+    color: var(--verde-oscuro);
+  }
+  @media (min-width: 768px) {
+    .popup-pronostico-body {
+      padding: 24px;
+    }
+    .popup-pronostico-header h3 {
+      font-size: 1.1rem;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -2486,7 +2608,7 @@
         <span id="leyenda-banda" style="display:none;">
           <i class="banda"></i> Cota de terraplenes: 17,00–17,50 m IGN
         </span>
-        <span id="leyenda-prono" style="display:flex;">
+        <span id="leyenda-prono" style="display:none;">
           <i class="linea prono-linea"></i> Proyección de pronóstico (próximos días)
         </span>
       </div>
@@ -2797,6 +2919,31 @@
     <button class="btn-cerrar-mapa" onclick="cerrarMapa()" aria-label="Cerrar mapa">✕</button>
     <iframe id="iframeMapa" src="about:blank" title="Mapa de curvas de nivel y cotas IGN"></iframe>
   </div>
+
+
+  <!-- POPUP PRONÓSTICO INA (imagen con zoom) -->
+  <div class="popup-pronostico" id="popupPronostico">
+    <div class="popup-pronostico-header">
+      <div>
+        <h3>Pronóstico INA</h3>
+        <div class="sub">Proyección para los próximos días · Puerto Santa Fe</div>
+      </div>
+      <button class="popup-pronostico-cerrar" onclick="cerrarPronosticoModal()" aria-label="Cerrar pronóstico">✕</button>
+    </div>
+    <div class="popup-pronostico-body" id="popupPronosticoBody">
+      <div class="popup-pronostico-img-wrapper" id="popupPronosticoWrapper">
+        <img id="popupPronosticoImg"
+             src=""
+             alt="Gráfico de pronóstico del río Paraná en Santa Fe"
+             loading="lazy">
+      </div>
+    </div>
+    <div class="popup-pronostico-footer">
+      Fuente: <strong>Instituto Nacional del Agua (INA)</strong> · Se actualiza automáticamente.<br>
+      Tocá la imagen para ampliar · Usá los dedos para hacer zoom
+    </div>
+  </div>
+
 
 <script>
 // ============================================================
@@ -3697,10 +3844,6 @@ function seleccionarHistorico(tipo) {
   document.getElementById('contexto').textContent =
     tipo === 'crecida' ? 'Viendo: Creciente histórica 2015-2016' : 'Viendo: Bajante histórica 2021-2022';
   document.getElementById('pronostico-card').style.display = 'none';
-  document.getElementById('prono-btn').classList.add('deshabilitado');
-  document.getElementById('prono-btn').classList.remove('activo');
-  document.getElementById('leyenda-prono').style.display = 'none';
-  mostrarPronostico = false;
   const cardMedidor = document.getElementById('cardMedidor');
   if (cardMedidor) cardMedidor.classList.add('oculto');
   actualizarSubtituloSerie();
@@ -3742,60 +3885,20 @@ function cargarDesdeHistorico(tipo) {
 // PRONÓSTICO
 // ============================================================
 async function cargarPronostico() {
+  // El pronóstico ahora se muestra como imagen oficial del INA en un modal.
+  // Solo aseguramos que el botón esté activo y con el texto correcto.
   const btn = document.getElementById('prono-btn');
-  try {
-    const url = URL_PRONOSTICO_API;
-    const respuesta = await fetch(url);
-    if (!respuesta.ok) throw new Error('Error HTTP ' + respuesta.status);
-    const json = await respuesta.json();
-    const datosSantaFe = json.data.find(d => d.estacion_nombre === 'Santa Fe' && d.varid === 2);
-    if (!datosSantaFe) throw new Error('No hay pronóstico para Santa Fe');
-    
-    const seriesIdPron = datosSantaFe.seriesid;
-    const hoy = new Date();
-    const hace7Dias = new Date();
-    hace7Dias.setDate(hoy.getDate() - 7);
-    const strHoy = hoy.toISOString().slice(0, 10);
-    const strHace7Dias = hace7Dias.toISOString().slice(0, 10);
-    
-    const urlValores = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${strHace7Dias}&timeEnd=${strHoy}&seriesId=${seriesIdPron}&siteCode=30&varId=2&format=json`;
-    const respValores = await fetch(urlValores);
-    const jsonValores = await respValores.json();
-    
-    if (!jsonValores.data || jsonValores.data.length === 0) throw new Error('Sin valores de pronóstico');
-    
-    const p1 = jsonValores.data[0];
-    const p2 = jsonValores.data.length > 1 ? jsonValores.data[1] : p1;
-    
-    pronosticoActual = {
-      emision: datosSantaFe.forecastdate.slice(0, 10),
-      pronostico: { fecha: p1.timestart.slice(0, 10), valor: parseFloat(p1.valor), min: parseFloat(p1.valor) - 0.15, max: parseFloat(p1.valor) + 0.15 },
-      tendencia: { fecha: p2.timestart.slice(0, 10), valor: parseFloat(p2.valor), min: parseFloat(p2.valor) - 0.15, max: parseFloat(p2.valor) + 0.15 }
-    };
-    renderPronosticoCard(pronosticoActual);
-    if (btn) {
-      btn.style.display = 'flex';
-      btn.classList.remove('deshabilitado');
-      btn.classList.add('activo');
-      const textoBtn = btn.querySelector('.texto-prono');
-      if (textoBtn) textoBtn.textContent = 'Pronóstico INA';
-    }
-  } catch (err) {
-    console.warn('Pronóstico no disponible:', err.message);
-    pronosticoActual = null;
-    const card = document.getElementById('pronostico-card');
-    if (card) card.style.display = 'none';
-    if (btn) {
-      btn.style.display = 'flex';
-      btn.classList.add('deshabilitado');
-      btn.classList.remove('activo');
-      const textoBtn = btn.querySelector('.texto-prono');
-      if (textoBtn) textoBtn.textContent = 'Pronóstico no disponible';
-    }
-    const leyenda = document.getElementById('leyenda-prono');
-    if (leyenda) leyenda.style.display = 'none';
+  if (btn) {
+    btn.style.display = 'flex';
+    btn.classList.remove('deshabilitado');
+    btn.classList.add('activo');
+    const textoBtn = btn.querySelector('.texto-prono');
+    if (textoBtn) textoBtn.textContent = 'Pronóstico INA';
   }
-  renderGrafico();
+  const leyenda = document.getElementById('leyenda-prono');
+  if (leyenda) leyenda.style.display = 'none';
+  const card = document.getElementById('pronostico-card');
+  if (card) card.style.display = 'none';
 }
 function renderPronosticoCard(p) {
   const card = document.getElementById('pronostico-card');
@@ -3819,19 +3922,164 @@ function renderPronosticoCard(p) {
   card.style.display = esHistorico ? 'none' : 'block';
 }
 function togglePronostico() {
-  if (tipoActual === 'crecida' || tipoActual === 'bajante') return;
-  mostrarPronostico = !mostrarPronostico;
-  const btn = document.getElementById('prono-btn');
-  const leyenda = document.getElementById('leyenda-prono');
-  if (mostrarPronostico) {
-    btn.classList.add('activo');
-    leyenda.style.display = 'flex';
-  } else {
-    btn.classList.remove('activo');
-    leyenda.style.display = 'none';
-  }
-  renderGrafico();
+  abrirPronosticoModal();
 }
+
+// ============================================================
+// MODAL DE PRONÓSTICO INA (imagen oficial)
+// ============================================================
+const URL_PRONOSTICO_IMAGEN = 'https://alerta.ina.gob.ar/ina/08-PRONOSTICOS/graficos/santa_fe.png';
+
+function abrirPronosticoModal() {
+  const popup = document.getElementById('popupPronostico');
+  const img = document.getElementById('popupPronosticoImg');
+  const wrapper = document.getElementById('popupPronosticoWrapper');
+  if (!popup || !img || !wrapper) return;
+
+  // Resetear zoom
+  wrapper.classList.remove('zoomed');
+  img.style.transform = 'scale(1)';
+
+  // Cargar imagen con cache-buster para forzar actualización
+  img.onerror = function() {
+    img.alt = 'No se pudo cargar el gráfico del INA. Verificá tu conexión.';
+    img.style.minHeight = '200px';
+    img.style.padding = '40px 20px';
+  };
+  img.onload = function() {
+    img.style.minHeight = '';
+    img.style.padding = '';
+  };
+  img.src = URL_PRONOSTICO_IMAGEN + '?t=' + Date.now();
+
+  popup.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarPronosticoModal() {
+  const popup = document.getElementById('popupPronostico');
+  if (!popup) return;
+  popup.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// ZOOM TÁCTIL EN LA IMAGEN DEL PRONÓSTICO
+// ============================================================
+(function configurarZoomPronostico() {
+  let listo = false;
+  function init() {
+    if (listo) return;
+    const wrapper = document.getElementById('popupPronosticoWrapper');
+    const img = document.getElementById('popupPronosticoImg');
+    const body = document.getElementById('popupPronosticoBody');
+    if (!wrapper || !img || !body) return;
+    listo = true;
+
+    // Zoom con doble tap / doble clic
+    let lastTap = 0;
+    let zoomActual = 1;
+    const ZOOM_LEVELS = [1, 1.8, 2.8];
+    let nivelZoom = 0;
+
+    function aplicarZoom(nuevoZoom, originX, originY) {
+      zoomActual = nuevoZoom;
+      img.style.transformOrigin = originX + '% ' + originY + '%';
+      img.style.transform = 'scale(' + nuevoZoom + ')';
+      wrapper.classList.toggle('zoomed', nuevoZoom > 1);
+    }
+
+    function manejarDobleTap(clientX, clientY) {
+      const rect = img.getBoundingClientRect();
+      const originX = ((clientX - rect.left) / rect.width) * 100;
+      const originY = ((clientY - rect.top) / rect.height) * 100;
+      nivelZoom = (nivelZoom + 1) % ZOOM_LEVELS.length;
+      const nuevoZoom = ZOOM_LEVELS[nivelZoom];
+      aplicarZoom(nuevoZoom, originX, originY);
+    }
+
+    // Doble tap en móvil
+    img.addEventListener('touchend', function(e) {
+      const ahora = Date.now();
+      const diff = ahora - lastTap;
+      if (diff < 300 && diff > 0) {
+        e.preventDefault();
+        const touch = e.changedTouches[0];
+        manejarDobleTap(touch.clientX, touch.clientY);
+      }
+      lastTap = ahora;
+    }, { passive: false });
+
+    // Doble clic en desktop
+    img.addEventListener('dblclick', function(e) {
+      e.preventDefault();
+      manejarDobleTap(e.clientX, e.clientY);
+    });
+
+    // Pinch to zoom (2 dedos)
+    let escalaInicial = 1;
+    let distanciaInicial = 0;
+
+    function distanciaEntreDedos(t1, t2) {
+      const dx = t2.clientX - t1.clientX;
+      const dy = t2.clientY - t1.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    body.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        distanciaInicial = distanciaEntreDedos(e.touches[0], e.touches[1]);
+        escalaInicial = zoomActual;
+      }
+    }, { passive: true });
+
+    body.addEventListener('touchmove', function(e) {
+      if (e.touches.length === 2 && distanciaInicial > 0) {
+        e.preventDefault();
+        const distActual = distanciaEntreDedos(e.touches[0], e.touches[1]);
+        const factor = distActual / distanciaInicial;
+        let nuevaEscala = escalaInicial * factor;
+        nuevaEscala = Math.max(1, Math.min(4, nuevaEscala));
+        zoomActual = nuevaEscala;
+        img.style.transform = 'scale(' + nuevaEscala + ')';
+        wrapper.classList.toggle('zoomed', nuevaEscala > 1.05);
+      }
+    }, { passive: false });
+
+    body.addEventListener('touchend', function(e) {
+      if (e.touches.length < 2) {
+        distanciaInicial = 0;
+        // Sincronizar nivel de zoom con los niveles predefinidos
+        if (zoomActual <= 1.1) { nivelZoom = 0; zoomActual = 1; img.style.transform = 'scale(1)'; wrapper.classList.remove('zoomed'); }
+        else if (zoomActual <= 2.2) { nivelZoom = 1; }
+        else { nivelZoom = 2; }
+      }
+    }, { passive: true });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const popup = document.getElementById('popupPronostico');
+        if (popup && popup.classList.contains('visible')) {
+          cerrarPronosticoModal();
+        }
+      }
+    });
+
+    // Cerrar al tocar el fondo gris (no la imagen)
+    body.addEventListener('click', function(e) {
+      if (e.target === body) {
+        cerrarPronosticoModal();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 
 // ============================================================
 // ESTADOS
