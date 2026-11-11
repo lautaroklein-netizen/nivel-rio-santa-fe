@@ -2297,16 +2297,15 @@
   }
   .popup-pronostico-footer strong { color: #fff; }
 
-  /* --- PARCHES NUEVOS --- */
+  /* --- PARCHES DE DISEÑO --- */
   .btn-prono-limites {
-    flex-shrink: 0; display: none; align-items: center; gap: 4px;
+    display: flex; align-items: center; gap: 4px;
     padding: 10px 14px; background: #fff; color: var(--verde-oscuro);
     border: 1px solid var(--verde); border-radius: 12px;
     font-family: inherit; font-size: 0.72rem; font-weight: 700;
     cursor: pointer; transition: background .18s, color .18s;
-    min-height: 44px; white-space: nowrap;
+    min-height: 44px; white-space: nowrap; flex-shrink: 0;
   }
-  .btn-prono-limites.visible { display: inline-flex; }
   .btn-prono-limites:hover { background: var(--verde-claro); }
   .btn-prono-limites.activo { background: var(--verde); color: #fff; border-color: var(--verde); }
   
@@ -2324,9 +2323,29 @@
   .popup-bloque-rincon .titulo { font-size: 0.76rem; font-weight: 800; color: #0369a1; text-transform: uppercase; margin-bottom: 8px; }
   .popup-bloque-rincon p { font-size: 0.8rem; line-height: 1.5; color: #0c4a6e; margin: 0 0 8px; }
   .popup-bloque-rincon ul { padding-left: 18px; margin: 0; font-size: 0.8rem; color: #0c4a6e; line-height: 1.5; }
-  
+
+  /* Arreglar la pastilla de estado en celulares */
+  .ultimo-der .subcol-estado .estado-badge {
+    border-radius: 12px !important; padding: 6px 8px !important;
+    line-height: 1.15 !important; white-space: normal !important;
+    text-align: center !important; width: 90% !important; display: inline-block !important;
+  }
+
+  /* Reordenar en celular */
   @media (max-width: 560px) {
-    .btn-prono-limites { font-size: 0.68rem; padding: 8px 10px; min-height: 42px; }
+    .fila-controles { flex-wrap: wrap; gap: 6px; }
+    .selector-series-wrapper { width: 100%; flex: 100%; margin-bottom: 6px; }
+    .btn-prono { flex: 1; justify-content: center; font-size: 0.7rem; }
+    .btn-prono-limites { flex: 1; justify-content: center; font-size: 0.68rem; padding: 8px 10px; min-height: 42px; }
+    
+    #contenido { display: flex; flex-direction: column; }
+    #contenido > .card:nth-of-type(2) { order: 1; } 
+    #contenido > .card-medidor { order: 2; }
+    #contenido > .card:nth-of-type(1) { order: 3; }
+    
+    .ultimo-der .subcol-estado .estado-badge {
+      font-size: 0.55rem !important; letter-spacing: 0.5px !important; padding: 5px 4px !important;
+    }
   }
 </style>
 </head>
@@ -2389,7 +2408,7 @@
       <span class="texto-prono">Pronóstico INA</span>
       <span class="flechita">→</span>
     </button>
-    <button class="btn-prono-limites visible" id="btn-limites" onclick="toggleLimitesRango()" style="display:none;">
+    <button class="btn-prono-limites" id="btn-limites" onclick="toggleLimitesRango()">
       <span id="texto-limites">Ver límites de rango</span>
     </button>
   </div>
@@ -2626,6 +2645,62 @@
 
     <div class="card card-info-complementaria">
       <div class="titulo-info">Información complementaria</div>
+      
+      <!-- NUEVA TARJETA DE CAUDAL AL PRINCIPIO -->
+      <div class="card" style="margin-top: 10px; margin-bottom: 16px; background: var(--verde-muy-claro); border: 1px solid var(--verde); border-radius: 14px; padding: 14px;">
+        <h2 style="font-size: 0.85rem; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; color: var(--verde-oscuro);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          Caudal del Río
+        </h2>
+        <p style="font-size: 0.75rem; color: var(--muted); margin: 0 0 10px;">Dato observado (m³/s) y comparación con la crecida de 2016.</p>
+        
+        <button class="btn-tabla activo" id="btnTablaCaudales" onclick="toggleTablaCaudales()" style="width: 100%; background-color: var(--verde) !important; color: #fff !important; border: 1px solid var(--verde) !important; font-weight: 700 !important;">
+          <span>Caudal observado</span>
+          <span class="flecha">▼</span>
+        </button>
+        
+        <div class="contenedor-tabla open" id="contenedorCaudales">
+          <table class="tabla-datos">
+            <thead>
+              <tr>
+                <th>Estación</th>
+                <th class="num">Caudal</th>
+                <th class="centro">Tend.</th>
+                <th class="num">Δ 24h</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyCaudales"></tbody>
+          </table>
+          <div class="nota-tabla" id="notaCaudales">
+            <strong>Nota:</strong> caudal observado del cauce principal (m³/s), dato no oficial.
+            La tendencia compara el valor actual con el de 24 h antes.
+          </div>
+
+          <div class="bloque-comparacion" id="bloqueComparacion">
+            <div class="titulo-comparacion">Para comparar · Creciente 2015-2016</div>
+            <p class="texto-comparacion" id="textoComparacion"></p>
+            <div class="picos-lista">
+              <div class="pico-item">
+                <span class="pico-fecha">05 Ene 2016</span>
+                <span class="pico-datos">
+                  <span class="pico-caudal">27.445 m³/s</span>
+                  <span class="pico-altura">Altura 6,60 m</span>
+                </span>
+              </div>
+              <div class="pico-item">
+                <span class="pico-fecha">13 Abr 2016</span>
+                <span class="pico-datos">
+                  <span class="pico-caudal">24.500 m³/s</span>
+                  <span class="pico-altura">Segundo pico</span>
+                </span>
+              </div>
+            </div>
+            <div class="nota-comparacion">
+              Valores del cauce principal. El caudal total considerando el valle de inundación fue aún mayor.
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="paneles-grid">
         <div class="bloque-info-panel">
@@ -2670,10 +2745,7 @@
             <span>Variación 24 hs</span>
             <span class="flecha">▼</span>
           </button>
-          <button class="btn-tabla" id="btnTablaCaudales" onclick="toggleTablaCaudales()">
-            <span>Caudal observado</span>
-            <span class="flecha">▼</span>
-          </button>
+          
         </div>
 
         <div class="contenedor-tabla" id="contenedorTendencia">
@@ -3334,17 +3406,13 @@ function toggleTablaTendencia() {
   btnTend.classList.toggle('activo', abriendo);
 }
 function toggleTablaCaudales() {
-  const contTend = document.getElementById('contenedorTendencia');
   const contCaud = document.getElementById('contenedorCaudales');
-  const btnTend = document.getElementById('btnTablaTendencia');
   const btnCaud = document.getElementById('btnTablaCaudales');
+  if (!contCaud || !btnCaud) return;
   const abriendo = !contCaud.classList.contains('open');
-  contTend.classList.remove('open');
-  btnTend.classList.remove('activo');
   contCaud.classList.toggle('open', abriendo);
   btnCaud.classList.toggle('activo', abriendo);
 }
-
 function formatearFechaISO(date) {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -4035,6 +4103,7 @@ async function cargarPronostico() {
     const json = await respuesta.json();
     const data = json.data || [];
     if (!data.length) throw new Error('Sin datos');
+    
     const porFecha = {};
     data.forEach(function(x) {
       const f = (x.timestart || '').slice(0, 10);
@@ -4043,6 +4112,7 @@ async function cargarPronostico() {
       const v = parseFloat(x.valor);
       if (!isNaN(v)) porFecha[f].push(v);
     });
+    
     const puntos = Object.keys(porFecha).sort(function(a, b) { return a.localeCompare(b); }).map(function(f) {
       const vals = porFecha[f].slice().sort(function(a, b) { return a - b; });
       let min = vals[0];
@@ -4053,6 +4123,7 @@ async function cargarPronostico() {
       else medio = vals[0];
       return { fecha: f, min: min, medio: medio, max: max };
     }).filter(function(p) { return p && !isNaN(p.medio); });
+    
     if (!puntos.length) throw new Error('Sin puntos válidos');
     const emision = (json.responseHeader && json.responseHeader.forecastdate)
       ? String(json.responseHeader.forecastdate).slice(0, 10)
@@ -4109,6 +4180,7 @@ function togglePronostico() {
   }
   renderGrafico();
 }
+
 function toggleLimitesRango() {
   mostrarLimitesRango = !mostrarLimitesRango;
   const btn = document.getElementById('btn-limites');
@@ -4315,66 +4387,165 @@ function renderBannerTerraplenes() {
 
 function renderGrafico() {
   const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  
   registros.sort((a, b) => a.fecha.localeCompare(b.fecha));
+
   let labelsFinales = registros.map(r => {
     const dia = parseInt(r.fecha.slice(8, 10), 10);
     const mes = parseInt(r.fecha.slice(5, 7), 10) - 1;
     return `${dia} ${MESES[mes]}`;
   });
+  
   const alturasReales = registros.map(r => r.altura);
   const dataAlturaLinea = [...alturasReales];
+  
   let dataPronoMin = [];
   let dataPronoMax = [];
   let dataPronoMediana = [];
+  
   if (mostrarPronostico && pronosticoActual && pronosticoActual.puntos && tipoActual === 'actual') {
     const ultimoDatoReal = alturasReales[alturasReales.length - 1];
     const fechaUltimoDato = registros[registros.length - 1].fecha;
+    
     dataPronoMediana = new Array(alturasReales.length - 1).fill(null);
     dataPronoMin = new Array(alturasReales.length - 1).fill(null);
     dataPronoMax = new Array(alturasReales.length - 1).fill(null);
+
     dataPronoMediana.push(ultimoDatoReal);
-    if (mostrarLimitesRango) { dataPronoMin.push(ultimoDatoReal); dataPronoMax.push(ultimoDatoReal); } 
-    else { dataPronoMin.push(null); dataPronoMax.push(null); }
+    if (mostrarLimitesRango) {
+       dataPronoMin.push(ultimoDatoReal);
+       dataPronoMax.push(ultimoDatoReal);
+    } else {
+       dataPronoMin.push(null);
+       dataPronoMax.push(null);
+    }
+
     let puntosProno = [...pronosticoActual.puntos].sort((a, b) => a.fecha.localeCompare(b.fecha));
+
     puntosProno.forEach(function(pt) {
-      if (pt.fecha <= fechaUltimoDato) return;
+      if (pt.fecha <= fechaUltimoDato) return; 
+
       const mesP = parseInt(pt.fecha.slice(5, 7), 10) - 1;
       const diaP = parseInt(pt.fecha.slice(8, 10), 10);
       labelsFinales.push(diaP + ' ' + MESES[mesP]);
+      
       dataPronoMediana.push(pt.medio);
-      if (mostrarLimitesRango) { dataPronoMin.push(pt.min); dataPronoMax.push(pt.max); } 
-      else { dataPronoMin.push(null); dataPronoMax.push(null); }
+      if (mostrarLimitesRango) {
+        dataPronoMin.push(pt.min);
+        dataPronoMax.push(pt.max);
+      } else {
+        dataPronoMin.push(null);
+        dataPronoMax.push(null);
+      }
     });
   }
+
   const dataAlturaLineaRelleno = [...dataAlturaLinea, ...new Array(labelsFinales.length - dataAlturaLinea.length).fill(null)];
-  const todasLasAlturas = alturasReales.concat(dataPronoMediana.filter(v => v !== null), dataPronoMax.filter(v => v !== null));
+  
+  const todasLasAlturas = alturasReales.concat(
+    dataPronoMediana.filter(v => v !== null),
+    dataPronoMax.filter(v => v !== null)
+  );
   const yMinDatos = Math.min(...todasLasAlturas);
   const yMaxDatos = Math.max(...todasLasAlturas);
   const yMin = Math.min(yMinDatos - 0.3, tipoActual === 'bajante' ? -0.5 : 0);
   let yMax = Math.max(yMaxDatos + 0.5, tipoActual === 'actual' ? 6 : yMaxDatos + 0.5);
   if (mostrarTerraplenes) yMax = Math.max(yMax, TERRAPLEN_PNA_MAX + 0.5);
+
   const ctx = document.getElementById('grafico').getContext('2d');
   if (chart) chart.destroy();
+  
   const colorLinea = tipoActual === 'bajante' ? '#2b6cb0' : '#2d6a3f';
   const colorFondo = tipoActual === 'bajante' ? 'rgba(43,108,176,0.10)' : 'rgba(45,106,63,0.10)';
+
   const datasets = [
-    { label: 'Altura PNA', data: dataAlturaLineaRelleno, borderColor: colorLinea, backgroundColor: colorFondo, borderWidth: 2.5, fill: true, tension: 0.3, pointRadius: 0, pointHoverRadius: 6, pointHoverBackgroundColor: '#f4d03f', pointHoverBorderColor: colorLinea, pointHoverBorderWidth: 2, order: 2 },
-    { label: 'Alerta', data: labelsFinales.map(() => UMBRAL_ALERTA), borderColor: '#f4d03f', borderWidth: 2, borderDash: [8, 6], pointRadius: 0, fill: false, order: 3 },
-    { label: 'Evacuación', data: labelsFinales.map(() => UMBRAL_EVACUACION), borderColor: '#dc2626', borderWidth: 2, borderDash: [8, 6], pointRadius: 0, fill: false, order: 4 }
+    {
+      label: 'Altura PNA',
+      data: dataAlturaLineaRelleno,
+      borderColor: colorLinea,
+      backgroundColor: colorFondo,
+      borderWidth: 2.5, fill: true, tension: 0.3,
+      pointRadius: 0, pointHoverRadius: 6,
+      pointHoverBackgroundColor: '#f4d03f',
+      pointHoverBorderColor: colorLinea,
+      pointHoverBorderWidth: 2,
+      order: 2
+    },
+    {
+      label: 'Alerta',
+      data: labelsFinales.map(() => UMBRAL_ALERTA),
+      borderColor: '#f4d03f',
+      borderWidth: 2, borderDash: [8, 6],
+      pointRadius: 0, fill: false, order: 3
+    },
+    {
+      label: 'Evacuación',
+      data: labelsFinales.map(() => UMBRAL_EVACUACION),
+      borderColor: '#dc2626',
+      borderWidth: 2, borderDash: [8, 6],
+      pointRadius: 0, fill: false, order: 4
+    }
   ];
+
   if (mostrarPronostico && mostrarLimitesRango && pronosticoActual) {
-    datasets.push({ label: 'Límite Máximo', data: dataPronoMax, borderColor: 'transparent', backgroundColor: 'rgba(45,106,63,0.15)', pointRadius: 0, fill: '+1', tension: 0.3, order: 0 });
-    datasets.push({ label: 'Límite Mínimo', data: dataPronoMin, borderColor: 'transparent', pointRadius: 0, fill: false, tension: 0.3, order: 1 });
+    datasets.push({
+      label: 'Límite Máximo',
+      data: dataPronoMax,
+      borderColor: 'transparent',
+      backgroundColor: 'rgba(45,106,63,0.15)',
+      pointRadius: 0,
+      fill: '+1',
+      tension: 0.3,
+      order: 0
+    });
+    datasets.push({
+      label: 'Límite Mínimo',
+      data: dataPronoMin,
+      borderColor: 'transparent',
+      pointRadius: 0,
+      fill: false,
+      tension: 0.3,
+      order: 1
+    });
   }
+
   if (mostrarPronostico && pronosticoActual) {
-    datasets.push({ label: 'Pronóstico INA', data: dataPronoMediana, borderColor: '#2d6a3f', backgroundColor: 'rgba(45,106,63,0.10)', borderWidth: 2, borderDash: [6, 4], pointRadius: 4, pointBackgroundColor: '#2d6a3f', pointBorderColor: '#fff', pointBorderWidth: 2, fill: false, tension: 0.3, order: 5 });
+    datasets.push({
+      label: 'Pronóstico INA',
+      data: dataPronoMediana,
+      borderColor: '#2d6a3f',
+      backgroundColor: 'rgba(45,106,63,0.10)',
+      borderWidth: 2, borderDash: [6, 4],
+      pointRadius: 4,
+      pointBackgroundColor: '#2d6a3f',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      fill: false, tension: 0.3, order: 5
+    });
   }
+
   const dataTerraplenMin = labelsFinales.map(() => TERRAPLEN_PNA_MIN);
   const dataTerraplenMax = labelsFinales.map(() => TERRAPLEN_PNA_MAX);
   datasets.push(
-    { label: 'Terraplén (mín)', data: dataTerraplenMin, borderColor: 'rgba(120, 53, 15, 0.6)', borderWidth: 1, borderDash: [4, 4], pointRadius: 0, fill: '+1', backgroundColor: 'rgba(120, 53, 15, 0.15)', hidden: !mostrarTerraplenes, order: 6 },
-    { label: 'Terraplén (máx)', data: dataTerraplenMax, borderColor: 'rgba(120, 53, 15, 0.6)', borderWidth: 1, borderDash: [4, 4], pointRadius: 0, fill: false, hidden: !mostrarTerraplenes, order: 7 }
+    {
+      label: 'Terraplén (mín)',
+      data: dataTerraplenMin,
+      borderColor: 'rgba(120, 53, 15, 0.6)',
+      borderWidth: 1, borderDash: [4, 4],
+      pointRadius: 0, fill: '+1',
+      backgroundColor: 'rgba(120, 53, 15, 0.15)',
+      hidden: !mostrarTerraplenes, order: 6
+    },
+    {
+      label: 'Terraplén (máx)',
+      data: dataTerraplenMax,
+      borderColor: 'rgba(120, 53, 15, 0.6)',
+      borderWidth: 1, borderDash: [4, 4],
+      pointRadius: 0, fill: false,
+      hidden: !mostrarTerraplenes, order: 7
+    }
   );
+
   const annotations = {};
   const idxMax = alturasReales.indexOf(Math.max(...alturasReales));
   const idxMin = alturasReales.indexOf(Math.min(...alturasReales));
@@ -4384,6 +4555,7 @@ function renderGrafico() {
     annotations.lineaMin = { type: 'line', xMin: idxMin, xMax: idxMin, borderColor: 'rgba(43, 108, 176, 0.4)', borderWidth: 1.5, borderDash: [3, 4] };
     annotations.puntoMin = { type: 'point', xValue: idxMin, yValue: alturasReales[idxMin], backgroundColor: '#2b6cb0', borderColor: '#fff', borderWidth: 2, radius: 6 };
   }
+
   chart = new Chart(ctx, {
     type: 'line',
     data: { labels: labelsFinales, datasets },
@@ -4391,21 +4563,43 @@ function renderGrafico() {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false }, annotation: { annotations },
-        zoom: { pan: { enabled: true, mode: 'x', modifierKey: null }, zoom: { wheel: { enabled: true, speed: 0.1 }, pinch: { enabled: true }, mode: 'x' }, limits: { x: { min: 'original', max: 'original' }, y: { min: 'original', max: 'original' } } },
+        legend: { display: false },
+        annotation: { annotations },
+        zoom: {
+          pan: { enabled: true, mode: 'x', modifierKey: null },
+          zoom: { wheel: { enabled: true, speed: 0.1 }, pinch: { enabled: true }, mode: 'x' },
+          limits: { x: { min: 'original', max: 'original' }, y: { min: 'original', max: 'original' } }
+        },
         tooltip: {
-          backgroundColor: '#1b4332', titleColor: '#f4d03f', bodyColor: '#fff', borderColor: '#2d6a3f', borderWidth: 1, padding: 12, cornerRadius: 10, displayColors: false, titleFont: { size: 13, weight: '700' }, bodyFont: { size: 13 },
+          backgroundColor: '#1b4332', titleColor: '#f4d03f', bodyColor: '#fff',
+          borderColor: '#2d6a3f', borderWidth: 1, padding: 12, cornerRadius: 10, displayColors: false,
+          titleFont: { size: 13, weight: '700' }, bodyFont: { size: 13 },
           callbacks: {
-            title: (items) => { const i = items[0].dataIndex; if (i < registros.length) return formatearFechaLarga(registros[i].fecha); return labelsFinales[i]; },
+            title: (items) => {
+              const i = items[0].dataIndex;
+              if (i < registros.length) return formatearFechaLarga(registros[i].fecha);
+              return labelsFinales[i];
+            },
             label: (item) => {
-              if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null && item.dataIndex < registros.length) { const r = registros[item.dataIndex]; return [`Altura PNA: ${r.altura.toFixed(2)} m`, `Nivel IGN: ${(r.altura + CERO_ESCALA).toFixed(2)} m`]; }
-              if (item.dataset.label === 'Pronóstico INA' && item.parsed.y !== null) return [`Pronóstico (mediana): ${item.parsed.y.toFixed(2)} m`, `Nivel IGN: ${(item.parsed.y + CERO_ESCALA).toFixed(2)} m`];
+              if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null && item.dataIndex < registros.length) {
+                const r = registros[item.dataIndex];
+                return [`Altura PNA: ${r.altura.toFixed(2)} m`, `Nivel IGN: ${(r.altura + CERO_ESCALA).toFixed(2)} m`];
+              }
+              if (item.dataset.label === 'Pronóstico INA' && item.parsed.y !== null) {
+                return [`Pronóstico (mediana): ${item.parsed.y.toFixed(2)} m`, `Nivel IGN: ${(item.parsed.y + CERO_ESCALA).toFixed(2)} m`];
+              }
               if (item.dataset.label === 'Límite Máximo' && item.parsed.y !== null) return `Máx. pronóstico: ${item.parsed.y.toFixed(2)} m`;
               if (item.dataset.label === 'Límite Mínimo' && item.parsed.y !== null) return `Mín. pronóstico: ${item.parsed.y.toFixed(2)} m`;
               return null;
             }
           },
-          filter: (item) => ['Altura PNA', 'Pronóstico INA', 'Límite Máximo', 'Límite Mínimo'].includes(item.dataset.label) && item.parsed.y !== null
+          filter: (item) => {
+            if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null) return true;
+            if (item.dataset.label === 'Pronóstico INA' && item.parsed.y !== null) return true;
+            if (item.dataset.label === 'Límite Máximo' && item.parsed.y !== null) return true;
+            if (item.dataset.label === 'Límite Mínimo' && item.parsed.y !== null) return true;
+            return false;
+          }
         }
       },
       scales: {
@@ -4414,10 +4608,12 @@ function renderGrafico() {
       }
     }
   });
+
   const fechaIni = formatearFechaCortaGeneral(registros[0].fecha);
   const fechaFin = formatearFechaCortaGeneral(registros[registros.length - 1].fecha);
   document.getElementById('titulo-grafico').textContent = `Del ${fechaIni} al ${fechaFin}`;
   document.getElementById('leyenda-cero').style.display = (tipoActual === 'bajante') ? 'flex' : 'none';
+  
   const maxVal = Math.max(...alturasReales);
   const minVal = Math.min(...alturasReales);
   document.getElementById('marca-max-valor').textContent = `${maxVal.toFixed(2)} m`;
@@ -4426,6 +4622,7 @@ function renderGrafico() {
   document.getElementById('marca-min-valor').textContent = `${minVal.toFixed(2)} m`;
   document.getElementById('marca-min-ign').textContent = `${(minVal + CERO_ESCALA).toFixed(2)} m IGN`;
   document.getElementById('marca-min-fecha').textContent = formatearFechaCortaGeneral(registros[idxMin].fecha);
+  
   configurarCierreTooltip(ctx.canvas);
 }
 function configurarCierreTooltip(canvas) {
