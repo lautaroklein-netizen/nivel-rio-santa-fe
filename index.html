@@ -2315,33 +2315,18 @@
     font-size: 0.76rem; line-height: 1.5; color: #78350f; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   }
   .aviso-rincon strong { color: #451a03; }
-  
-  .popup-bloque-rincon {
-    background: #f0f9ff; border-radius: 14px; padding: 14px;
-    margin-bottom: 12px; border: 1px solid #bae6fd; border-left: 4px solid #0284c7;
-  }
-  .popup-bloque-rincon .titulo { font-size: 0.76rem; font-weight: 800; color: #0369a1; text-transform: uppercase; margin-bottom: 8px; }
-  .popup-bloque-rincon p { font-size: 0.8rem; line-height: 1.5; color: #0c4a6e; margin: 0 0 8px; }
-  .popup-bloque-rincon ul { padding-left: 18px; margin: 0; font-size: 0.8rem; color: #0c4a6e; line-height: 1.5; }
 
-  /* Arreglar la pastilla de estado en celulares */
   .ultimo-der .subcol-estado .estado-badge {
     border-radius: 12px !important; padding: 6px 8px !important;
     line-height: 1.15 !important; white-space: normal !important;
     text-align: center !important; width: 90% !important; display: inline-block !important;
   }
 
-  /* Reordenar en celular */
   @media (max-width: 560px) {
     .fila-controles { flex-wrap: wrap; gap: 6px; }
     .selector-series-wrapper { width: 100%; flex: 100%; margin-bottom: 6px; }
     .btn-prono { flex: 1; justify-content: center; font-size: 0.7rem; }
     .btn-prono-limites { flex: 1; justify-content: center; font-size: 0.68rem; padding: 8px 10px; min-height: 42px; }
-    
-    #contenido { display: flex; flex-direction: column; }
-    #contenido > .card:nth-of-type(2) { order: 1; } 
-    #contenido > .card-medidor { order: 2; }
-    #contenido > .card:nth-of-type(1) { order: 3; }
     
     .ultimo-der .subcol-estado .estado-badge {
       font-size: 0.55rem !important; letter-spacing: 0.5px !important; padding: 5px 4px !important;
@@ -2919,10 +2904,15 @@
         <div class="popup-bloque amarillo">
           <div class="popup-bloque-titulo">⚠ Importante</div>
           <p style="font-size: 0.8rem; line-height: 1.5; margin: 0; color: var(--texto);">
-            Los niveles de alerta y evacuación corresponden a viviendas y zonas asentadas
-            <strong>fuera del sistema de terraplenes de defensa</strong>. La cota de coronamiento
-            no es el único factor de riesgo: se han registrado filtraciones por debajo de los
-            terraplenes con niveles inferiores a su coronamiento.
+            <strong>⚠ Importante:</strong> Los niveles de alerta y evacuación corresponden a viviendas y zonas asentadas <strong>fuera del sistema de terraplenes de defensa</strong>. La cota de coronamiento no es el único factor de riesgo: se han registrado filtraciones por debajo de los terraplenes.
+            <br><br>
+            <strong>🌊 Si vivís en San José del Rincón (Arroyo Ubajay):</strong><br>
+            El dato principal de esta app es del <strong>Puerto de Santa Fe</strong>. La superficie del agua no es horizontal: aguas arriba, el nivel debe ser más alto para vencer la resistencia del cauce. Esto se llama <strong>pendiente hidráulica longitudinal</strong>.<br><br>
+            <ul style="margin: 4px 0; padding-left: 18px; font-size: 0.8rem;">
+              <li><strong>Diferencia técnica (INA 2012):</strong> El agua en la escala del Ubajay está en promedio <strong>+0,90 m</strong> por encima de la del Puerto de Santa Fe.</li>
+              <li><strong>Rango medido:</strong> Varía entre <strong>+0,67 m</strong> (aguas bajas) y <strong>+1,24 m</strong> (picos de crecida).</li>
+            </ul>
+            <strong>¿Qué significa esto?</strong> Que si la app marca "1,50 m libres" al coronamiento en Santa Fe, para un vecino del Ubajay el margen real podría ser de apenas <strong>0,50 m o menos</strong>. Las defensas de Rincón también coronan a 17,50 m IGN, pero el agua llega más alta. <em>Ante dudas, consultá a Defensa Civil local.</em>
           </p>
         </div>
 
@@ -2941,15 +2931,6 @@
         </button>
       </div>
     </div>
-        <div class="popup-bloque-rincon">
-          <div class="titulo">🌊 Si vivís en San José del Rincón (Arroyo Ubajay)</div>
-          <p>El dato principal de esta app es del <strong>Puerto de Santa Fe</strong>. La superficie del agua no es horizontal: aguas arriba, el nivel debe ser más alto para vencer la resistencia del cauce. Esto se llama <strong>pendiente hidráulica longitudinal</strong>.</p>
-          <ul>
-            <li><strong>Diferencia técnica (INA 2012):</strong> El agua en la escala del Ubajay está en promedio <strong>+0,90 m</strong> por encima de la del Puerto de Santa Fe.</li>
-            <li><strong>Rango medido:</strong> Varía entre <strong>+0,67 m</strong> (aguas bajas) y <strong>+1,24 m</strong> (picos de crecida).</li>
-          </ul>
-          <p style="margin-top: 8px;"><strong>¿Qué significa esto?</strong> Que si la app marca "1,50 m libres" al coronamiento en Santa Fe, para un vecino del Ubajay el margen real podría ser de apenas <strong>0,50 m o menos</strong>. Las defensas de Rincón también coronan a 17,50 m IGN, pero el agua llega más alta. <em>Ante dudas, consultá a Defensa Civil local.</em></p>
-        </div>
   </div>
 
   <!-- POPUP OBSERVATORIO -->
@@ -4779,7 +4760,18 @@ actualizarSubtituloSerie();
 cargarDatos();
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
+  // Lógica para reubicar controles en el celular
+if (window.innerWidth <= 560) {
+  document.addEventListener('DOMContentLoaded', function() {
+    const filaControles = document.querySelector('.fila-controles');
+    const cardGrafico = document.getElementById('titulo-grafico')?.closest('.card');
+    if (filaControles && cardGrafico) {
+      cardGrafico.parentNode.insertBefore(filaControles, cardGrafico);
+    }
+  });
+}
+
+window.addEventListener('load', function() {
     navigator.serviceWorker.register('./sw.js');
   });
 }
