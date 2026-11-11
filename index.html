@@ -2296,6 +2296,38 @@
     font-size: 0.66rem; color: #9ca3af; text-align: center; line-height: 1.4;
   }
   .popup-pronostico-footer strong { color: #fff; }
+
+  /* --- PARCHES NUEVOS --- */
+  .btn-prono-limites {
+    flex-shrink: 0; display: none; align-items: center; gap: 4px;
+    padding: 10px 14px; background: #fff; color: var(--verde-oscuro);
+    border: 1px solid var(--verde); border-radius: 12px;
+    font-family: inherit; font-size: 0.72rem; font-weight: 700;
+    cursor: pointer; transition: background .18s, color .18s;
+    min-height: 44px; white-space: nowrap;
+  }
+  .btn-prono-limites.visible { display: inline-flex; }
+  .btn-prono-limites:hover { background: var(--verde-claro); }
+  .btn-prono-limites.activo { background: var(--verde); color: #fff; border-color: var(--verde); }
+  
+  .aviso-rincon {
+    margin-top: 14px; padding: 12px 14px; background: var(--amarillo-claro);
+    border-left: 4px solid var(--amarillo); border-radius: 8px;
+    font-size: 0.76rem; line-height: 1.5; color: #78350f; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .aviso-rincon strong { color: #451a03; }
+  
+  .popup-bloque-rincon {
+    background: #f0f9ff; border-radius: 14px; padding: 14px;
+    margin-bottom: 12px; border: 1px solid #bae6fd; border-left: 4px solid #0284c7;
+  }
+  .popup-bloque-rincon .titulo { font-size: 0.76rem; font-weight: 800; color: #0369a1; text-transform: uppercase; margin-bottom: 8px; }
+  .popup-bloque-rincon p { font-size: 0.8rem; line-height: 1.5; color: #0c4a6e; margin: 0 0 8px; }
+  .popup-bloque-rincon ul { padding-left: 18px; margin: 0; font-size: 0.8rem; color: #0c4a6e; line-height: 1.5; }
+  
+  @media (max-width: 560px) {
+    .btn-prono-limites { font-size: 0.68rem; padding: 8px 10px; min-height: 42px; }
+  }
 </style>
 </head>
 <body>
@@ -2356,6 +2388,9 @@
     <button class="btn-prono activo" id="prono-btn" onclick="togglePronostico()">
       <span class="texto-prono">Pronóstico INA</span>
       <span class="flechita">→</span>
+    </button>
+    <button class="btn-prono-limites visible" id="btn-limites" onclick="toggleLimitesRango()" style="display:none;">
+      <span id="texto-limites">Ver límites de rango</span>
     </button>
   </div>
 
@@ -2500,6 +2535,11 @@
         <div class="titulo-banner" id="banner-titulo">Distancia al coronamiento (17,50 m IGN)</div>
         <div class="valor-libre" id="banner-valor-libre">—</div>
         <div class="detalle-banner" id="banner-detalle">—</div>
+        <div class="aviso-rincon">
+          <strong>⚠️ Nota para vecinos de San José del Rincón (Ubajay):</strong><br>
+          Este cálculo utiliza el nivel del <strong>Puerto de Santa Fe</strong>. Por la pendiente hidráulica del río, el agua en el Arroyo Ubajay suele estar más alta. Según el INA, la cota en Rincón puede ser <strong>entre 0,67 m y 1,24 m superior</strong> a la de Santa Fe (siendo ~1 m en crecidas).<br>
+          <em>Si tu casa está sobre el Ubajay, tu margen real al coronamiento es menor al que muestra esta tarjeta.</em>
+        </div>
       </div>
 
       <div class="chart-container">
@@ -2727,6 +2767,8 @@
         <br>
         <strong>Sobre las categorías de aguas (INA):</strong> Sobre las categorías de aguas (PNA / INA): la Prefectura Naval Argentina y el Instituto Nacional del Agua clasifican los niveles en aguas bajas, medias bajas, medias, medias altas y altas según percentiles históricos (5%, 25%, 75%, 95%) de cada estación. Los niveles de Alerta y Evacuación son umbrales de seguridad dentro de las aguas altas. Esta app no calcula esos percentiles: agrupa todo lo que está por debajo de Alerta como Medias a Altas y usa Alerta / Evacuación como referencia de riesgo. Ante cualquier decisión, consultá siempre las fuentes oficiales del INA y la PNA.
       </div>
+        <br><strong>Diferencia de cota Ubajay–Santa Fe:</strong> Por pendiente hidráulica longitudinal, el nivel IGN en el Arroyo Ubajay (Rincón) es superior al del Puerto de Santa Fe. Según el INA (2012), esta diferencia oscila entre <strong>0,67 m y 1,24 m</strong> (promedio 0,90 m), ampliándose en eventos de crecida. La app muestra los datos de Santa Fe; para Rincón, considere este desfasaje.
+      </div>
     </footer>
 
   </div>
@@ -2827,6 +2869,15 @@
         </button>
       </div>
     </div>
+        <div class="popup-bloque-rincon">
+          <div class="titulo">🌊 Si vivís en San José del Rincón (Arroyo Ubajay)</div>
+          <p>El dato principal de esta app es del <strong>Puerto de Santa Fe</strong>. La superficie del agua no es horizontal: aguas arriba, el nivel debe ser más alto para vencer la resistencia del cauce. Esto se llama <strong>pendiente hidráulica longitudinal</strong>.</p>
+          <ul>
+            <li><strong>Diferencia técnica (INA 2012):</strong> El agua en la escala del Ubajay está en promedio <strong>+0,90 m</strong> por encima de la del Puerto de Santa Fe.</li>
+            <li><strong>Rango medido:</strong> Varía entre <strong>+0,67 m</strong> (aguas bajas) y <strong>+1,24 m</strong> (picos de crecida).</li>
+          </ul>
+          <p style="margin-top: 8px;"><strong>¿Qué significa esto?</strong> Que si la app marca "1,50 m libres" al coronamiento en Santa Fe, para un vecino del Ubajay el margen real podría ser de apenas <strong>0,50 m o menos</strong>. Las defensas de Rincón también coronan a 17,50 m IGN, pero el agua llega más alta. <em>Ante dudas, consultá a Defensa Civil local.</em></p>
+        </div>
   </div>
 
   <!-- POPUP OBSERVATORIO -->
@@ -3758,6 +3809,7 @@ let registros = [];
 let chart = null;
 let mostrarTerraplenes = false;
 let mostrarPronostico = true;
+let mostrarLimitesRango = false;
 let pronosticoActual = null;
 
 // ============================================================
@@ -3991,13 +4043,15 @@ async function cargarPronostico() {
       const v = parseFloat(x.valor);
       if (!isNaN(v)) porFecha[f].push(v);
     });
-    const puntos = Object.keys(porFecha).sort().map(function(f) {
+    const puntos = Object.keys(porFecha).sort(function(a, b) { return a.localeCompare(b); }).map(function(f) {
       const vals = porFecha[f].slice().sort(function(a, b) { return a - b; });
+      let min = vals[0];
+      let max = vals[vals.length - 1];
       let medio;
       if (vals.length >= 3) medio = vals[Math.floor(vals.length / 2)];
       else if (vals.length === 2) medio = (vals[0] + vals[1]) / 2;
       else medio = vals[0];
-      return { fecha: f, medio: medio };
+      return { fecha: f, min: min, medio: medio, max: max };
     }).filter(function(p) { return p && !isNaN(p.medio); });
     if (!puntos.length) throw new Error('Sin puntos válidos');
     const emision = (json.responseHeader && json.responseHeader.forecastdate)
@@ -4037,21 +4091,37 @@ function togglePronostico() {
   if (tipoActual === 'crecida' || tipoActual === 'bajante') return;
   mostrarPronostico = !mostrarPronostico;
   const btn = document.getElementById('prono-btn');
+  const btnLimites = document.getElementById('btn-limites');
   const leyenda = document.getElementById('leyenda-prono');
   if (mostrarPronostico) {
     btn.classList.add('activo');
-    leyenda.style.display = 'flex';
+    if (leyenda) leyenda.style.display = 'flex';
+    if (btnLimites) btnLimites.style.display = 'inline-flex';
     const lk = document.getElementById('leyenda-prono-png');
     if (lk) lk.style.display = 'block';
   } else {
     btn.classList.remove('activo');
-    leyenda.style.display = 'none';
+    if (leyenda) leyenda.style.display = 'none';
+    if (btnLimites) { btnLimites.style.display = 'none'; btnLimites.classList.remove('activo'); }
+    mostrarLimitesRango = false;
     const lk = document.getElementById('leyenda-prono-png');
     if (lk) lk.style.display = 'none';
   }
   renderGrafico();
 }
-
+function toggleLimitesRango() {
+  mostrarLimitesRango = !mostrarLimitesRango;
+  const btn = document.getElementById('btn-limites');
+  const txt = document.getElementById('texto-limites');
+  if (mostrarLimitesRango) {
+    btn.classList.add('activo');
+    txt.textContent = 'Ocultar límites de rango';
+  } else {
+    btn.classList.remove('activo');
+    txt.textContent = 'Ver límites de rango';
+  }
+  renderGrafico();
+}
 // ============================================================
 // ESTADOS
 // ============================================================
@@ -4245,35 +4315,41 @@ function renderBannerTerraplenes() {
 
 function renderGrafico() {
   const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const labels = registros.map(r => {
+  registros.sort((a, b) => a.fecha.localeCompare(b.fecha));
+  let labelsFinales = registros.map(r => {
     const dia = parseInt(r.fecha.slice(8, 10), 10);
     const mes = parseInt(r.fecha.slice(5, 7), 10) - 1;
     return `${dia} ${MESES[mes]}`;
   });
-  const alturas = registros.map(r => r.altura);
-  const dataCero = alturas.map(() => 0);
-  let labelsFinales = [...labels];
-  let alturasFinales = [...alturas];
+  const alturasReales = registros.map(r => r.altura);
+  const dataAlturaLinea = [...alturasReales];
+  let dataPronoMin = [];
+  let dataPronoMax = [];
+  let dataPronoMediana = [];
   if (mostrarPronostico && pronosticoActual && pronosticoActual.puntos && tipoActual === 'actual') {
-    pronosticoActual.puntos.forEach(function(pt) {
+    const ultimoDatoReal = alturasReales[alturasReales.length - 1];
+    const fechaUltimoDato = registros[registros.length - 1].fecha;
+    dataPronoMediana = new Array(alturasReales.length - 1).fill(null);
+    dataPronoMin = new Array(alturasReales.length - 1).fill(null);
+    dataPronoMax = new Array(alturasReales.length - 1).fill(null);
+    dataPronoMediana.push(ultimoDatoReal);
+    if (mostrarLimitesRango) { dataPronoMin.push(ultimoDatoReal); dataPronoMax.push(ultimoDatoReal); } 
+    else { dataPronoMin.push(null); dataPronoMax.push(null); }
+    let puntosProno = [...pronosticoActual.puntos].sort((a, b) => a.fecha.localeCompare(b.fecha));
+    puntosProno.forEach(function(pt) {
+      if (pt.fecha <= fechaUltimoDato) return;
       const mesP = parseInt(pt.fecha.slice(5, 7), 10) - 1;
       const diaP = parseInt(pt.fecha.slice(8, 10), 10);
       labelsFinales.push(diaP + ' ' + MESES[mesP]);
-      alturasFinales.push(pt.medio);
+      dataPronoMediana.push(pt.medio);
+      if (mostrarLimitesRango) { dataPronoMin.push(pt.min); dataPronoMax.push(pt.max); } 
+      else { dataPronoMin.push(null); dataPronoMax.push(null); }
     });
   }
-  const dataAlertaExt = labelsFinales.map(() => UMBRAL_ALERTA);
-  const dataEvacExt = labelsFinales.map(() => UMBRAL_EVACUACION);
-  const dataTerraplenMin = labelsFinales.map(() => TERRAPLEN_PNA_MIN);
-  const dataTerraplenMax = labelsFinales.map(() => TERRAPLEN_PNA_MAX);
-  const dataAlturaLinea = alturasFinales.map((v, i) => i < alturas.length ? v : null);
-  const dataPronostico = alturasFinales.map((v, i) => {
-    if (i < alturas.length - 1) return null;
-    if (i === alturas.length - 1) return alturas[alturas.length - 1];
-    return v;
-  });
-  const yMinDatos = Math.min(...alturasFinales);
-  const yMaxDatos = Math.max(...alturasFinales);
+  const dataAlturaLineaRelleno = [...dataAlturaLinea, ...new Array(labelsFinales.length - dataAlturaLinea.length).fill(null)];
+  const todasLasAlturas = alturasReales.concat(dataPronoMediana.filter(v => v !== null), dataPronoMax.filter(v => v !== null));
+  const yMinDatos = Math.min(...todasLasAlturas);
+  const yMaxDatos = Math.max(...todasLasAlturas);
   const yMin = Math.min(yMinDatos - 0.3, tipoActual === 'bajante' ? -0.5 : 0);
   let yMax = Math.max(yMaxDatos + 0.5, tipoActual === 'actual' ? 6 : yMaxDatos + 0.5);
   if (mostrarTerraplenes) yMax = Math.max(yMax, TERRAPLEN_PNA_MAX + 0.5);
@@ -4282,99 +4358,31 @@ function renderGrafico() {
   const colorLinea = tipoActual === 'bajante' ? '#2b6cb0' : '#2d6a3f';
   const colorFondo = tipoActual === 'bajante' ? 'rgba(43,108,176,0.10)' : 'rgba(45,106,63,0.10)';
   const datasets = [
-    {
-      label: 'Altura PNA',
-      data: dataAlturaLinea,
-      borderColor: colorLinea,
-      backgroundColor: colorFondo,
-      borderWidth: 2.5, fill: true, tension: 0.3,
-      pointRadius: 0, pointHoverRadius: 6,
-      pointHoverBackgroundColor: '#f4d03f',
-      pointHoverBorderColor: colorLinea,
-      pointHoverBorderWidth: 2,
-      order: 1
-    },
-    {
-      label: 'Alerta',
-      data: dataAlertaExt,
-      borderColor: '#f4d03f',
-      borderWidth: 2, borderDash: [8, 6],
-      pointRadius: 0, fill: false, order: 2
-    },
-    {
-      label: 'Evacuación',
-      data: dataEvacExt,
-      borderColor: '#dc2626',
-      borderWidth: 2, borderDash: [8, 6],
-      pointRadius: 0, fill: false, order: 3
-    }
+    { label: 'Altura PNA', data: dataAlturaLineaRelleno, borderColor: colorLinea, backgroundColor: colorFondo, borderWidth: 2.5, fill: true, tension: 0.3, pointRadius: 0, pointHoverRadius: 6, pointHoverBackgroundColor: '#f4d03f', pointHoverBorderColor: colorLinea, pointHoverBorderWidth: 2, order: 2 },
+    { label: 'Alerta', data: labelsFinales.map(() => UMBRAL_ALERTA), borderColor: '#f4d03f', borderWidth: 2, borderDash: [8, 6], pointRadius: 0, fill: false, order: 3 },
+    { label: 'Evacuación', data: labelsFinales.map(() => UMBRAL_EVACUACION), borderColor: '#dc2626', borderWidth: 2, borderDash: [8, 6], pointRadius: 0, fill: false, order: 4 }
   ];
-  if (tipoActual === 'bajante') {
-    datasets.push({
-      label: 'Cero',
-      data: dataCero,
-      borderColor: '#6b7a6b',
-      borderWidth: 1, borderDash: [2, 4],
-      pointRadius: 0, fill: false, order: 4
-    });
+  if (mostrarPronostico && mostrarLimitesRango && pronosticoActual) {
+    datasets.push({ label: 'Límite Máximo', data: dataPronoMax, borderColor: 'transparent', backgroundColor: 'rgba(45,106,63,0.15)', pointRadius: 0, fill: '+1', tension: 0.3, order: 0 });
+    datasets.push({ label: 'Límite Mínimo', data: dataPronoMin, borderColor: 'transparent', pointRadius: 0, fill: false, tension: 0.3, order: 1 });
   }
-  if (mostrarPronostico && pronosticoActual && pronosticoActual.puntos && tipoActual === 'actual') {
-    datasets.push({
-      label: 'Pronóstico',
-      data: dataPronostico,
-      borderColor: '#2d6a3f',
-      backgroundColor: 'rgba(45,106,63,0.10)',
-      borderWidth: 2, borderDash: [6, 4],
-      pointRadius: 4,
-      pointBackgroundColor: '#2d6a3f',
-      pointBorderColor: '#fff',
-      pointBorderWidth: 2,
-      fill: false, tension: 0.3, order: 0
-    });
+  if (mostrarPronostico && pronosticoActual) {
+    datasets.push({ label: 'Pronóstico INA', data: dataPronoMediana, borderColor: '#2d6a3f', backgroundColor: 'rgba(45,106,63,0.10)', borderWidth: 2, borderDash: [6, 4], pointRadius: 4, pointBackgroundColor: '#2d6a3f', pointBorderColor: '#fff', pointBorderWidth: 2, fill: false, tension: 0.3, order: 5 });
   }
+  const dataTerraplenMin = labelsFinales.map(() => TERRAPLEN_PNA_MIN);
+  const dataTerraplenMax = labelsFinales.map(() => TERRAPLEN_PNA_MAX);
   datasets.push(
-    {
-      label: 'Terraplén (mín)',
-      data: dataTerraplenMin,
-      borderColor: 'rgba(120, 53, 15, 0.6)',
-      borderWidth: 1, borderDash: [4, 4],
-      pointRadius: 0, fill: '+1',
-      backgroundColor: 'rgba(120, 53, 15, 0.15)',
-      hidden: !mostrarTerraplenes, order: 5
-    },
-    {
-      label: 'Terraplén (máx)',
-      data: dataTerraplenMax,
-      borderColor: 'rgba(120, 53, 15, 0.6)',
-      borderWidth: 1, borderDash: [4, 4],
-      pointRadius: 0, fill: false,
-      hidden: !mostrarTerraplenes, order: 6
-    }
+    { label: 'Terraplén (mín)', data: dataTerraplenMin, borderColor: 'rgba(120, 53, 15, 0.6)', borderWidth: 1, borderDash: [4, 4], pointRadius: 0, fill: '+1', backgroundColor: 'rgba(120, 53, 15, 0.15)', hidden: !mostrarTerraplenes, order: 6 },
+    { label: 'Terraplén (máx)', data: dataTerraplenMax, borderColor: 'rgba(120, 53, 15, 0.6)', borderWidth: 1, borderDash: [4, 4], pointRadius: 0, fill: false, hidden: !mostrarTerraplenes, order: 7 }
   );
   const annotations = {};
-  const idxMax = alturas.indexOf(Math.max(...alturas));
-  const idxMin = alturas.indexOf(Math.min(...alturas));
+  const idxMax = alturasReales.indexOf(Math.max(...alturasReales));
+  const idxMin = alturasReales.indexOf(Math.min(...alturasReales));
   if (idxMax !== idxMin) {
-    annotations.lineaMax = {
-      type: 'line', xMin: idxMax, xMax: idxMax,
-      borderColor: 'rgba(220, 38, 38, 0.4)',
-      borderWidth: 1.5, borderDash: [3, 4]
-    };
-    annotations.puntoMax = {
-      type: 'point', xValue: idxMax, yValue: alturas[idxMax],
-      backgroundColor: '#dc2626', borderColor: '#fff',
-      borderWidth: 2, radius: 6
-    };
-    annotations.lineaMin = {
-      type: 'line', xMin: idxMin, xMax: idxMin,
-      borderColor: 'rgba(43, 108, 176, 0.4)',
-      borderWidth: 1.5, borderDash: [3, 4]
-    };
-    annotations.puntoMin = {
-      type: 'point', xValue: idxMin, yValue: alturas[idxMin],
-      backgroundColor: '#2b6cb0', borderColor: '#fff',
-      borderWidth: 2, radius: 6
-    };
+    annotations.lineaMax = { type: 'line', xMin: idxMax, xMax: idxMax, borderColor: 'rgba(220, 38, 38, 0.4)', borderWidth: 1.5, borderDash: [3, 4] };
+    annotations.puntoMax = { type: 'point', xValue: idxMax, yValue: alturasReales[idxMax], backgroundColor: '#dc2626', borderColor: '#fff', borderWidth: 2, radius: 6 };
+    annotations.lineaMin = { type: 'line', xMin: idxMin, xMax: idxMin, borderColor: 'rgba(43, 108, 176, 0.4)', borderWidth: 1.5, borderDash: [3, 4] };
+    annotations.puntoMin = { type: 'point', xValue: idxMin, yValue: alturasReales[idxMin], backgroundColor: '#2b6cb0', borderColor: '#fff', borderWidth: 2, radius: 6 };
   }
   chart = new Chart(ctx, {
     type: 'line',
@@ -4383,72 +4391,26 @@ function renderGrafico() {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
-        annotation: { annotations },
-        zoom: {
-          pan: { enabled: true, mode: 'x', modifierKey: null },
-          zoom: {
-            wheel: { enabled: true, speed: 0.1 },
-            pinch: { enabled: true },
-            mode: 'x'
-          },
-          limits: {
-            x: { min: 'original', max: 'original' },
-            y: { min: 'original', max: 'original' }
-          }
-        },
+        legend: { display: false }, annotation: { annotations },
+        zoom: { pan: { enabled: true, mode: 'x', modifierKey: null }, zoom: { wheel: { enabled: true, speed: 0.1 }, pinch: { enabled: true }, mode: 'x' }, limits: { x: { min: 'original', max: 'original' }, y: { min: 'original', max: 'original' } } },
         tooltip: {
-          backgroundColor: '#1b4332',
-          titleColor: '#f4d03f',
-          bodyColor: '#fff',
-          borderColor: '#2d6a3f',
-          borderWidth: 1, padding: 12,
-          cornerRadius: 10, displayColors: false,
-          titleFont: { size: 13, weight: '700' },
-          bodyFont: { size: 13 },
+          backgroundColor: '#1b4332', titleColor: '#f4d03f', bodyColor: '#fff', borderColor: '#2d6a3f', borderWidth: 1, padding: 12, cornerRadius: 10, displayColors: false, titleFont: { size: 13, weight: '700' }, bodyFont: { size: 13 },
           callbacks: {
-            title: (items) => {
-              const i = items[0].dataIndex;
-              if (i < registros.length) return formatearFechaLarga(registros[i].fecha);
-              return labelsFinales[i];
-            },
+            title: (items) => { const i = items[0].dataIndex; if (i < registros.length) return formatearFechaLarga(registros[i].fecha); return labelsFinales[i]; },
             label: (item) => {
-              if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null) {
-                const i = item.dataIndex;
-                if (i < registros.length) {
-                  const r = registros[i];
-                  return [
-                    `Altura PNA: ${r.altura.toFixed(2)} m`,
-                    `Nivel IGN: ${(r.altura + CERO_ESCALA).toFixed(2)} m`
-                  ];
-                }
-              }
-              if (item.dataset.label === 'Pronóstico' && item.parsed.y !== null) {
-                return [
-                  `Pronóstico (medio): ${item.parsed.y.toFixed(2)} m`,
-                  `Nivel IGN: ${(item.parsed.y + CERO_ESCALA).toFixed(2)} m`
-                ];
-              }
+              if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null && item.dataIndex < registros.length) { const r = registros[item.dataIndex]; return [`Altura PNA: ${r.altura.toFixed(2)} m`, `Nivel IGN: ${(r.altura + CERO_ESCALA).toFixed(2)} m`]; }
+              if (item.dataset.label === 'Pronóstico INA' && item.parsed.y !== null) return [`Pronóstico (mediana): ${item.parsed.y.toFixed(2)} m`, `Nivel IGN: ${(item.parsed.y + CERO_ESCALA).toFixed(2)} m`];
+              if (item.dataset.label === 'Límite Máximo' && item.parsed.y !== null) return `Máx. pronóstico: ${item.parsed.y.toFixed(2)} m`;
+              if (item.dataset.label === 'Límite Mínimo' && item.parsed.y !== null) return `Mín. pronóstico: ${item.parsed.y.toFixed(2)} m`;
               return null;
             }
           },
-          filter: (item) => {
-            if (item.dataset.label === 'Altura PNA' && item.parsed.y !== null) return true;
-            if (item.dataset.label === 'Pronóstico' && item.parsed.y !== null) return true;
-            return false;
-          }
+          filter: (item) => ['Altura PNA', 'Pronóstico INA', 'Límite Máximo', 'Límite Mínimo'].includes(item.dataset.label) && item.parsed.y !== null
         }
       },
       scales: {
-        x: {
-          ticks: { maxTicksLimit: 8, font: { size: 9 }, color: '#4b5563', maxRotation: 0, autoSkip: true },
-          grid: { color: '#e5e7eb' }
-        },
-        y: {
-          ticks: { font: { size: 10 }, color: '#4b5563' },
-          grid: { color: '#e5e7eb' },
-          suggestedMin: yMin, suggestedMax: yMax
-        }
+        x: { ticks: { maxTicksLimit: 8, font: { size: 9 }, color: '#4b5563', maxRotation: 0, autoSkip: true }, grid: { color: '#e5e7eb' } },
+        y: { ticks: { font: { size: 10 }, color: '#4b5563' }, grid: { color: '#e5e7eb' }, suggestedMin: yMin, suggestedMax: yMax }
       }
     }
   });
@@ -4456,8 +4418,8 @@ function renderGrafico() {
   const fechaFin = formatearFechaCortaGeneral(registros[registros.length - 1].fecha);
   document.getElementById('titulo-grafico').textContent = `Del ${fechaIni} al ${fechaFin}`;
   document.getElementById('leyenda-cero').style.display = (tipoActual === 'bajante') ? 'flex' : 'none';
-  const maxVal = Math.max(...alturas);
-  const minVal = Math.min(...alturas);
+  const maxVal = Math.max(...alturasReales);
+  const minVal = Math.min(...alturasReales);
   document.getElementById('marca-max-valor').textContent = `${maxVal.toFixed(2)} m`;
   document.getElementById('marca-max-ign').textContent = `${(maxVal + CERO_ESCALA).toFixed(2)} m IGN`;
   document.getElementById('marca-max-fecha').textContent = formatearFechaCortaGeneral(registros[idxMax].fecha);
@@ -4466,7 +4428,6 @@ function renderGrafico() {
   document.getElementById('marca-min-fecha').textContent = formatearFechaCortaGeneral(registros[idxMin].fecha);
   configurarCierreTooltip(ctx.canvas);
 }
-
 function configurarCierreTooltip(canvas) {
   if (canvas.dataset.cierreTooltip === 'true') return;
   canvas.dataset.cierreTooltip = 'true';
