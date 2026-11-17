@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Gráfico - Pronóstico vs Realidad (Resolución Definitiva)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+<style>
+  :root {
+    --ink: #203746; --muted: #718493; --blue: #287ca5; --line: #e4edf1;
+    --paper: #ffffff; --bg: #edf3f6; --rojo: #dc2626;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink);
+    padding: 16px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0;
+  }
+  .card {
+    position: relative; background: var(--paper); border: 1px solid rgba(196, 215, 225, .8);
+    border-radius: 20px; box-shadow: 0 12px 34px rgba(35, 68, 86, .09);
+    padding: 30px 20px 16px; 
+    width: 100%; max-width: 800px; overflow: hidden;
+  }
+  .card::before { content: ""; position: absolute; inset: 0 0 auto; height: 5px; background: linear-gradient(90deg, #2c789d, #71b7c9 58%, #b6dce2); }
+  
+  h2 { font-size: 1.1rem; margin: 0 0 5px; color: #203b4b; }
+  .sub { color: var(--muted); font-size: 0.75rem; margin: 0 0 15px; }
+  .loading { font-size: 0.85rem; color: var(--blue); text-align: center; padding: 20px; font-weight: 600; }
+
+  .chart-panel { border: 1px solid #e5eef2; border-radius: 15px; background: linear-gradient(180deg, #fbfdfe, #f8fbfc); padding: 10px 10px 5px; position: relative; }
+  .chart-wrap { position: relative; height: 280px; width: 100%; touch-action: pan-y; }
+  
+  @keyframes pulsoRojo {
+    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+  }
+  .punto-pulsante {
+    position: absolute;
+    width: 14px; height: 14px;
+    background-color: #dc2626;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    animation: pulsoRojo 2s infinite;
+    pointer-events: none;
+  }
+
+  .umbrales { display: flex; gap: 8px; margin: 12px 0 2px; flex-wrap: wrap; justify-content: center; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.68rem; font-weight: 600; color: #526977; padding: 5px 10px; border: 1px solid #e5edf1; border-radius: 30px; background: #f8fafb; }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-obs { background: #111827; }
+  .dot-prono { background: #287ca5; }
+  .dot-alerta { background: #e5b52f; }
+  .dot-evac { background: #d96b66; }
+
+  .section-label { color: #7a8d98; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; margin: 18px 2px 8px; }
+  
+  .detalle-doble { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  @media (min-width: 600px) { .detalle-doble { grid-template-columns: 1fr 1fr; } }
+
+  .bloque-fecha { background: #fff; border: 1px solid #e4edf1; border-radius: 8px; padding: 12px; }
+  .bloque-fecha h4 { margin: 0 0 10px; font-size: 0.85rem; color: var(--texto); display: flex; justify-content: space-between; align-items: center;}
+  
+  .grid-detalle { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .item-detalle { background: #f9fafb; border-radius: 6px; padding: 8px; text-align: center; }
+  .item-detalle .lbl { font-size: 0.6rem; color: #81929b; text-transform: uppercase; font-weight: 700; }
+  .item-detalle .val { font-size: 1rem; font-weight: 800; color: #294b5e; }
+  .item-detalle .ign { font-size: 0.65rem; color: #718493; font-weight: 600; }
+  
+  .barra-amplitud { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e4edf1; text-align: center; font-size: 0.75rem; color: var(--muted); }
+  .barra-amplitud strong { color: var(--texto); }
+
+  .badge { padding: 2px 8px; border-radius: 12px; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; }
+  .b-normal { background:#e6f3e9; color:#39744b; }
+  .b-alerta { background:#fff4d8; color:#947018; }
+  .b-evac { background:#fbe9e7; color:#a94b47; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Altura del río Paraná (puerto Santa Fe)</h2>
+  <div class="sub">Datos proyectados sobre pronóstico · Escala local + 8.38 m IGN</div>
+
+  <div id="cargando" class="loading">Esperando los datos enviados por la aplicación...</div>
+  <div id="error" class="loading" style="color:var(--rojo); display:none;"></div>
+
+  <div id="contenido" style="display:none;">
+    <div class="chart-panel">
+      <div class="chart-wrap" id="chart-wrapper">
+        <canvas id="graficoReal"></canvas>
+        <div id="puntoRojo" class="punto-pulsante" style="display:none;"></div>
+      </div>
+    </div>
+
+    <div class="umbrales">
+      <span class="chip"><span class="dot dot-obs"></span>Real Observado</span>
+      <span class="chip"><span class="dot dot-prono"></span>Pronóstico</span>
+      <span class="chip"><span class="dot dot-alerta"></span>Alerta</span>
+      <span class="chip"><span class="dot dot-evac"></span>Evacuación</span>
+    </div>
+
+    <div class="section-label">Pronóstico detallado</div>
+    <div class="detalle-doble" id="panel-pronosticos"></div>
+  </div>
+</div>
+
+<script>
+const OFFSET_IGN = 8.38;
+const ALERTA = 5.30;
+const EVAC = 5.70;
+
+let chart;
+let fechas = [];
+let datosObservados = [];
+let datosPronoMediana = [];
+let datosPronoMax = [];
+let datosPronoMin = [];
+let indexHoy = -1;
+let puntosPronoCompletos = [];
+let fechaEmisionGlobal = null;
+let valorEmisionGlobal = null;
+
+function formatearFecha(fechaISO) {
+  const [y, m, d] = fechaISO.split('-');
+  const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${parseInt(d)} ${MESES[parseInt(m)-1]}`;
+}
+
+function getEstado(val) {
+  if (val >= EVAC) return { txt: 'Evacuación', cls: 'b-evac' };
+  if (val >= ALERTA) return { txt: 'Alerta', cls: 'b-alerta' };
+  return { txt: 'Normal', cls: 'b-normal' };
+}
+
+const fondoFechaHoyPlugin = {
+  id: 'fondoFechaHoy',
+  beforeDraw: (chart) => {
+    const { ctx, chartArea, scales: { x } } = chart;
+    if (indexHoy === -1) return;
+    const xPos = x.getPixelForValue(indexHoy);
+    
+    ctx.save();
+    ctx.fillStyle = '#dc2626'; 
+    const tickWidth = 30; 
+    const tickHeight = 16;
+    ctx.fillRect(xPos - (tickWidth/2), chartArea.bottom + 4, tickWidth, tickHeight);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 10px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText(fechas[indexHoy], xPos, chartArea.bottom + 6);
+    ctx.restore();
+  }
+};
+
+const cartelUltimoDatoPlugin = {
+  id: 'cartelUltimoDato',
+  afterDraw: (chart) => {
+    if (indexHoy === -1) return;
+    const { ctx, chartArea, scales: { x } } = chart;
+    const xPos = x.getPixelForValue(indexHoy);
+    const ultimoValor = datosObservados[indexHoy];
+    const texto = `Último publicado: ${ultimoValor.toFixed(2)} m`;
+
+    ctx.save();
+    ctx.font = 'bold 10px Inter, sans-serif';
+    const textWidth = ctx.measureText(texto).width;
+    const padding = 6;
+    const boxWidth = textWidth + padding * 2;
+    const boxHeight = 18;
+    
+    const boxY = chartArea.top - boxHeight - 5;
+    const boxX = xPos - (boxWidth / 2);
+
+    ctx.fillStyle = '#dc2626';
+    ctx.beginPath();
+    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 4);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(texto, xPos, boxY + (boxHeight / 2) + 1);
+    
+    ctx.restore();
+  }
+};
+
+// Este archivo funciona como visor integrado: no consulta al INA.
+// Recibe del index.html los datos observados y el pronóstico ya descargados.
+window.addEventListener('message', function(event) {
+  if (event.origin !== window.location.origin) return;
+  const payload = event.data;
+  if (!payload || payload.tipo !== 'DATOS_PRONOSTICO_DETALLE') return;
+  if (!Array.isArray(payload.observados) || !Array.isArray(payload.pronostico)) {
+    document.getElementById('cargando').style.display = 'none';
+    const error = document.getElementById('error');
+    error.style.display = 'block';
+    error.textContent = 'Los datos recibidos desde la aplicación están incompletos.';
+    return;
+  }
+  try {
+    procesarDatos(payload.observados, payload.pronostico);
+  } catch (err) {
+    document.getElementById('cargando').style.display = 'none';
+    const error = document.getElementById('error');
+    error.style.display = 'block';
+    error.textContent = 'No se pudo construir el gráfico: ' + err.message;
+  }
+});
+
+function procesarDatos(dataObs, dataProno) {
+  const obsPorFecha = {};
+  (dataObs || []).forEach(x => {
+    const f = x.timestart.slice(0, 10);
+    obsPorFecha[f] = parseFloat(x.valor);
+  });
+
+  const fechasObs = Object.keys(obsPorFecha).sort();
+  const ultimoDatoObs = fechasObs[fechasObs.length - 1]; // Ej: 12 Nov
+
+  const pronoPorFecha = {};
+  (dataProno || []).forEach(x => {
+    const f = x.timestart.slice(0, 10);
+    if (!pronoPorFecha[f]) pronoPorFecha[f] = [];
+    const v = parseFloat(x.valor);
+    if (!isNaN(v)) pronoPorFecha[f].push(v);
+  });
+
+  const fechasPronoOriginales = Object.keys(pronoPorFecha).sort();
+  const fechaEmision = fechasPronoOriginales[0]; // El 17
+  
+  // Buscamos el valor observado del día de emisión (el 17) o del día anterior (16)
+  let valorEmision = obsPorFecha[fechaEmision];
+  if (!valorEmision) {
+    const fechaAnterior = new Date(fechaEmision);
+    fechaAnterior.setDate(fechaAnterior.getDate() - 1);
+    const stringAnterior = fechaAnterior.toISOString().slice(0, 10);
+    valorEmision = obsPorFecha[stringAnterior] || 5.02;
+  }
+
+  // EL TRUCO: Insertamos el punto cero (día de emisión) en el pronóstico
+  pronoPorFecha[fechaEmision] = [valorEmision, valorEmision, valorEmision];
+
+  puntosPronoCompletos = Object.keys(pronoPorFecha).sort().map(f => {
+    const vals = pronoPorFecha[f].sort((a,b) => a-b);
+    return {
+      fecha: f,
+      min: vals[0],
+      medio: vals.length >= 3 ? vals[Math.floor(vals.length/2)] : vals[0],
+      max: vals[vals.length-1]
+    };
+  });
+
+  const fechasProno = puntosPronoCompletos.map(p => p.fecha);
+  let todasLasFechas = Array.from(new Set([...fechasObs, ...fechasProno])).sort();
+
+  const fechaCorte = new Date(ultimoDatoObs);
+  fechaCorte.setDate(fechaCorte.getDate() - 4);
+  const stringCorte = fechaCorte.toISOString().slice(0, 10);
+
+  const fechasAMostrar = todasLasFechas.filter(f => {
+    if (fechasObs.includes(f) && f < stringCorte) return false;
+    return true;
+  });
+
+  fechas = fechasAMostrar.map(formatearFecha);
+  indexHoy = fechasAMostrar.indexOf(ultimoDatoObs);
+  if (indexHoy === -1) indexHoy = 0;
+
+  datosObservados = fechasAMostrar.map(f => obsPorFecha[f] !== undefined ? obsPorFecha[f] : null);
+  
+  datosPronoMediana = fechasAMostrar.map(f => {
+    const p = puntosPronoCompletos.find(x => x.fecha === f);
+    return p ? p.medio : null;
+  });
+  
+  datosPronoMax = fechasAMostrar.map((f, i) => {
+    const p = puntosPronoCompletos.find(x => x.fecha === f);
+    if (!p) return null;
+    if (f === fechaEmision) return p.medio; 
+    return p.max;
+  });
+  
+  datosPronoMin = fechasAMostrar.map((f, i) => {
+    const p = puntosPronoCompletos.find(x => x.fecha === f);
+    if (!p) return null;
+    if (f === fechaEmision) return p.medio; 
+    return p.min;
+  });
+
+  document.getElementById('cargando').style.display = 'none';
+  document.getElementById('contenido').style.display = 'block';
+  
+  renderGrafico();
+  renderTarjetasPronostico();
+}
+
+function renderGrafico() {
+  const ctx = document.getElementById('graficoReal').getContext('2d');
+  if (chart) chart.destroy();
+
+  const todosLosValores = [...datosObservados, ...datosPronoMax, ...datosPronoMediana].filter(v => v !== null);
+  const maxVal = Math.max(...todosLosValores);
+  
+  let yMaxGrafico = 7.0;
+  let stepSize = 0.25;
+  
+  if (maxVal > 6.8) {
+    yMaxGrafico = Math.ceil(maxVal + 0.5);
+    stepSize = yMaxGrafico > 10 ? 1.0 : 0.5;
+  }
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: fechas,
+      datasets: [
+        {
+          label: 'Observado',
+          data: datosObservados,
+          borderColor: '#111827',
+          backgroundColor: '#111827',
+          borderWidth: 2,
+          pointRadius: (context) => context.dataIndex === indexHoy ? 0 : 4,
+          pointHoverRadius: 8,
+          tension: 0.1,
+          spanGaps: true
+        },
+        {
+          label: 'Pronóstico Central',
+          data: datosPronoMediana,
+          borderColor: '#287ca5',
+          backgroundColor: '#287ca5',
+          borderWidth: 2,
+          borderDash: [5, 5],
+          pointRadius: 4,
+          pointStyle: 'circle', 
+          pointHoverRadius: 7,
+          tension: 0.3,
+          spanGaps: true
+        },
+        {
+          label: 'Máximo',
+          data: datosPronoMax,
+          borderColor: 'rgba(194,91,84,0.4)',
+          borderWidth: 1,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: '+1', 
+          backgroundColor: 'rgba(40, 124, 165, 0.05)',
+          tension: 0.3,
+          spanGaps: true
+        },
+        {
+          label: 'Mínimo',
+          data: datosPronoMin,
+          borderColor: 'rgba(76, 139, 95, 0.4)',
+          borderWidth: 1,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0.3,
+          spanGaps: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: true },
+      layout: { padding: { top: 25 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          displayColors: false,
+          backgroundColor: 'rgba(35,58,72,0.94)',
+          titleFont: { size: 12, family: 'Inter' },
+          bodyFont: { size: 12, family: 'Inter' },
+          padding: 10,
+          cornerRadius: 8,
+          filter: (item) => {
+            if (item.parsed.y === null) return false;
+            const idx = item.dataIndex;
+            if (idx <= indexHoy) return item.datasetIndex === 0;
+            return item.datasetIndex === 1;
+          },
+          callbacks: {
+            title: (items) => {
+              return fechas[items[0].dataIndex];
+            },
+            label: (item) => {
+              const idx = item.dataIndex;
+              
+              if (idx <= indexHoy) {
+                const val = datosObservados[idx];
+                if (val === null) return '';
+                const ign = (val + OFFSET_IGN).toFixed(2);
+                return [`${val.toFixed(2)} m`, `IGN: ${ign} m`];
+              }
+              
+              const min = datosPronoMin[idx];
+              const med = datosPronoMediana[idx];
+              const max = datosPronoMax[idx];
+              
+              if (min === null) return '';
+              
+              const iMin = (min + OFFSET_IGN).toFixed(2);
+              const iMed = (med + OFFSET_IGN).toFixed(2);
+              const iMax = (max + OFFSET_IGN).toFixed(2);
+              
+              return [
+                `Mín: ${min.toFixed(2)} m (IGN ${iMin})`,
+                `Central: ${med.toFixed(2)} m (IGN ${iMed})`,
+                `Máx: ${max.toFixed(2)} m (IGN ${iMax})`
+              ];
+            }
+          }
+        },
+        zoom: {
+          pan: { enabled: true, mode: 'x', modifierKey: null },
+          zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
+          limits: { x: { min: 'original', max: 'original' }, y: { min: 'original', max: 'original' } }
+        },
+        annotation: {
+          annotations: {
+            lineaHoy: {
+              type: 'line', scaleID: 'x', value: indexHoy,
+              borderColor: '#dc2626', borderWidth: 2, borderDash: [5, 5]
+            },
+            lineaAlerta: { type: 'line', scaleID: 'y', value: ALERTA, borderColor: 'rgba(229, 181, 47, 0.8)', borderWidth: 1, borderDash: [4, 4] },
+            lineaEvac: { type: 'line', scaleID: 'y', value: EVAC, borderColor: 'rgba(217, 107, 102, 0.8)', borderWidth: 1, borderDash: [4, 4] }
+          }
+        }
+      },
+      scales: {
+        x: { 
+          offset: true, 
+          grid: { display: false }, 
+          ticks: { 
+            font: { size: 10, family: 'Inter' }, 
+            color: '#718493',
+            callback: function(val, index) {
+              if (index === indexHoy) return ''; 
+              return this.getLabelForValue(val);
+            }
+          } 
+        },
+        y: {
+          min: 4.0, 
+          max: yMaxGrafico, 
+          ticks: { 
+            stepSize: stepSize, 
+            callback: (val) => val.toFixed(2).replace('.', ','), 
+            font: { size: 10, family: 'Inter' }, 
+            color: '#718493' 
+          },
+          grid: { color: '#e4edf1' }
+        }
+      }
+    },
+    plugins: [fondoFechaHoyPlugin, cartelUltimoDatoPlugin]
+  });
+
+  // EL PUNTO ROJO PULSANTE
+  const puntoDiv = document.getElementById('puntoRojo');
+  setTimeout(() => {
+    if (chart && chart.scales && chart.scales.x && chart.scales.y) {
+      const xPos = chart.scales.x.getPixelForValue(indexHoy);
+      const yPos = chart.scales.y.getPixelForValue(datosObservados[indexHoy]);
+      
+      puntoDiv.style.left = `${xPos}px`;
+      puntoDiv.style.top = `${yPos}px`;
+      puntoDiv.style.display = 'block';
+    }
+  }, 100);
+
+  const canvas = document.getElementById('graficoReal');
+  canvas.addEventListener('mouseenter', () => { puntoDiv.style.opacity = '0'; });
+  canvas.addEventListener('mouseleave', () => { puntoDiv.style.opacity = '1'; });
+  canvas.addEventListener('touchstart', () => { puntoDiv.style.opacity = '0'; }, { passive: true });
+  canvas.addEventListener('touchend', () => { setTimeout(() => { puntoDiv.style.opacity = '1'; }, 300); }, { passive: true });
+}
+
+function renderTarjetasPronostico() {
+  const contenedor = document.getElementById('panel-pronosticos');
+  contenedor.innerHTML = '';
+
+  const hoyISO = new Date().toISOString().slice(0, 10);
+  
+  const proximosPronos = puntosPronoCompletos
+    .filter(p => p.fecha > hoyISO)
+    .slice(0, 2); 
+
+  proximosPronos.forEach((p, index) => {
+    const fechaF = formatearFecha(p.fecha);
+    const estado = getEstado(p.medio);
+    const ignMin = (p.min + OFFSET_IGN).toFixed(2);
+    const ignMed = (p.medio + OFFSET_IGN).toFixed(2);
+    const ignMax = (p.max + OFFSET_IGN).toFixed(2);
+    const amplitud = (p.max - p.min).toFixed(2);
+
+    const html = `
+      <div class="bloque-fecha" style="border-left: 4px solid #287ca5;">
+        <h4>${fechaF} <span class="badge ${estado.cls}">${estado.txt}</span></h4>
+        <div class="grid-detalle">
+          <div class="item-detalle">
+            <div class="lbl">Mín</div>
+            <div class="val">${p.min.toFixed(2)}</div>
+            <div class="ign">IGN: ${ignMin}</div>
+          </div>
+          <div class="item-detalle">
+            <div class="lbl">Central</div>
+            <div class="val" style="color: #287ca5;">${p.medio.toFixed(2)}</div>
+            <div class="ign">IGN: ${ignMed}</div>
+          </div>
+          <div class="item-detalle">
+            <div class="lbl">Máx</div>
+            <div class="val">${p.max.toFixed(2)}</div>
+            <div class="ign">IGN: ${ignMax}</div>
+          </div>
+        </div>
+        <div class="barra-amplitud">
+          Amplitud del rango: <strong>${amplitud} m</strong>
+        </div>
+      </div>
+    `;
+    
+    contenedor.innerHTML += html;
+  });
+}
+
+</script>
+</body>
+</html>
