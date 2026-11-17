@@ -88,7 +88,7 @@
   <h2>Altura del río Paraná (puerto Santa Fe)</h2>
   <div class="sub">Datos proyectados sobre pronóstico · Escala local + 8.38 m IGN</div>
 
-  <div id="cargando" class="loading">Esperando los datos enviados por la aplicación...</div>
+  <div id="cargando" class="loading">Consultando las APIs del INA...</div>
   <div id="error" class="loading" style="color:var(--rojo); display:none;"></div>
 
   <div id="contenido" style="display:none;">
@@ -194,28 +194,30 @@ const cartelUltimoDatoPlugin = {
   }
 };
 
-// Este archivo funciona como visor integrado: no consulta al INA.
-// Recibe del index.html los datos observados y el pronóstico ya descargados.
-window.addEventListener('message', function(event) {
-  if (event.origin !== window.location.origin) return;
-  const payload = event.data;
-  if (!payload || payload.tipo !== 'DATOS_PRONOSTICO_DETALLE') return;
-  if (!Array.isArray(payload.observados) || !Array.isArray(payload.pronostico)) {
-    document.getElementById('cargando').style.display = 'none';
-    const error = document.getElementById('error');
-    error.style.display = 'block';
-    error.textContent = 'Los datos recibidos desde la aplicación están incompletos.';
-    return;
-  }
+async function cargarDatos() {
   try {
-    procesarDatos(payload.observados, payload.pronostico);
+    const hoy = new Date();
+    const desdeObs = new Date(hoy.getTime() - 15 * 86400000).toISOString().slice(0, 10);
+    const hastaObs = hoy.toISOString().slice(0, 10);
+    const desdeProno = new Date(hoy.getTime() - 5 * 86400000).toISOString().slice(0, 10) + 'T03:00:00.000Z'; // Ampliamos para atrás
+    const hastaProno = new Date(hoy.getTime() + 14 * 86400000).toISOString().slice(0, 10) + 'T03:00:00.000Z';
+
+    const urlObs = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${desdeObs}&timeEnd=${hastaObs}&seriesId=30&siteCode=30&varId=2&format=json`;
+    const urlProno = `https://alerta.ina.gob.ar/pub/datos/datosProno&calId=289&seriesId=1542&timeStart=${desdeProno}&timeEnd=${hastaProno}`;
+
+    const [resObs, resProno] = await Promise.all([fetch(urlObs), fetch(urlProno)]);
+    if (!resObs.ok || !resProno.ok) throw new Error('Error al consultar las APIs');
+
+    const jsonObs = await resObs.json();
+    const jsonProno = await resProno.json();
+    procesarDatos(jsonObs.data, jsonProno.data);
   } catch (err) {
     document.getElementById('cargando').style.display = 'none';
-    const error = document.getElementById('error');
-    error.style.display = 'block';
-    error.textContent = 'No se pudo construir el gráfico: ' + err.message;
+    const errDiv = document.getElementById('error');
+    errDiv.style.display = 'block';
+    errDiv.textContent = 'Error: ' + err.message;
   }
-});
+}
 
 function procesarDatos(dataObs, dataProno) {
   const obsPorFecha = {};
@@ -539,6 +541,7 @@ function renderTarjetasPronostico() {
   });
 }
 
+cargarDatos();
 </script>
 </body>
 </html>
