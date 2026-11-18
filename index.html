@@ -2600,9 +2600,7 @@
         <span id="leyenda-prono" style="display:flex;">
           <i class="linea prono-linea"></i> Proyección de pronóstico (próximos días)
         </span>
-        <span id="leyenda-prono-png" style="display:block;">
-          <a href="./pronostico%20solo.html" target="_blank" rel="noopener" style="color:var(--verde-oscuro);font-family:inherit;font-size:inherit;font-weight:700;text-decoration:underline;">Ver gráfico detallado del pronóstico</a>
-        </span>
+        <span id="leyenda-prono-png" style="display:none;"></span>
       </div>
 
       <div class="resumen-serie" id="resumen-serie"></div>
@@ -2638,6 +2636,15 @@
         <div id="pronostico-contenido"></div>
         <div class="emision" id="pronostico-emision"></div>
         <div class="aviso">Se actualiza los martes y viernes.</div>
+        
+        <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;">
+          <button type="button" onclick="abrirDetallePronostico()" style="flex:1; min-width:140px; background:var(--verde); color:#fff; border:none; border-radius:10px; font-family:inherit; font-size:0.78rem; font-weight:700; cursor:pointer; min-height:40px; padding:8px 12px; transition:background .18s;">
+            Ver detalles del pronóstico
+          </button>
+          <button type="button" onclick="abrirPronosticoPNG()" style="flex:1; min-width:140px; background:#fff; color:var(--verde-oscuro); border:1px solid var(--verde); border-radius:10px; font-family:inherit; font-size:0.78rem; font-weight:700; cursor:pointer; min-height:40px; padding:8px 12px; transition:background .18s;">
+            Ver tabla oficial INA
+          </button>
+        </div>
       </div>
 
       <div class="nota-evacuacion">
@@ -3047,6 +3054,12 @@
   </div>
 
   <!-- POPUP MAPA IGN -->
+  <!-- POPUP DETALLE PRONÓSTICO (Iframe) -->
+  <div class="popup-mapa" id="popupDetallePronostico">
+    <button class="btn-cerrar-mapa" onclick="cerrarDetallePronostico()" aria-label="Cerrar detalle">✕</button>
+    <iframe id="iframeDetallePronostico" src="about:blank" title="Detalle del pronóstico INA"></iframe>
+  </div>
+
   <div class="popup-mapa" id="popupMapa">
     <button class="btn-cerrar-mapa" onclick="cerrarMapa()" aria-label="Cerrar mapa">✕</button>
     <iframe id="iframeMapa" src="about:blank" title="Mapa de curvas de nivel y cotas IGN"></iframe>
@@ -3370,6 +3383,27 @@ document.addEventListener('DOMContentLoaded', function() {
   let yaVisto = false;
   try { yaVisto = localStorage.getItem(KEY_LOCALSTORAGE) === 'true'; } catch (e) {}
   if (!yaVisto) setTimeout(abrirPopup, 4200);
+});
+
+function abrirDetallePronostico() {
+  const popup = document.getElementById('popupDetallePronostico');
+  const iframe = document.getElementById('iframeDetallePronostico');
+  if (iframe.src === 'about:blank' || iframe.src.endsWith('about:blank')) {
+    iframe.src = 'detalle.html?iframe=true';
+  }
+  popup.classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarDetallePronostico() {
+  const popup = document.getElementById('popupDetallePronostico');
+  popup.classList.remove('visible');
+  document.body.style.overflow = '';
+}
+// Escuchar el mensaje del iframe para cerrarlo desde adentro
+window.addEventListener('message', function(event) {
+  if (event.data === 'cerrarDetallePronostico') {
+    cerrarDetallePronostico();
+  }
 });
 
 function abrirMapa() {
@@ -4151,7 +4185,7 @@ async function cargarPronostico() {
   pronosticoActual = null;
   try {
     const hoy = new Date();
-    const desde = new Date(hoy.getTime() - 2 * 86400000);
+    const desde = new Date(hoy.getTime() - 5 * 86400000);
     const hasta = new Date(hoy.getTime() + 14 * 86400000);
     const ts = desde.toISOString().slice(0, 10) + 'T03:00:00.000Z';
     const te = hasta.toISOString().slice(0, 10) + 'T03:00:00.000Z';
@@ -4187,6 +4221,10 @@ async function cargarPronostico() {
       ? String(json.responseHeader.forecastdate).slice(0, 10)
       : formatearFechaISOProno(hoy);
     pronosticoActual = { emision: emision, puntos: puntos };
+    try {
+      localStorage.setItem('ina_prono_raw', JSON.stringify(data));
+      localStorage.setItem('ina_obs_raw', JSON.stringify(registros));
+    } catch(e) { console.warn('Error guardando en localStorage', e); }
   } catch (err) {
     console.warn('Pronóstico INA no disponible:', err.message);
     pronosticoActual = null;
