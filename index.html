@@ -4424,8 +4424,8 @@ function renderTarjetaSuperior() {
 }
 
 function renderPillsRiesgo() {
-  const diasAlerta = registros.filter(r => r.altura >= UMBRAL_ALERTA).length;
   const diasEvac = registros.filter(r => r.altura >= UMBRAL_EVACUACION).length;
+  const diasAlerta = registros.filter(r => r.altura >= UMBRAL_ALERTA && r.altura < UMBRAL_EVACUACION).length;
   const pillAlerta = document.querySelector('.pill-riesgo.alerta');
   const pillEvac = document.querySelector('.pill-riesgo.evacuacion');
   document.getElementById('pill-dias-alerta').textContent = diasAlerta;
