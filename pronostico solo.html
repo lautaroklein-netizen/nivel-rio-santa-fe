@@ -80,9 +80,33 @@
   .b-normal { background:#e6f3e9; color:#39744b; }
   .b-alerta { background:#fff4d8; color:#947018; }
   .b-evac { background:#fbe9e7; color:#a94b47; }
+
+  /* Botón X verde para cerrar iframe (copiado del index) */
+  .btn-cerrar-mapa {
+    position: fixed;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px; height: 48px;
+    background: var(--verde, #2d6a3f); color: #fff;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    font-size: 1.3rem; font-weight: 700;
+    cursor: pointer; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: transform .15s, background .15s;
+    font-family: inherit; line-height: 1;
+  }
+  .btn-cerrar-mapa:hover {
+    background: var(--verde-oscuro, #1b4332);
+    transform: translateX(-50%) scale(1.08);
+  }
+  .btn-cerrar-mapa:active { transform: translateX(-50%) scale(0.95); }
 </style>
 </head>
 <body>
+<button class="btn-cerrar-mapa" onclick="cerrarDesdeIframe()" aria-label="Cerrar detalle" style="display:none;" id="btnCerrarIframe">✕</button>
 
 <div class="card">
   <h2>Altura del río Paraná (puerto Santa Fe)</h2>
@@ -196,10 +220,26 @@ const cartelUltimoDatoPlugin = {
 
 async function cargarDatos() {
   try {
+    // 1. Intentar leer de localStorage
+    const rawProno = localStorage.getItem('ina_prono_raw');
+    const rawObs = localStorage.getItem('ina_obs_raw');
+    
+    if (rawProno && rawObs) {
+      // Usar datos cacheados
+      const jsonProno = { data: JSON.parse(rawProno) };
+      const obsArray = JSON.parse(rawObs).map(r => ({
+        timestart: r.fecha + 'T00:00:00.000Z',
+        valor: r.altura
+      }));
+      procesarDatos(obsArray, jsonProno.data);
+      return;
+    }
+
+    // 2. Respaldo: si no hay caché, hacer fetch normal
     const hoy = new Date();
     const desdeObs = new Date(hoy.getTime() - 15 * 86400000).toISOString().slice(0, 10);
     const hastaObs = hoy.toISOString().slice(0, 10);
-    const desdeProno = new Date(hoy.getTime() - 5 * 86400000).toISOString().slice(0, 10) + 'T03:00:00.000Z'; // Ampliamos para atrás
+    const desdeProno = new Date(hoy.getTime() - 5 * 86400000).toISOString().slice(0, 10) + 'T03:00:00.000Z';
     const hastaProno = new Date(hoy.getTime() + 14 * 86400000).toISOString().slice(0, 10) + 'T03:00:00.000Z';
 
     const urlObs = `https://alerta.ina.gob.ar/pub/datos/datos&timeStart=${desdeObs}&timeEnd=${hastaObs}&seriesId=30&siteCode=30&varId=2&format=json`;
@@ -539,6 +579,18 @@ function renderTarjetasPronostico() {
     
     contenedor.innerHTML += html;
   });
+}
+
+// Detectar si estamos dentro de un iframe (modo popup)
+if (window.self !== window.top) {
+  const btn = document.getElementById('btnCerrarIframe');
+  if (btn) btn.style.display = 'flex';
+}
+
+function cerrarDesdeIframe() {
+  if (window.self !== window.top) {
+    window.parent.postMessage('cerrarDetallePronostico', '*');
+  }
 }
 
 cargarDatos();
